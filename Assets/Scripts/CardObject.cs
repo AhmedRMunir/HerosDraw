@@ -1,0 +1,18 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[CreateAssetMenu(fileName ="New Card", menuName = "Card")]
+public class CardObject : ScriptableObject
+{
+    public string cardName;
+    public Sprite art;
+    public string description;
+    public int cost;
+    public int attack;
+    public int health;
+    public string faction;
+    public GameObject cardAbility; // We'll probably have to write prefabs with the card ability and instantiate them on activation
+
+    // Other potential stats
+}

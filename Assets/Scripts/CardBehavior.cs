@@ -67,34 +67,49 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (!summoned)
-            cardTran.DOAnchorPos(new Vector2(ogPosition.x, ogPosition.y + upAmount), upDuration);
+        {
+            Sequence hoverCard = DOTween.Sequence();
+            hoverCard.Append(cardTran.DOAnchorPos(new Vector2(ogPosition.x, ogPosition.y + upAmount), upDuration))
+                .Join(container.DOScale(1.2f, upDuration))
+                .PrependCallback(() => { transform.SetAsLastSibling(); })
+                .Play();
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         if (!summoned)
-            cardTran.DOAnchorPos(new Vector2(ogPosition.x, ogPosition.y), upDuration);
+        {
+            Sequence exitHover = DOTween.Sequence();
+            exitHover.Append(cardTran.DOAnchorPos(new Vector2(ogPosition.x, ogPosition.y), upDuration))
+                    .Join(container.DOScale(0.85f, upDuration))
+                    .Play();
+        }
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
         if (Conditions.canPlay && summoned == false)
         {
-            Debug.Log("clicked");
-            summoned = true;
-            Conditions.canPlay = false;
-            RectTransform spawn = (RectTransform)spawnLocation.transform.GetChild(Conditions.lanesOccupied);
-            Conditions.lanesOccupied++;
-            container.SetParent(spawn);
-            Sequence activateCard = DOTween.Sequence();
-            activateCard.AppendCallback(() => { deck.hand.Remove(gameObject); })
-                .Append(cardTran.DOAnchorPos(new Vector2(ogPosition.x, ogPosition.y), upDuration))
-                .Join(container.DOAnchorPos(new Vector2(0, 0), upDuration))
-                .Join(container.DOScale(1f, upDuration))
-                .AppendInterval(0.75f)
-                .AppendCallback(() => { Conditions.canPlay = true; })
-                .Play();
+            summonCard();
         }
         
+    }
+
+    public void summonCard()
+    {
+        Debug.Log("clicked");
+        summoned = true;
+        Conditions.canPlay = false;
+        RectTransform spawn = (RectTransform)spawnLocation.transform.GetChild(Conditions.lanesOccupied);
+        Conditions.lanesOccupied++;
+        container.SetParent(spawn);
+        Sequence activateCard = DOTween.Sequence();
+        activateCard.AppendCallback(() => { deck.hand.Remove(gameObject); })
+            .Append(cardTran.DOAnchorPos(new Vector2(ogPosition.x, ogPosition.y), upDuration))
+            .Join(container.DOAnchorPos(new Vector2(0, 0), upDuration))
+            .Join(container.DOScale(1f, upDuration))
+            .AppendCallback(() => { Conditions.canPlay = true; })
+            .Play();
     }
 }

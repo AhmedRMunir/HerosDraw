@@ -664,7 +664,7 @@ MonoBehaviour:
   discardPile: []
   completeCard: {fileID: 8725599466063141245, guid: c17454e7db0b04d678f044b4bc4dfc54, type: 3}
   handSizeStart: 4
-  cardGap: 20
+  cardGap: -20
   cardSpeed: 1
   canvas: {fileID: 1133684264}
   deckObject: {fileID: 1420533678}

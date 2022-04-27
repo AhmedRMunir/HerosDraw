@@ -13,23 +13,21 @@ public class DeckController : MonoBehaviour
     public List<GameObject> discardPile;
     public GameObject completeCard;
     public int handSizeStart;
-    private int handSize;
+    public int handSize;
     public float cardGap;
     public float cardSpeed;
 
     public Canvas canvas;
     public GameObject deckObject;
-    public GameObject cardsLeft;
 
     private float cardWidth;
-    private float cardHeight;
 
     // Start is called before the first frame update
     void Start()
     {
         handSize = handSizeStart;
         cardWidth = completeCard.GetComponent<RectTransform>().sizeDelta.x * completeCard.GetComponent<RectTransform>().localScale.x;
-        cardHeight = completeCard.GetComponent<RectTransform>().sizeDelta.y * completeCard.GetComponent<RectTransform>().localScale.y;
+        
         shuffle();
         for (int i = 0; i < handSize; i++)
         {
@@ -37,6 +35,7 @@ public class DeckController : MonoBehaviour
             deck.RemoveAt(0);
             GameObject drawnCard = Instantiate(completeCard, canvas.transform);
             drawnCard.GetComponent<CardBehavior>().cardIdentity = drawnCardIdentity;
+            drawnCard.GetComponent<CardBehavior>().isEnemy = false;
             hand.Add(drawnCard);
             RectTransform rt = drawnCard.GetComponent<RectTransform>();
             rt.anchoredPosition = deckObject.GetComponent<RectTransform>().anchoredPosition;
@@ -60,7 +59,7 @@ public class DeckController : MonoBehaviour
         deck = deck.OrderBy(i => Guid.NewGuid()).ToList();
     }
 
-    public void shiftCard(RectTransform rt, int i, float cardSpeed)
+    public virtual void shiftCard(RectTransform rt, int i, float cardSpeed)
     {
         if (handSize % 2 == 0)
         {
@@ -80,7 +79,7 @@ public class DeckController : MonoBehaviour
         }
     }
 
-    public void drawCard()
+    public virtual void drawCard()
     {
         if (deck.Count > 0)
         {

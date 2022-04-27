@@ -5,7 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - Deck
-  - EnemySpawn
+  - Lanes
+  - EnemyDeck
+  - PlayerLanes
+  - EnemyLanes
   layers:
   - Default
   - TransparentFX

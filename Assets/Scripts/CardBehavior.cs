@@ -23,7 +23,9 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public Text healthValue;
     public Text attackValue;
     public Image factionIcon;
+    public GameObject cardback;
 
+    public bool isEnemy;
     public GameObject spawnLocation;
 
     // Start is called before the first frame update
@@ -34,7 +36,19 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         upAmount = container.sizeDelta.y / 2;
 
         nameText.text = cardIdentity.cardName;
-        art.sprite = cardIdentity.art;
+        if (isEnemy)
+        {
+            cardback.SetActive(true);
+            deck = GameObject.FindGameObjectWithTag("EnemyDeck").GetComponent<DeckController>();
+            spawnLocation = GameObject.FindGameObjectWithTag("EnemyLanes");
+        }
+        else
+        {
+            art.sprite = cardIdentity.art;
+            deck = GameObject.FindGameObjectWithTag("Deck").GetComponent<DeckController>();
+            spawnLocation = GameObject.FindGameObjectWithTag("PlayerLanes");
+        }
+        
         descriptionText.text = cardIdentity.description;
         costValue.text = "" + cardIdentity.cost;
         healthValue.text = "" + cardIdentity.health;
@@ -54,8 +68,6 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
         }
 
-        deck = GameObject.FindGameObjectWithTag("Deck").GetComponent<DeckController>();
-        spawnLocation = GameObject.FindGameObjectWithTag("EnemySpawn");
     }
 
     // Update is called once per frame
@@ -66,7 +78,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (!summoned)
+        if (!summoned && !isEnemy)
         {
             Sequence hoverCard = DOTween.Sequence();
             hoverCard.Append(cardTran.DOAnchorPos(new Vector2(ogPosition.x, ogPosition.y + upAmount), upDuration))
@@ -78,7 +90,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (!summoned)
+        if (!summoned && !isEnemy)
         {
             Sequence exitHover = DOTween.Sequence();
             exitHover.Append(cardTran.DOAnchorPos(new Vector2(ogPosition.x, ogPosition.y), upDuration))
@@ -99,10 +111,20 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public void summonCard()
     {
         Debug.Log("clicked");
+        cardback.SetActive(false);
         summoned = true;
         Conditions.canPlay = false;
-        RectTransform spawn = (RectTransform)spawnLocation.transform.GetChild(Conditions.lanesOccupied);
-        Conditions.lanesOccupied++;
+        RectTransform spawn = null;
+        if (isEnemy)
+        {
+            spawn = (RectTransform)spawnLocation.transform.GetChild(Conditions.enemyLanesOccupied);
+            Conditions.enemyLanesOccupied++;
+        } else
+        {
+            spawn = (RectTransform)spawnLocation.transform.GetChild(Conditions.playerLanesOccupied);
+            Conditions.playerLanesOccupied++;
+        }
+        
         container.SetParent(spawn);
         Sequence activateCard = DOTween.Sequence();
         activateCard.AppendCallback(() => { deck.hand.Remove(gameObject); })

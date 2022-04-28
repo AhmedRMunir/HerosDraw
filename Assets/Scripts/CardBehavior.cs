@@ -104,7 +104,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (Conditions.canPlay && summoned == false && Conditions.playerLanesOccupied < Conditions.maxLanes) // Eventually add check if the card is an enemy card
+        if (Conditions.canPlay && summoned == false && Conditions.playerLanesOccupied < Conditions.maxLanes + 20) // Eventually add check if the card is an enemy card
         {
             Conditions.playerLanesOccupied++;
             playerHandholder.DOAnchorPos(new Vector2(0, -upAmount * 1.5f), upDuration);

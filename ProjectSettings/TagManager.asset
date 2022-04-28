@@ -11,6 +11,9 @@ TagManager:
   - EnemyLanes
   - Indicator
   - PlayerHand
+  - Controller
+  - CardSlot
+  - Cancel
   layers:
   - Default
   - TransparentFX

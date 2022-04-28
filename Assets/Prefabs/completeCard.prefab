@@ -863,6 +863,7 @@ MonoBehaviour:
   spawnLocation: {fileID: 0}
   summonIndicator: {fileID: 2569273729455634803, guid: a3ab45d12ee754b96b4ad66ccda5a12e, type: 3}
   playerHandholder: {fileID: 0}
+  cancelButton: {fileID: 2817569646096620774, guid: 6741731b3d52a439dbe3a55ac256549b, type: 3}
 --- !u!1 &8909905145639098532
 GameObject:
   m_ObjectHideFlags: 0

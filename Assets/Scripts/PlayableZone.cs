@@ -35,6 +35,9 @@ public class PlayableZone : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        playedCard.GetComponent<CardBehavior>().summonCard(playerLane);
+        int laneIndex = playerLane.GetSiblingIndex();
+        playedCard.GetComponent<CardBehavior>().summonCard(playerLane, laneIndex);
+        GameObject cancelButton = GameObject.FindGameObjectWithTag("Cancel");
+        Destroy(cancelButton);
     }
 }

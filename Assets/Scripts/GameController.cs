@@ -10,9 +10,12 @@ public class GameController : MonoBehaviour
 
     public GameObject player_lanes;
 
-    public CardObject[] player_summoned_card;
+    public GameObject[] player_summoned_card;
 
-    public bool player_has_played;
+    public bool player_has_summoned;
+
+    // animation flag
+    public bool player_can_play;
 
     public bool player_ready_for_battle;
 
@@ -20,7 +23,7 @@ public class GameController : MonoBehaviour
     public Player enemy;
     public DeckController enemy_deck;
     public GameObject enemy_lanes;
-    public CardObject[] enemy_summoned_card;
+    public GameObject[] enemy_summoned_card;
     public bool enemy_ready_for_battle;
 
     // an array of flags indicating the field
@@ -29,11 +32,11 @@ public class GameController : MonoBehaviour
     public int turnNum;
     public int battleNum;
 
-    private enum turn {
+    public enum turn {
         PLAYER, ENEMY
     }
 
-    private turn current_turn;
+    public turn current_turn;
     
     // Start is called before the first frame update
     void Start()

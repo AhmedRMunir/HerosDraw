@@ -27,6 +27,8 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     public bool isEnemy;
     public GameObject spawnLocation;
+    public GameObject summonIndicator;
+    public RectTransform playerHandholder;
 
     // Start is called before the first frame update
     void Start()
@@ -35,6 +37,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         ogPosition = cardTran.anchoredPosition;
         upAmount = container.sizeDelta.y / 2;
 
+        playerHandholder = GameObject.FindGameObjectWithTag("PlayerHand").GetComponent<RectTransform>();
         nameText.text = cardIdentity.cardName;
         if (isEnemy)
         {
@@ -101,37 +104,56 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (Conditions.canPlay && summoned == false)
+        if (Conditions.canPlay && summoned == false && Conditions.playerLanesOccupied < Conditions.maxLanes) // Eventually add check if the card is an enemy card
         {
-            summonCard();
+            Conditions.playerLanesOccupied++;
+            playerHandholder.DOAnchorPos(new Vector2(0, -upAmount * 1.5f), upDuration);
+            container.DOAnchorPos(deck.GetComponent<RectTransform>().anchoredPosition, upDuration);
+            summoned = true;
+
+            foreach (RectTransform child in spawnLocation.transform)
+            {
+                if (child.childCount == 0)
+                {
+                    indicatePlayableLane(child);
+                }
+            }
         }
         
     }
 
-    public void summonCard()
+    public void indicatePlayableLane(RectTransform lane)
+    {
+        GameObject indicator = Instantiate(summonIndicator, lane);
+        indicator.GetComponent<PlayableZone>().playerLane = lane;
+        indicator.GetComponent<PlayableZone>().playedCard = gameObject;
+    }
+
+    public void summonCard(RectTransform spawn)
     {
         Debug.Log("clicked");
         cardback.SetActive(false);
         summoned = true;
         Conditions.canPlay = false;
-        RectTransform spawn = null;
-        if (isEnemy)
-        {
-            spawn = (RectTransform)spawnLocation.transform.GetChild(Conditions.enemyLanesOccupied);
-            Conditions.enemyLanesOccupied++;
-        } else
-        {
-            spawn = (RectTransform)spawnLocation.transform.GetChild(Conditions.playerLanesOccupied);
-            Conditions.playerLanesOccupied++;
-        }
         
         container.SetParent(spawn);
         Sequence activateCard = DOTween.Sequence();
-        activateCard.AppendCallback(() => { deck.hand.Remove(gameObject); })
+        activateCard
+            .AppendCallback(() => {
+                deck.hand.Remove(gameObject);
+                GameObject[] indicators = GameObject.FindGameObjectsWithTag("Indicator");
+                foreach (GameObject indiciator in indicators)
+                {
+                    Destroy(indiciator);
+                }
+            })
             .Append(cardTran.DOAnchorPos(new Vector2(ogPosition.x, ogPosition.y), upDuration))
             .Join(container.DOAnchorPos(new Vector2(0, 0), upDuration))
             .Join(container.DOScale(1f, upDuration))
-            .AppendCallback(() => { Conditions.canPlay = true; })
+            .Append(playerHandholder.DOAnchorPos(new Vector2(0, 0), upDuration))
+            .AppendCallback(() => {
+                Conditions.canPlay = true; 
+            })
             .Play();
     }
 }

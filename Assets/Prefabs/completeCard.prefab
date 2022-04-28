@@ -823,7 +823,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -254, y: -375.9}
+  m_AnchoredPosition: {x: -254, y: 344.09998}
   m_SizeDelta: {x: 250, y: 350}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8725599466063141241
@@ -861,6 +861,8 @@ MonoBehaviour:
   cardback: {fileID: 766646241251027339}
   isEnemy: 0
   spawnLocation: {fileID: 0}
+  summonIndicator: {fileID: 2569273729455634803, guid: a3ab45d12ee754b96b4ad66ccda5a12e, type: 3}
+  playerHandholder: {fileID: 0}
 --- !u!1 &8909905145639098532
 GameObject:
   m_ObjectHideFlags: 0

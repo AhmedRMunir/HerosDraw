@@ -8,6 +8,9 @@ using DG.Tweening;
 
 public class DeckController : MonoBehaviour
 {
+    public int health;
+    public int mana;
+
     public List<CardObject> deck;
     public List<GameObject> hand;
     public List<GameObject> discardPile;

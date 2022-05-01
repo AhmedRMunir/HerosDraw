@@ -10,7 +10,7 @@ public class GameController : MonoBehaviour
 
     public GameObject player_lanes;
 
-    public GameObject[] player_summoned_card;
+    public CardObject[] player_summoned_card;
 
     public bool player_has_summoned;
 
@@ -23,8 +23,9 @@ public class GameController : MonoBehaviour
     public Player enemy;
     public DeckController enemy_deck;
     public GameObject enemy_lanes;
-    public GameObject[] enemy_summoned_card;
+    public CardObject[] enemy_summoned_card;
     public bool enemy_ready_for_battle;
+    public bool enemy_has_summoned;
 
     // an array of flags indicating the field
     public bool[][] field;
@@ -58,6 +59,17 @@ public class GameController : MonoBehaviour
     void Update()
     {
         if (current_turn == turn.PLAYER && player_ready_for_battle != true) {
+
+            if (player_has_summoned == true) {
+                // highlight pass turn
+            }
+
+            if (player_summoned_card.Length == player_lanes.transform.childCount) {
+                player_has_summoned = true;
+                // highlight Ready for Battle, disable Pass Turn
+            }
+
+            enemy_has_summoned = false;
 
             // player is allowed to click a card to an available lane
             // code for moving the card to the lane
@@ -121,33 +133,43 @@ public class GameController : MonoBehaviour
         // iterate through cards on the field
         // update card values post damage
         // update player and enemy avatar health
+        for (int i = 0; i < player_summoned_card.Length; i++) {
+            CardObject player_card = player_summoned_card[i];
+            CardObject enemy_card = enemy_summoned_card[i];
 
-        /* for (i = 0; i < player_summoned_cards.length(); i++) {
-                CardObject player_card = player_summoned_cards[i];
-
-                CardObject enemy_card = enemy_summoned_cards[i];
-
-                player_card.health -= enemy_card.attack;
-
-                enemy_card.health -= player_card.attack;
-            }*/
-
-        /*
-        for (i = 0; i < player_summoned_cards.length(); i++) {
-            CardObject player_card = player_summoned_cards[i];
-            CardObject enemy_card = enemy_summoned_cards[i];
-
-            if (player_card.health == 0) {
-                // player_card.onDestory();
-                // reverse buff effects if necessary
+            // instead of manually updating health, should make a function
+            // take into consideration of card's ability, e.g. double attack
+            if (player_card == null) {
+                player.health -= enemy_card.attack;
+            } else {
+                player_card.health -= enemy_card.health;
             }
-
-            if (enemy_card.health == 0) {
-                // enemy_card.onDestory();
-                // reverse buff effects if necessary
+            
+            if (enemy_card == null) {
+                enemy.health -= player_card.attack;
+            } else {
+                enemy_card.health -= player_card.health;
             }
         }
-        */
+
+        // second iteration; 
+        for (int i = 0; i < player_summoned_card.Length; i++) {
+            CardObject player_card = player_summoned_card[i];
+            CardObject enemy_card = enemy_summoned_card[i];
+
+            if (player_card.health <= 0) {
+                Destroy(player_card);
+            }
+
+            if (enemy_card.health <= 0) {
+                Destroy(enemy_card);
+            }
+        }
+
+        battleNum += 1;
+
+        // need a boolean to check which player should start next turn
+        // set current_turn to that player accordingly
     }
 
 }

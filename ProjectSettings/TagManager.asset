@@ -9,6 +9,11 @@ TagManager:
   - EnemyDeck
   - PlayerLanes
   - EnemyLanes
+  - Indicator
+  - PlayerHand
+  - Controller
+  - CardSlot
+  - Cancel
   layers:
   - Default
   - TransparentFX

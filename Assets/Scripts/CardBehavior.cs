@@ -24,17 +24,32 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public Text attackValue;
     public Image factionIcon;
     public GameObject cardback;
+    public GameObject cardAbility; // Check if equals null to check if card has ability
+    public bool hasActivatedAbility;
+
+    private int attackPoints;
+    private int healthPoints;
+    private int cost;
 
     public bool isEnemy;
     public GameObject spawnLocation;
+    public GameObject summonIndicator;
+    public RectTransform playerHandholder;
+    public GameObject cancelButton;
+
+    private RectTransform playedCardSlot;
+    private GameController battleController;
 
     // Start is called before the first frame update
     void Start()
     {
+        battleController = GameObject.FindGameObjectWithTag("Controller").GetComponent<GameController>();
+        playedCardSlot = GameObject.FindGameObjectWithTag("CardSlot").GetComponent<RectTransform>();
         summoned = false;
         ogPosition = cardTran.anchoredPosition;
         upAmount = container.sizeDelta.y / 2;
 
+        playerHandholder = GameObject.FindGameObjectWithTag("PlayerHand").GetComponent<RectTransform>();
         nameText.text = cardIdentity.cardName;
         if (isEnemy)
         {
@@ -50,9 +65,14 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         }
         
         descriptionText.text = cardIdentity.description;
-        costValue.text = "" + cardIdentity.cost;
-        healthValue.text = "" + cardIdentity.health;
-        attackValue.text = "" + cardIdentity.attack;
+        cost = cardIdentity.cost;
+        costValue.text = "" + cost;
+        attackPoints = cardIdentity.attack;
+        healthPoints = cardIdentity.health;
+        attackValue.text = "" + attackPoints;
+        healthValue.text = "" + healthPoints;
+        cardAbility = cardIdentity.cardAbility;
+        hasActivatedAbility = false;
 
         // Update faction icon based on value of faction string
         if (cardIdentity.faction == "Knight")
@@ -92,46 +112,100 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     {
         if (!summoned && !isEnemy)
         {
-            Sequence exitHover = DOTween.Sequence();
-            exitHover.Append(cardTran.DOAnchorPos(new Vector2(ogPosition.x, ogPosition.y), upDuration))
-                    .Join(container.DOScale(0.85f, upDuration))
-                    .Play();
+            exitHover();
         }
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (Conditions.canPlay && summoned == false)
+        if (!battleController.player_has_played && summoned == false) // Eventually add check if the card is an enemy card
         {
-            summonCard();
+            exitHover();
+            battleController.player_has_played = true;
+            // Attach to Canvas
+            GameObject cancel = Instantiate(cancelButton, gameObject.transform.parent.transform.parent.transform);
+            cancel.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -1080 / 2.5f);
+            cancel.GetComponent<CancelButton>().selectedCard = this;
+            playerHandholder.DOAnchorPos(new Vector2(0, -upAmount * 1.5f), upDuration);
+            Sequence enlarge = DOTween.Sequence();
+            enlarge.Append(container.DOAnchorPos(new Vector2(playedCardSlot.anchoredPosition.x, upAmount * 1.5f), upDuration))
+                .Join(container.DOScale(1.2f, upDuration))
+                .Play();
+            summoned = true;
+
+            foreach (RectTransform child in spawnLocation.transform)
+            {
+                if (child.childCount == 0)
+                {
+                    indicatePlayableLane(child);
+                }
+            }
         }
         
     }
 
-    public void summonCard()
+    public void indicatePlayableLane(RectTransform lane)
     {
-        Debug.Log("clicked");
+        GameObject indicator = Instantiate(summonIndicator, lane);
+        indicator.GetComponent<PlayableZone>().playerLane = lane;
+        indicator.GetComponent<PlayableZone>().playedCard = gameObject;
+    }
+
+    public void summonCard(RectTransform spawn, int laneIndex)
+    {
         cardback.SetActive(false);
         summoned = true;
-        Conditions.canPlay = false;
-        RectTransform spawn = null;
-        if (isEnemy)
-        {
-            spawn = (RectTransform)spawnLocation.transform.GetChild(Conditions.enemyLanesOccupied);
-            Conditions.enemyLanesOccupied++;
-        } else
-        {
-            spawn = (RectTransform)spawnLocation.transform.GetChild(Conditions.playerLanesOccupied);
-            Conditions.playerLanesOccupied++;
-        }
+        //battleController.playerMana -= cost;
         
         container.SetParent(spawn);
         Sequence activateCard = DOTween.Sequence();
-        activateCard.AppendCallback(() => { deck.hand.Remove(gameObject); })
+        activateCard
+            .AppendCallback(() => {
+                deck.hand.Remove(gameObject);
+                battleController.player_summoned_card[laneIndex] = cardIdentity;
+                removeIndicators();
+            })
             .Append(cardTran.DOAnchorPos(new Vector2(ogPosition.x, ogPosition.y), upDuration))
             .Join(container.DOAnchorPos(new Vector2(0, 0), upDuration))
             .Join(container.DOScale(1f, upDuration))
-            .AppendCallback(() => { Conditions.canPlay = true; })
+            .Append(playerHandholder.DOAnchorPos(new Vector2(0, 0), upDuration))
             .Play();
+    }
+
+    public void updateStats(int attack, int health)
+    {
+        attackPoints += attack;
+        healthPoints += health;
+        attackValue.text = "" + attackPoints;
+        healthValue.text = "" + healthPoints;
+    }
+
+    public void exitHover()
+    {
+        Sequence exitHover = DOTween.Sequence();
+        exitHover.Append(cardTran.DOAnchorPos(new Vector2(ogPosition.x, ogPosition.y), upDuration))
+                .Join(container.DOScale(0.85f, upDuration))
+                .Play();
+    }
+
+    public void undo()
+    {
+        removeIndicators();
+        Sequence returnToHand = DOTween.Sequence();
+        returnToHand.Join(cardTran.DOAnchorPos(new Vector2(ogPosition.x, ogPosition.y), 0))
+                .Join(container.DOScale(0.85f, upDuration))
+                .Join(playerHandholder.DOAnchorPos(new Vector2(0, 0), upDuration))
+                .PrependCallback(() => { deck.shiftHand(deck.cardSpeed);  })
+                .AppendCallback(() => { summoned = false; battleController.player_has_played = false; })
+                .Play();
+    }
+
+    public void removeIndicators()
+    {
+        GameObject[] indicators = GameObject.FindGameObjectsWithTag("Indicator");
+        foreach (GameObject indiciator in indicators)
+        {
+            Destroy(indiciator);
+        }
     }
 }

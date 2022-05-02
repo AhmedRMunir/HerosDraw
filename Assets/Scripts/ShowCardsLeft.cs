@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 public class ShowCardsLeft : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     private Text cardsLeftText;
-    public DeckController deckController;
+    public PlayerController deckController;
 
     // Start is called before the first frame update
     void Start()

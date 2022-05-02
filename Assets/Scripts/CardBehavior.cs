@@ -12,7 +12,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public float upDuration;
     public RectTransform container;
     private Vector2 ogPosition;
-    private DeckController deck;
+    private PlayerController deck;
     private bool summoned;
 
     public CardObject cardIdentity;
@@ -54,13 +54,13 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         if (isEnemy)
         {
             cardback.SetActive(true);
-            deck = GameObject.FindGameObjectWithTag("EnemyDeck").GetComponent<DeckController>();
+            deck = GameObject.FindGameObjectWithTag("EnemyDeck").GetComponent<PlayerController>();
             spawnLocation = GameObject.FindGameObjectWithTag("EnemyLanes");
         }
         else
         {
             art.sprite = cardIdentity.art;
-            deck = GameObject.FindGameObjectWithTag("Deck").GetComponent<DeckController>();
+            deck = GameObject.FindGameObjectWithTag("Deck").GetComponent<PlayerController>();
             spawnLocation = GameObject.FindGameObjectWithTag("PlayerLanes");
         }
         
@@ -85,7 +85,6 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             factionIcon.sprite = Resources.Load<Sprite>("Sprites/Vampire");
         } else // Maybe if we wanna have factionless cards
         {
-
         }
 
     }
@@ -118,10 +117,10 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (!battleController.player_has_played && summoned == false) // Eventually add check if the card is an enemy card
+        if (!battleController.player_has_summoned && summoned == false) // Eventually add check if the card is an enemy card
         {
             exitHover();
-            battleController.player_has_played = true;
+            battleController.player_has_summoned = true;
             // Attach to Canvas
             GameObject cancel = Instantiate(cancelButton, gameObject.transform.parent.transform.parent.transform);
             cancel.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -1080 / 2.5f);
@@ -162,7 +161,13 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         activateCard
             .AppendCallback(() => {
                 deck.hand.Remove(gameObject);
-                battleController.player_summoned_card[laneIndex] = cardIdentity;
+                if (isEnemy) {
+                    battleController.field[0,laneIndex] = gameObject;
+                } else {
+                    battleController.field[1,laneIndex] = gameObject;
+                }
+                
+                //battleController.player_summoned_card[laneIndex] = cardIdentity;
                 removeIndicators();
             })
             .Append(cardTran.DOAnchorPos(new Vector2(ogPosition.x, ogPosition.y), upDuration))
@@ -196,7 +201,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
                 .Join(container.DOScale(0.85f, upDuration))
                 .Join(playerHandholder.DOAnchorPos(new Vector2(0, 0), upDuration))
                 .PrependCallback(() => { deck.shiftHand(deck.cardSpeed);  })
-                .AppendCallback(() => { summoned = false; battleController.player_has_played = false; })
+                .AppendCallback(() => { summoned = false; battleController.player_has_summoned = false; })
                 .Play();
     }
 
@@ -207,5 +212,17 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         {
             Destroy(indiciator);
         }
+    }
+
+    public int getAttack() {
+        return attackPoints;
+    }
+
+    public int getHealth() {
+        return healthPoints;
+    }
+
+    public int getCost() {
+        return cost;
     }
 }

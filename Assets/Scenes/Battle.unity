@@ -960,8 +960,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2e4dd95071ee4f4db7290f5c6271a13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
-  mana: 0
+  health: 10
+  mana: 10
   deck:
   - {fileID: 11400000, guid: 48394346168a5434685d324ad47dcd0d, type: 2}
   - {fileID: 11400000, guid: 48394346168a5434685d324ad47dcd0d, type: 2}
@@ -1878,29 +1878,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8c2178c3cc81354183a43c20eed54d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  player_deck: {fileID: 1420533680}
+  player: {fileID: 1420533680}
   player_lanes: {fileID: 261869568}
-  player_summoned_card:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  player_has_played: 0
+  num_player_summoned_card: 0
+  player_has_summoned: 0
   player_ready_for_battle: 0
-  enemy: {fileID: 0}
-  enemy_deck: {fileID: 481518284}
+  player_can_play: 0
+  enemy: {fileID: 481518284}
   enemy_lanes: {fileID: 63097066}
-  enemy_summoned_card:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  num_enemy_summoned_card: 0
   enemy_ready_for_battle: 0
-  turnNum: 0
-  battleNum: 0
+  enemy_has_summoned: 0
+  turnNum: 1
+  battleNum: 1
+  current_turn: 0
 --- !u!4 &1079057734
 Transform:
   m_ObjectHideFlags: 0
@@ -2225,21 +2216,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 1420533678}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14e46bb14667b6449adae4e594d975db, type: 3}
+  m_Script: {fileID: 11500000, guid: a5b79783b00be994290489b1d9a2ed66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
-  mana: 0
+  health: 10
+  mana: 10
   deck:
-  - {fileID: 11400000, guid: 9f3c8d2c911547c49b392db11cec5464, type: 2}
-  - {fileID: 11400000, guid: 9f3c8d2c911547c49b392db11cec5464, type: 2}
-  - {fileID: 11400000, guid: 9f3c8d2c911547c49b392db11cec5464, type: 2}
   - {fileID: 11400000, guid: 48394346168a5434685d324ad47dcd0d, type: 2}
-  - {fileID: 11400000, guid: 48394346168a5434685d324ad47dcd0d, type: 2}
+  - {fileID: 11400000, guid: 9f3c8d2c911547c49b392db11cec5464, type: 2}
+  - {fileID: 11400000, guid: c5d946fe1ff50ea45aacdc74adf21eaf, type: 2}
   - {fileID: 11400000, guid: 48394346168a5434685d324ad47dcd0d, type: 2}
   - {fileID: 11400000, guid: c5d946fe1ff50ea45aacdc74adf21eaf, type: 2}
-  - {fileID: 11400000, guid: c5d946fe1ff50ea45aacdc74adf21eaf, type: 2}
-  - {fileID: 11400000, guid: c5d946fe1ff50ea45aacdc74adf21eaf, type: 2}
+  - {fileID: 11400000, guid: 9f3c8d2c911547c49b392db11cec5464, type: 2}
+  - {fileID: 11400000, guid: 48394346168a5434685d324ad47dcd0d, type: 2}
+  - {fileID: 11400000, guid: 9f3c8d2c911547c49b392db11cec5464, type: 2}
+  - {fileID: 11400000, guid: 9f3c8d2c911547c49b392db11cec5464, type: 2}
   hand: []
   discardPile: []
   completeCard: {fileID: 8725599466063141245, guid: c17454e7db0b04d678f044b4bc4dfc54, type: 3}

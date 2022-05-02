@@ -8,6 +8,6 @@ public static class Conditions
     public static bool canPlay = false;
     public static int playerLanesOccupied = 0;
     public static int enemyLanesOccupied = 0;
-    public static int maxLanes = 3;
+    public static int maxLanes = 5;
 
 }

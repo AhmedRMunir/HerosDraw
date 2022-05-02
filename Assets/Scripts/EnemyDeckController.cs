@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-public class EnemyDeckController : DeckController
+public class EnemyDeckController : PlayerController
 {
 
     private float cardWidth;

@@ -162,7 +162,13 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         activateCard
             .AppendCallback(() => {
                 deck.hand.Remove(gameObject);
-                battleController.player_summoned_card[laneIndex] = cardIdentity;
+                if (isEnemy) {
+                    battleController.field[0,laneIndex] = gameObject;
+                } else {
+                    battleController.field[1,laneIndex] = gameObject;
+                }
+                
+                //battleController.player_summoned_card[laneIndex] = cardIdentity;
                 removeIndicators();
             })
             .Append(cardTran.DOAnchorPos(new Vector2(ogPosition.x, ogPosition.y), upDuration))
@@ -207,5 +213,17 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         {
             Destroy(indiciator);
         }
+    }
+
+    public int getAttack() {
+        return attackPoints;
+    }
+
+    public int getHealth() {
+        return healthPoints;
+    }
+
+    public int getCost() {
+        return cost;
     }
 }

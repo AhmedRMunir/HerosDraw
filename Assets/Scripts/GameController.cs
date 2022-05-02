@@ -8,7 +8,7 @@ public class GameController : MonoBehaviour
     //public Player player;
     public PlayerController player;
     public GameObject player_lanes;
-    public CardObject[] player_summoned_card;
+    public int num_player_summoned_card;
     public bool player_has_summoned;
     public bool player_ready_for_battle;
 
@@ -19,9 +19,12 @@ public class GameController : MonoBehaviour
     //public Player enemy;
     public PlayerController enemy;
     public GameObject enemy_lanes;
-    public CardObject[] enemy_summoned_card;
+    public int num_enemy_summoned_card;
     public bool enemy_ready_for_battle;
     public bool enemy_has_summoned;
+
+    // 2d field
+    public GameObject[,] field;
 
     public int turnNum;
     public int battleNum;
@@ -35,6 +38,7 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        field = new GameObject[2, Conditions.maxLanes];
         /*
         * Instantiate the players
         * Function for drawing one card
@@ -53,7 +57,7 @@ public class GameController : MonoBehaviour
                 // highlight pass turn
             }
 
-            if (player_summoned_card.Length == player_lanes.transform.childCount) {
+            if (num_player_summoned_card == player_lanes.transform.childCount) {
                 player_has_summoned = true;
                 // highlight Ready for Battle, disable Pass Turn
             }
@@ -89,6 +93,9 @@ public class GameController : MonoBehaviour
         // onPointerClick() -> set player_ready_for_battle = true
 
         if (current_turn == turn.ENEMY && enemy_ready_for_battle != true) {
+            enemyMakeMove();
+
+            player_has_summoned = false;
             // enemy makes move; returned by enemy AI script
             // do the necessary updates according to the move
 
@@ -122,40 +129,36 @@ public class GameController : MonoBehaviour
         // iterate through cards on the field
         // update card values post damage
         // update player and enemy avatar health
-        for (int i = 0; i < player_summoned_card.Length; i++) {
-            CardObject player_card = player_summoned_card[i];
-            CardObject enemy_card = enemy_summoned_card[i];
+        for (int i = 0; i < field.GetLength(1); i++) {
+            CardBehavior player_card = field[1,i].GetComponent<CardBehavior>();
+            CardBehavior enemy_card = field[0,i].GetComponent<CardBehavior>();
 
             // instead of manually updating health, should make a function
             // take into consideration of card's ability, e.g. double attack
             if (player_card == null && enemy_card == null) {
                 continue;
-            }
-
-            if (player_card == null) {
-                player.health -= enemy_card.attack;
+            } else if (player_card == null && enemy_card != null) {
+                player.health -= enemy_card.getAttack();
+            } else if (player_card != null && enemy_card == null) {
+                enemy.health -= player_card.getAttack();
             } else {
-                player_card.health -= enemy_card.health;
-            }
-            
-            if (enemy_card == null) {
-                enemy.health -= player_card.attack;
-            } else {
-                enemy_card.health -= player_card.health;
+                player_card.updateStats(0, - enemy_card.getAttack());
+                enemy_card.updateStats(0, - player_card.getAttack());
             }
         }
 
         // second iteration; 
-        for (int i = 0; i < player_summoned_card.Length; i++) {
-            CardObject player_card = player_summoned_card[i];
-            CardObject enemy_card = enemy_summoned_card[i];
+        for (int i = 0; i < field.GetLength(1); i++) {
+            CardBehavior player_card = field[1,i].GetComponent<CardBehavior>();
+            CardBehavior enemy_card = field[0,i].GetComponent<CardBehavior>();
 
-            if (player_card != null && player_card.health <= 0) {
-                Destroy(player_card);
+            if (player_card != null && player_card.getHealth() <= 0) {
+                Destroy(field[1,i]);
             }
 
-            if (enemy_card != null && enemy_card.health <= 0) {
-                Destroy(enemy_card);
+            if (enemy_card != null && enemy_card.getHealth() <= 0) {
+                Debug.Log("card is destoryed!");
+                Destroy(field[0,i]);
             }
         }
 
@@ -170,7 +173,11 @@ public class GameController : MonoBehaviour
     }
 
     public void enemyMakeMove() {
-        if (enemy_summoned_card.Length == enemy_lanes.transform.childCount || enemy.hand.Count == 0) {
+        if (enemy_has_summoned == true) {
+            current_turn = turn.PLAYER;
+            return;
+        }
+        if (num_enemy_summoned_card == enemy_lanes.transform.childCount || enemy.hand.Count == 0) {
             // the field is full or the hand is empty
             enemy_has_summoned = true;
             current_turn = turn.PLAYER;
@@ -180,17 +187,22 @@ public class GameController : MonoBehaviour
             return;
         }
 
-        int empty_lane = 0;
-
-        for (int i = 0; i < enemy_lanes.transform.childCount; i++) {
-            // find an empty lane on the field
-            empty_lane = i;
-        }
-
         for (int i = 0; i < enemy.hand.Count; i++) {
             GameObject card = enemy.hand[i];
-            if (card.GetComponent<CardObject>().cost < enemy.mana) {
+            Debug.Log("First loop, index " + i);
+            if (card.GetComponent<CardBehavior>().getCost() < enemy.mana) {
                 // play the card onto the empty lane
+                for (int j = 0; j < field.GetLength(1); j++) {
+                    Debug.Log("Second loop, index " + j);
+                    if (field[0, j] == null) {
+                        field[0, j] = card;
+                        enemy.hand.Remove(card);
+                        num_enemy_summoned_card ++;
+                        card.GetComponent<CardBehavior>().summonCard(enemy_lanes.transform.GetChild(j).GetComponent<RectTransform>(), j);
+                        Debug.Log("enemy plays " + card.GetComponent<CardBehavior>().nameText.text + " at lane " + j);
+                        break;
+                    }
+                }
                 break;
             }
         }

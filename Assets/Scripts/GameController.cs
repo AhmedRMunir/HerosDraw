@@ -6,7 +6,7 @@ public class GameController : MonoBehaviour
 {
     // Player
     //public Player player;
-    public DeckController player;
+    public PlayerController player;
     public GameObject player_lanes;
     public CardObject[] player_summoned_card;
     public bool player_has_summoned;
@@ -17,14 +17,11 @@ public class GameController : MonoBehaviour
 
     // AI
     //public Player enemy;
-    public DeckController enemy;
+    public PlayerController enemy;
     public GameObject enemy_lanes;
     public CardObject[] enemy_summoned_card;
     public bool enemy_ready_for_battle;
     public bool enemy_has_summoned;
-
-    // an array of flags indicating the field
-    public bool[][] field;
 
     public int turnNum;
     public int battleNum;
@@ -111,12 +108,12 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private int updateHealth(Player player, int change) {
+    private int updateHealth(PlayerController player, int change) {
         player.health += change;
         return player.health;
     }
 
-    private int updateMana(Player player, int change) {
+    private int updateMana(PlayerController player, int change) {
         player.mana += change;
         return player.mana;
     }
@@ -170,6 +167,37 @@ public class GameController : MonoBehaviour
         } else {
             current_turn = turn.PLAYER;
         }
+    }
+
+    public void enemyMakeMove() {
+        if (enemy_summoned_card.Length == enemy_lanes.transform.childCount || enemy.hand.Count == 0) {
+            // the field is full or the hand is empty
+            enemy_has_summoned = true;
+            current_turn = turn.PLAYER;
+
+            // if cannot play, ready for battle
+            enemy_ready_for_battle = true;
+            return;
+        }
+
+        int empty_lane = 0;
+
+        for (int i = 0; i < enemy_lanes.transform.childCount; i++) {
+            // find an empty lane on the field
+            empty_lane = i;
+        }
+
+        for (int i = 0; i < enemy.hand.Count; i++) {
+            GameObject card = enemy.hand[i];
+            if (card.GetComponent<CardObject>().cost < enemy.mana) {
+                // play the card onto the empty lane
+                break;
+            }
+        }
+
+        enemy_has_summoned = true;
+
+        current_turn = turn.PLAYER;
     }
 
 }

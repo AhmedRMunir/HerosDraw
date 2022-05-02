@@ -12,7 +12,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public float upDuration;
     public RectTransform container;
     private Vector2 ogPosition;
-    private DeckController deck;
+    private PlayerController deck;
     private bool summoned;
 
     public CardObject cardIdentity;
@@ -54,13 +54,13 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         if (isEnemy)
         {
             cardback.SetActive(true);
-            deck = GameObject.FindGameObjectWithTag("EnemyDeck").GetComponent<DeckController>();
+            deck = GameObject.FindGameObjectWithTag("EnemyDeck").GetComponent<PlayerController>();
             spawnLocation = GameObject.FindGameObjectWithTag("EnemyLanes");
         }
         else
         {
             art.sprite = cardIdentity.art;
-            deck = GameObject.FindGameObjectWithTag("Deck").GetComponent<DeckController>();
+            deck = GameObject.FindGameObjectWithTag("Deck").GetComponent<PlayerController>();
             spawnLocation = GameObject.FindGameObjectWithTag("PlayerLanes");
         }
         

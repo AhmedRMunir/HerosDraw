@@ -5,23 +5,19 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     // Player
-    public Player player;
-    public DeckController player_deck;
-
+    //public Player player;
+    public DeckController player;
     public GameObject player_lanes;
-
     public CardObject[] player_summoned_card;
-
     public bool player_has_summoned;
+    public bool player_ready_for_battle;
 
     // animation flag
     public bool player_can_play;
 
-    public bool player_ready_for_battle;
-
     // AI
-    public Player enemy;
-    public DeckController enemy_deck;
+    //public Player enemy;
+    public DeckController enemy;
     public GameObject enemy_lanes;
     public CardObject[] enemy_summoned_card;
     public bool enemy_ready_for_battle;
@@ -48,10 +44,6 @@ public class GameController : MonoBehaviour
         * Update Health
         * Update Mana
         * Update Field
-        */
-
-        /*
-        Make button for passing turns and ready for battle
         */
     }
 
@@ -139,6 +131,10 @@ public class GameController : MonoBehaviour
 
             // instead of manually updating health, should make a function
             // take into consideration of card's ability, e.g. double attack
+            if (player_card == null && enemy_card == null) {
+                continue;
+            }
+
             if (player_card == null) {
                 player.health -= enemy_card.attack;
             } else {
@@ -157,19 +153,23 @@ public class GameController : MonoBehaviour
             CardObject player_card = player_summoned_card[i];
             CardObject enemy_card = enemy_summoned_card[i];
 
-            if (player_card.health <= 0) {
+            if (player_card != null && player_card.health <= 0) {
                 Destroy(player_card);
             }
 
-            if (enemy_card.health <= 0) {
+            if (enemy_card != null && enemy_card.health <= 0) {
                 Destroy(enemy_card);
             }
         }
 
         battleNum += 1;
+        turnNum = 0;
 
-        // need a boolean to check which player should start next turn
-        // set current_turn to that player accordingly
+        if (battleNum % 2 == 0) {
+            current_turn = turn.ENEMY;
+        } else {
+            current_turn = turn.PLAYER;
+        }
     }
 
 }

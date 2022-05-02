@@ -5,11 +5,11 @@ using UnityEngine.EventSystems;
 
 public class PassTurn : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
-    private GameController battleController;
+    private GameController gameController;
     // Start is called before the first frame update
     void Start()
     {
-        battleController = GameObject.FindGameObjectWithTag("Controller").GetComponent<GameController>();
+        gameController = GameObject.FindGameObjectWithTag("Controller").GetComponent<GameController>();
     }
 
     // Update is called once per frame
@@ -30,10 +30,12 @@ public class PassTurn : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (battleController.current_turn == GameController.turn.PLAYER) {
-            battleController.current_turn = GameController.turn.ENEMY;
+        if (gameController.current_turn == GameController.turn.PLAYER) {
+            gameController.current_turn = GameController.turn.ENEMY;
         } else {
-            battleController.current_turn = GameController.turn.PLAYER;
+            gameController.current_turn = GameController.turn.PLAYER;
         }
+
+        gameController.turnNum += 1;
     }
 }

@@ -118,10 +118,10 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (!battleController.player_has_played && summoned == false) // Eventually add check if the card is an enemy card
+        if (!battleController.player_has_summoned && summoned == false) // Eventually add check if the card is an enemy card
         {
             exitHover();
-            battleController.player_has_played = true;
+            battleController.player_has_summoned = true;
             // Attach to Canvas
             GameObject cancel = Instantiate(cancelButton, gameObject.transform.parent.transform.parent.transform);
             cancel.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -1080 / 2.5f);
@@ -196,7 +196,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
                 .Join(container.DOScale(0.85f, upDuration))
                 .Join(playerHandholder.DOAnchorPos(new Vector2(0, 0), upDuration))
                 .PrependCallback(() => { deck.shiftHand(deck.cardSpeed);  })
-                .AppendCallback(() => { summoned = false; battleController.player_has_played = false; })
+                .AppendCallback(() => { summoned = false; battleController.player_has_summoned = false; })
                 .Play();
     }
 

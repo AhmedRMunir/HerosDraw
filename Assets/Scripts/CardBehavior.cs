@@ -77,12 +77,12 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         // Update faction icon based on value of faction string
         if (cardIdentity.faction == "Knight")
         {
-
+            factionIcon.sprite = Resources.Load<Sprite>("Sprites/Knight");
         } else if (cardIdentity.faction == "Mage")
         {
-
+            factionIcon.sprite = Resources.Load<Sprite>("Sprites/Mage");
         } else if (cardIdentity.faction == "Vampire") {
-
+            factionIcon.sprite = Resources.Load<Sprite>("Sprites/Vampire");
         } else // Maybe if we wanna have factionless cards
         {
 

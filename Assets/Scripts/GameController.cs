@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class GameController : MonoBehaviour
 {
@@ -29,6 +30,8 @@ public class GameController : MonoBehaviour
     public int turnNum;
     public int battleNum;
 
+    public GameObject passTurnSpinner;
+
     public enum turn {
         PLAYER, ENEMY
     }
@@ -39,6 +42,11 @@ public class GameController : MonoBehaviour
     void Start()
     {
         field = new GameObject[2, Conditions.maxLanes];
+        if (current_turn == turn.PLAYER)
+        {
+            player_can_play = true;
+        }
+        
         /*
         * Instantiate the players
         * Function for drawing one card
@@ -55,6 +63,7 @@ public class GameController : MonoBehaviour
 
             if (player_ready_for_battle == true)
             {
+                player_can_play = false;
                 current_turn = turn.ENEMY;
                 return;
             }
@@ -179,17 +188,20 @@ public class GameController : MonoBehaviour
     }
 
     public void enemyMakeMove() {
-        if (enemy_ready_for_battle == true) {
-            current_turn = turn.PLAYER;
-            return;
-        }
         if (num_enemy_summoned_card == enemy_lanes.transform.childCount || enemy.hand.Count == 0) {
             // the field is full or the hand is empty
             enemy_has_summoned = true;
-            current_turn = turn.PLAYER;
 
             // if cannot play, ready for battle
             enemy_ready_for_battle = true;
+            Sequence enemyReady = DOTween.Sequence();
+            enemyReady.Append(passTurnSpinner.transform.DORotate(new Vector3(0, 0, passTurnSpinner.transform.GetComponent<RectTransform>().eulerAngles.z - 180f), 1f))
+            .AppendCallback(() =>
+            {
+                current_turn = turn.PLAYER;
+                turnNum++;
+            })
+            .Play();
             return;
         }
 
@@ -214,8 +226,18 @@ public class GameController : MonoBehaviour
         }
 
         enemy_has_summoned = true;
-
         current_turn = turn.PLAYER;
+
+
+        Sequence passSpin = DOTween.Sequence();
+        passSpin.Append(passTurnSpinner.transform.DORotate(new Vector3(0, 0, passTurnSpinner.transform.GetComponent<RectTransform>().eulerAngles.z - 180f), 1f))
+            .AppendCallback(() =>
+            {
+                current_turn = turn.PLAYER;
+                turnNum++;
+                player_can_play = true;
+            })
+            .Play();
     }
 
 }

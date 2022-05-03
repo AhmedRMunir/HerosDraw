@@ -117,10 +117,14 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (!battleController.player_has_summoned && summoned == false) // Eventually add check if the card is an enemy card
+        if (!battleController.player_has_summoned && summoned == false && battleController.current_turn == GameController.turn.PLAYER && battleController.player_can_play) // Eventually add check if the card is an enemy card
         {
             exitHover();
-            battleController.player_has_summoned = true;
+            if (battleController.enemy_ready_for_battle == false )
+            {
+                battleController.player_has_summoned = true;
+            }
+            
             // Attach to Canvas
             GameObject cancel = Instantiate(cancelButton, gameObject.transform.parent.transform.parent.transform);
             cancel.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -1080 / 2.5f);

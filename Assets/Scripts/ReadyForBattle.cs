@@ -49,7 +49,19 @@ public class ReadyForBattle : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        battleController.player_ready_for_battle = true;
+        if (battleController.current_turn == GameController.turn.PLAYER && battleController.player_can_play)
+        {
+            battleController.player_ready_for_battle = true;
+            if (battleController.enemy_ready_for_battle)
+            {
+                battleController.StartCoroutine(battleController.onBattle());
+            } else
+            {
+                battleController.StartCoroutine(battleController.enemyTurn());
+            }
+            
+        }
+        
     }
 
 }

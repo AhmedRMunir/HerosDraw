@@ -117,7 +117,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (!battleController.player_has_summoned && summoned == false && battleController.current_turn == GameController.turn.PLAYER && battleController.player_can_play) // Eventually add check if the card is an enemy card
+        if (!battleController.player_has_summoned && summoned == false && battleController.current_turn == GameController.turn.PLAYER && battleController.player_can_play && isEnemy == false)
         {
             exitHover();
             if (battleController.enemy_ready_for_battle == false )

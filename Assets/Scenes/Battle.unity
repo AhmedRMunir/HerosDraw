@@ -725,6 +725,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 441436334}
+  - component: {fileID: 441436335}
   m_Layer: 5
   m_Name: EnemyAvatar
   m_TagString: Untagged
@@ -755,6 +756,21 @@ RectTransform:
   m_AnchoredPosition: {x: -200, y: -200}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &441436335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 441436333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97810ec336e7e42ce9af86535b4038c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 481518284}
+  HP_Text: {fileID: 2135822285}
+  Mana_Text: {fileID: 32876149}
 --- !u!1 &449135139
 GameObject:
   m_ObjectHideFlags: 0
@@ -2927,6 +2943,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2039969867}
+  - component: {fileID: 2039969868}
   m_Layer: 5
   m_Name: PlayerAvatar
   m_TagString: Untagged
@@ -2957,6 +2974,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2039969868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2039969866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97810ec336e7e42ce9af86535b4038c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1420533680}
+  HP_Text: {fileID: 307308191}
+  Mana_Text: {fileID: 359705722}
 --- !u!1 &2107714631
 GameObject:
   m_ObjectHideFlags: 0

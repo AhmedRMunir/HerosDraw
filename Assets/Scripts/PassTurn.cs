@@ -34,22 +34,16 @@ public class PassTurn : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         if (gameController.current_turn == GameController.turn.PLAYER && gameController.enemy_ready_for_battle == false && gameController.player_can_play == true)
         {
             gameController.player_can_play = false;
-            Sequence passSpin = DOTween.Sequence();
-            passSpin.Append(transform.DORotate(new Vector3(0, 0, transform.GetComponent<RectTransform>().eulerAngles.z - 180f), 1f))
-                .AppendCallback(() =>
-                {
-                    if (gameController.current_turn == GameController.turn.PLAYER)
-                    {
-                        gameController.current_turn = GameController.turn.ENEMY;
-                    }
-                    else
-                    {
-                        gameController.current_turn = GameController.turn.PLAYER;
-                    }
-
-                    gameController.turnNum += 1;
-                })
-                .Play();
+            if (gameController.current_turn == GameController.turn.PLAYER)
+            {
+                //gameController.current_turn = GameController.turn.ENEMY;
+                gameController.StartCoroutine(gameController.enemyTurn());
+            }
+            else
+            {
+                //gameController.current_turn = GameController.turn.PLAYER;
+                gameController.StartCoroutine(gameController.playerTurn());
+            }
         }
     }
 }

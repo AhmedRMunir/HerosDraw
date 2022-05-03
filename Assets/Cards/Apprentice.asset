@@ -16,7 +16,7 @@ MonoBehaviour:
   art: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
   description: 
   cost: 1
-  attack: 0
+  attack: 1
   health: 1
   faction: Mage
   cardAbility: {fileID: 0}

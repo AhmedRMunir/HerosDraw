@@ -51,7 +51,13 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (current_turn == turn.PLAYER && player_ready_for_battle != true) {
+        if (current_turn == turn.PLAYER) {
+
+            if (player_ready_for_battle == true)
+            {
+                current_turn = turn.ENEMY;
+                return;
+            }
 
             if (player_has_summoned == true) {
                 // highlight pass turn
@@ -110,8 +116,6 @@ public class GameController : MonoBehaviour
 
         if (player_ready_for_battle && enemy_ready_for_battle) {
             onBattle();
-            player_ready_for_battle = false;
-            enemy_ready_for_battle = false;
         }
     }
 
@@ -130,33 +134,33 @@ public class GameController : MonoBehaviour
         // update card values post damage
         // update player and enemy avatar health
         for (int i = 0; i < field.GetLength(1); i++) {
-            CardBehavior player_card = field[1,i].GetComponent<CardBehavior>();
-            CardBehavior enemy_card = field[0,i].GetComponent<CardBehavior>();
+            GameObject player_card = field[1,i];
+            GameObject enemy_card = field[0,i];
 
             // instead of manually updating health, should make a function
             // take into consideration of card's ability, e.g. double attack
             if (player_card == null && enemy_card == null) {
                 continue;
             } else if (player_card == null && enemy_card != null) {
-                player.health -= enemy_card.getAttack();
+                player.health -= enemy_card.GetComponent<CardBehavior>().getAttack();
             } else if (player_card != null && enemy_card == null) {
-                enemy.health -= player_card.getAttack();
+                enemy.health -= player_card.GetComponent<CardBehavior>().getAttack();
             } else {
-                player_card.updateStats(0, - enemy_card.getAttack());
-                enemy_card.updateStats(0, - player_card.getAttack());
+                player_card.GetComponent<CardBehavior>().updateStats(0, - enemy_card.GetComponent<CardBehavior>().getAttack());
+                enemy_card.GetComponent<CardBehavior>().updateStats(0, - player_card.GetComponent<CardBehavior>().getAttack());
             }
         }
 
         // second iteration; 
         for (int i = 0; i < field.GetLength(1); i++) {
-            CardBehavior player_card = field[1,i].GetComponent<CardBehavior>();
-            CardBehavior enemy_card = field[0,i].GetComponent<CardBehavior>();
+            GameObject player_card = field[1,i];
+            GameObject enemy_card = field[0,i];
 
-            if (player_card != null && player_card.getHealth() <= 0) {
+            if (player_card != null && player_card.GetComponent<CardBehavior>().getHealth() <= 0) {
                 Destroy(field[1,i]);
             }
 
-            if (enemy_card != null && enemy_card.getHealth() <= 0) {
+            if (enemy_card != null && enemy_card.GetComponent<CardBehavior>().getHealth() <= 0) {
                 Debug.Log("card is destoryed!");
                 Destroy(field[0,i]);
             }
@@ -170,10 +174,12 @@ public class GameController : MonoBehaviour
         } else {
             current_turn = turn.PLAYER;
         }
+        player_ready_for_battle = false;
+        enemy_ready_for_battle = false;
     }
 
     public void enemyMakeMove() {
-        if (enemy_has_summoned == true) {
+        if (enemy_ready_for_battle == true) {
             current_turn = turn.PLAYER;
             return;
         }

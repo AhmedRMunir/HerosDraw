@@ -440,7 +440,7 @@ RectTransform:
   - {fileID: 261869569}
   - {fileID: 63097067}
   m_Father: {fileID: 1133684265}
-  m_RootOrder: 4
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -749,7 +749,7 @@ RectTransform:
   - {fileID: 1363922468}
   - {fileID: 60592813}
   m_Father: {fileID: 1133684265}
-  m_RootOrder: 8
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -1064,7 +1064,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1133684265}
-  m_RootOrder: 5
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1899,16 +1899,18 @@ MonoBehaviour:
   num_player_summoned_card: 0
   player_has_summoned: 0
   player_ready_for_battle: 0
+  player_Avatar: {fileID: 307308189}
   player_can_play: 0
   enemy: {fileID: 481518284}
   enemy_lanes: {fileID: 63097066}
   num_enemy_summoned_card: 0
   enemy_ready_for_battle: 0
   enemy_has_summoned: 0
+  enemy_Avatar: {fileID: 2135822283}
   turnNum: 1
   battleNum: 1
   passTurnSpinner: {fileID: 1073768435}
-  current_turn: 1
+  current_turn: 0
 --- !u!4 &1079057734
 Transform:
   m_ObjectHideFlags: 0
@@ -2020,11 +2022,11 @@ RectTransform:
   - {fileID: 1420533679}
   - {fileID: 481518283}
   - {fileID: 462403768}
+  - {fileID: 2039969867}
+  - {fileID: 441436334}
   - {fileID: 246988750}
   - {fileID: 517209146}
   - {fileID: 1972183027}
-  - {fileID: 2039969867}
-  - {fileID: 441436334}
   - {fileID: 1073768436}
   - {fileID: 723272170}
   - {fileID: 956380344}
@@ -2853,7 +2855,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1133684265}
-  m_RootOrder: 6
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2969,7 +2971,7 @@ RectTransform:
   - {fileID: 1861387817}
   - {fileID: 449135140}
   m_Father: {fileID: 1133684265}
-  m_RootOrder: 7
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

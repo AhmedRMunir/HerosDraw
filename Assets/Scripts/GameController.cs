@@ -175,28 +175,62 @@ public class GameController : MonoBehaviour
         // update card values post damage
         // update player and enemy avatar health
         //attack.Pause();
+        
 
         for (int i = 0; i < field.GetLength(1); i++) {
             Debug.Log(i);
             GameObject player_card = field[1,i];
             GameObject enemy_card = field[0,i];
-            
+
 
             // instead of manually updating health, should make a function
             // take into consideration of card's ability, e.g. double attack
-            if (player_card == null && enemy_card == null) {
+            if (player_card == null && enemy_card == null)
+            {
                 continue;
-            } else if (player_card == null && enemy_card != null) {
-                updateHealth(player, -enemy_card.GetComponent<CardBehavior>().getAttack());
-                
-            } else if (player_card != null && enemy_card == null) {
-                updateHealth(enemy, -player_card.GetComponent<CardBehavior>().getAttack());
-           
-            } else {
-                player_card.GetComponent<CardBehavior>().updateStats(0, -enemy_card.GetComponent<CardBehavior>().getAttack());
-                enemy_card.GetComponent<CardBehavior>().updateStats(0, -player_card.GetComponent<CardBehavior>().getAttack());
+            }
+            else if (player_card == null && enemy_card != null)
+            {
+                Sequence attack = DOTween.Sequence();
+                RectTransform enemyTran = enemy_card.GetComponent<RectTransform>();
+                attack.Append(enemyTran.DOAnchorPos(new Vector2(enemyTran.anchoredPosition.x, enemyTran.anchoredPosition.y + 100), 0.25f))
+                    .Append(enemyTran.DOAnchorPos(new Vector2(enemyTran.anchoredPosition.x, enemyTran.anchoredPosition.y - 100), 0.125f))
+                    .AppendCallback(() => { updateHealth(player, -enemy_card.GetComponent<CardBehavior>().getAttack()); })
+                    .Append(enemyTran.DOAnchorPos(new Vector2(enemyTran.anchoredPosition.x, enemyTran.anchoredPosition.y), 0.125f));
+
+            }
+            else if (player_card != null && enemy_card == null)
+            {
+                Sequence attack = DOTween.Sequence();
+                RectTransform playerTran = player_card.GetComponent<RectTransform>();
+                attack.Append(playerTran.DOAnchorPos(new Vector2(playerTran.anchoredPosition.x, playerTran.anchoredPosition.y - 100), 0.25f))
+                    .Append(playerTran.DOAnchorPos(new Vector2(playerTran.anchoredPosition.x, playerTran.anchoredPosition.y + 100), 0.125f))
+                    .AppendCallback(() => { updateHealth(enemy, -player_card.GetComponent<CardBehavior>().getAttack()); })
+                    .Append(playerTran.DOAnchorPos(new Vector2(playerTran.anchoredPosition.x, playerTran.anchoredPosition.y), 0.125f));
+
+            }
+            else
+            {
+                Sequence attack = DOTween.Sequence();
+                RectTransform enemyTran = enemy_card.GetComponent<RectTransform>();
+                RectTransform playerTran = player_card.GetComponent<RectTransform>();
+                attack.Append(enemyTran.DOAnchorPos(new Vector2(enemyTran.anchoredPosition.x, enemyTran.anchoredPosition.y + 100), 0.25f))
+                    .Join(playerTran.DOAnchorPos(new Vector2(playerTran.anchoredPosition.x, playerTran.anchoredPosition.y - 100), 0.25f))
+                    .Append(enemyTran.DOAnchorPos(new Vector2(enemyTran.anchoredPosition.x, enemyTran.anchoredPosition.y - 100), 0.125f))
+                    .Join(playerTran.DOAnchorPos(new Vector2(playerTran.anchoredPosition.x, playerTran.anchoredPosition.y + 100), 0.125f))
+                    .AppendCallback(() =>
+                    {
+                        player_card.GetComponent<CardBehavior>().updateStats(0, -enemy_card.GetComponent<CardBehavior>().getAttack());
+                        enemy_card.GetComponent<CardBehavior>().updateStats(0, -player_card.GetComponent<CardBehavior>().getAttack());
+                    })
+                    .AppendCallback(() => { updateHealth(player, -enemy_card.GetComponent<CardBehavior>().getAttack()); })
+                    .Append(enemyTran.DOAnchorPos(new Vector2(enemyTran.anchoredPosition.x, enemyTran.anchoredPosition.y), 0.125f))
+                    .Join(playerTran.DOAnchorPos(new Vector2(playerTran.anchoredPosition.x, playerTran.anchoredPosition.y), 0.125f));
+
             }
         }
+
+        yield return new WaitForSeconds(0.5f);
 
         // second iteration; 
         for (int i = 0; i < field.GetLength(1); i++)
@@ -206,17 +240,17 @@ public class GameController : MonoBehaviour
 
             if (player_card != null && player_card.GetComponent<CardBehavior>().getHealth() <= 0)
             {
+                num_player_summoned_card--;
                 Destroy(field[1, i]);
             }
 
             if (enemy_card != null && enemy_card.GetComponent<CardBehavior>().getHealth() <= 0)
             {
+                num_enemy_summoned_card--;
                 Debug.Log("card is destoryed!");
                 Destroy(field[0, i]);
             }
         }
-
-        yield return new WaitForSeconds(1f);
 
         StartCoroutine("newRound");
         
@@ -244,23 +278,25 @@ public class GameController : MonoBehaviour
                 StartCoroutine("playerTurn");
             }
            
-        }
-
-        // Enemy AI
-        // enemy_play_card_first_open_lane();
-        // enemy_play_card_first_block_lane();
-        enemy_play_card_block_strongest_on_field();
-
-        enemy_has_summoned = true;
-        yield return new WaitForSeconds(0.5f);
-
-        turnNum++;
-        if (!player_ready_for_battle)
-        {
-            StartCoroutine(playerTurn());
         } else
         {
-            StartCoroutine(enemyTurn());
+            // Enemy AI
+            // enemy_play_card_first_open_lane();
+            // enemy_play_card_first_block_lane();
+            enemy_play_card_block_strongest_on_field();
+
+            enemy_has_summoned = true;
+            yield return new WaitForSeconds(0.5f);
+
+            turnNum++;
+            if (!player_ready_for_battle)
+            {
+                StartCoroutine(playerTurn());
+            }
+            else
+            {
+                StartCoroutine(enemyTurn());
+            }
         }
         
     }
@@ -310,7 +346,7 @@ public class GameController : MonoBehaviour
                 GameObject potential_card = enemy.hand[i];
                 int potential_cost = getCardCost(potential_card);
 
-                if (potential_cost < enemy.mana) {
+                if (potential_cost <= enemy.mana) {
                     cards.Add(potential_card);
                 }
             }
@@ -319,7 +355,7 @@ public class GameController : MonoBehaviour
                 GameObject potential_card = player.hand[i];
                 int potential_cost = getCardCost(potential_card);
 
-                if (potential_cost < player.mana) {
+                if (potential_cost <= player.mana) {
                     cards.Add(potential_card);
                 }
             }

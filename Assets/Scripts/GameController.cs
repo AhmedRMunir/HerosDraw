@@ -50,14 +50,35 @@ public class GameController : MonoBehaviour
         */
 
         field = new GameObject[2, Conditions.maxLanes];
+        StartCoroutine("gameStart");
+       
+    }
+
+    public IEnumerator gameStart()
+    {
+        player.maxMana = 1;
+        player.mana = 1;
+        enemy.maxMana = 1;
+        enemy.mana = 1;
+
+        yield return new WaitForSeconds(0.5f);
+        player.handSize = Conditions.handStartSize;
+        enemy.handSize = Conditions.handStartSize;
+        player.shuffle();
+        player.drawHand();
+        enemy.shuffle();
+        enemy.drawHand();
+
+        yield return new WaitForSeconds(1f);
+
         if (current_turn == turn.PLAYER)
         {
             StartCoroutine("playerTurn");
-        } else
+        }
+        else
         {
             StartCoroutine("enemyTurn");
         }
-       
     }
 
     public IEnumerator playerTurn()
@@ -75,7 +96,7 @@ public class GameController : MonoBehaviour
                 player_can_play = true;
             } else
             {
-                if (player_has_summoned || player.mana == 0)
+                if (player_has_summoned)
                 {
                     player_can_play = false;
                 } else
@@ -223,7 +244,6 @@ public class GameController : MonoBehaviour
                         player_card.GetComponent<CardBehavior>().updateStats(0, -enemy_card.GetComponent<CardBehavior>().getAttack());
                         enemy_card.GetComponent<CardBehavior>().updateStats(0, -player_card.GetComponent<CardBehavior>().getAttack());
                     })
-                    .AppendCallback(() => { updateHealth(player, -enemy_card.GetComponent<CardBehavior>().getAttack()); })
                     .Append(enemyTran.DOAnchorPos(new Vector2(enemyTran.anchoredPosition.x, enemyTran.anchoredPosition.y), 0.125f))
                     .Join(playerTran.DOAnchorPos(new Vector2(playerTran.anchoredPosition.x, playerTran.anchoredPosition.y), 0.125f));
 
@@ -257,12 +277,14 @@ public class GameController : MonoBehaviour
     }
 
     public IEnumerator enemyTurn() {
-        passTurnSpinner.transform.DORotate(new Vector3(0, 0, 180f), 0.75f);
-        if (!player_ready_for_battle) {
+        if (passTurnSpinner.transform.eulerAngles.z != 180f)
+        {
+            passTurnSpinner.transform.DORotate(new Vector3(0, 0, 180f), 0.75f);
             yield return new WaitForSeconds(0.75f);
         }
+        
         current_turn = turn.ENEMY;
-        if (num_enemy_summoned_card == enemy_lanes.transform.childCount || enemy.hand.Count == 0) {
+        if (num_enemy_summoned_card == enemy_lanes.transform.childCount || enemy.hand.Count == 0 || enemy_ready_for_battle) {
             // the field is full or the hand is empty
             enemy_has_summoned = true;
 
@@ -309,6 +331,8 @@ public class GameController : MonoBehaviour
         enemy.drawCard();
         battleNum++;
         turnNum = 1;
+        resetMana(player);
+        resetMana(enemy);
 
         yield return new WaitForSeconds(1f);
 
@@ -465,6 +489,11 @@ public class GameController : MonoBehaviour
         List<int> player_open_lanes = get_open_lanes(1);
 
         List<GameObject> enemy_playable_cards = get_playable_cards(0);
+        if (enemy_playable_cards.Count == 0)
+        {
+            enemy_ready_for_battle = true;
+            return;
+        }
 
         if (enemy_open_lanes.Count == 0 || enemy_playable_cards.Count == 0) {
             return;
@@ -497,5 +526,14 @@ public class GameController : MonoBehaviour
 
         summon_card(0, strongest_player_lane, enemy_playable_cards[0]);
         enemy.hand.Remove(enemy_playable_cards[0]);
+    }
+
+    public void resetMana(PlayerController player)
+    {
+        if (player.maxMana < Conditions.maxTotalMana)
+        {
+            player.maxMana++;
+            player.mana = player.maxMana;
+        }
     }
 }

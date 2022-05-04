@@ -16,7 +16,6 @@ public class PlayerController : MonoBehaviour
     public List<GameObject> hand;
     public List<GameObject> discardPile;
     public GameObject completeCard;
-    public int handSizeStart;
     public int handSize;
     public float cardGap;
     public float cardSpeed;
@@ -30,15 +29,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        handSize = handSizeStart;
-        cardWidth = completeCard.GetComponent<RectTransform>().sizeDelta.x * completeCard.GetComponent<RectTransform>().localScale.x;
-        
-        shuffle();
-        for (int i = 0; i < handSize; i++)
-        {
-            drawCard();
-        }
-        shiftHand(cardSpeed);
+        cardWidth = completeCard.GetComponent<RectTransform>().sizeDelta.x * completeCard.GetComponent<RectTransform>().localScale.x; 
 
     }
 
@@ -92,6 +83,15 @@ public class PlayerController : MonoBehaviour
             rt.anchoredPosition = deckObject.GetComponent<RectTransform>().anchoredPosition;
         }
         
+    }
+
+    public virtual void drawHand()
+    {
+        for (int i = 0; i < handSize; i++)
+        {
+            drawCard();
+        }
+        shiftHand(cardSpeed);
     }
 
 }

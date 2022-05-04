@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class ShowCardsLeft : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public class ShowCardsLeft : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private Text cardsLeftText;
     public PlayerController deckController;
@@ -31,9 +31,4 @@ public class ShowCardsLeft : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         cardsLeftText.text = "";
     }
 
-    // This method is for testing, remove later.
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        deckController.drawCard();
-    }
 }

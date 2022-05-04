@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
 {
     public int health;
     public int mana;
+    public int maxMana;
 
     public List<CardObject> deck;
     public List<GameObject> hand;
@@ -38,7 +39,7 @@ public class PlayerController : MonoBehaviour
             drawCard();
         }
         shiftHand(cardSpeed);
-        Conditions.canPlay = true;
+
     }
 
     // Update is called once per frame

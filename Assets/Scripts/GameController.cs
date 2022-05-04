@@ -52,18 +52,18 @@ public class GameController : MonoBehaviour
         field = new GameObject[2, Conditions.maxLanes];
         if (current_turn == turn.PLAYER)
         {
-            StartCoroutine(playerTurn());
+            StartCoroutine("playerTurn");
         } else
         {
-            StartCoroutine(enemyTurn());
+            StartCoroutine("enemyTurn");
         }
        
     }
 
     public IEnumerator playerTurn()
     {
-        passTurnSpinner.transform.DORotate(new Vector3(0, 0, 0), 1f);
-        yield return new WaitForSeconds(1f);
+        passTurnSpinner.transform.DORotate(new Vector3(0, 0, 0), 0.75f);
+        yield return new WaitForSeconds(0.75f);
         current_turn = turn.PLAYER;
         player_has_summoned = (num_player_summoned_card == field.GetLength(1));
         yield return new WaitForEndOfFrame();
@@ -85,7 +85,7 @@ public class GameController : MonoBehaviour
             }
         } else if (player_ready_for_battle)
         {
-            StartCoroutine(enemyTurn());
+            StartCoroutine("enemyTurn");
         }
         
     }
@@ -174,7 +174,6 @@ public class GameController : MonoBehaviour
         // iterate through cards on the field
         // update card values post damage
         // update player and enemy avatar health
-        Sequence attack = DOTween.Sequence();
         //attack.Pause();
 
         for (int i = 0; i < field.GetLength(1); i++) {
@@ -188,73 +187,45 @@ public class GameController : MonoBehaviour
             if (player_card == null && enemy_card == null) {
                 continue;
             } else if (player_card == null && enemy_card != null) {
-                RectTransform enemyTran = enemy_card.GetComponent<RectTransform>();
-                attack.Append(enemyTran.DOAnchorPos(new Vector2(enemyTran.anchoredPosition.x, enemyTran.anchoredPosition.y + 100), 0.25f))
-                    .Append(enemyTran.DOAnchorPos(new Vector2(enemyTran.anchoredPosition.x, enemyTran.anchoredPosition.y - 100), 0.125f))
-                    .AppendCallback(() => { updateHealth(player, -enemy_card.GetComponent<CardBehavior>().getAttack()); })
-                    .Append(enemyTran.DOAnchorPos(new Vector2(enemyTran.anchoredPosition.x, enemyTran.anchoredPosition.y), 0.125f));
+                updateHealth(player, -enemy_card.GetComponent<CardBehavior>().getAttack());
                 
             } else if (player_card != null && enemy_card == null) {
-                RectTransform playerTran = player_card.GetComponent<RectTransform>();
-                attack.Append(playerTran.DOAnchorPos(new Vector2(playerTran.anchoredPosition.x, playerTran.anchoredPosition.y - 100), 0.25f))
-                    .Append(playerTran.DOAnchorPos(new Vector2(playerTran.anchoredPosition.x, playerTran.anchoredPosition.y + 100), 0.125f))
-                    .AppendCallback(() => { updateHealth(enemy, -player_card.GetComponent<CardBehavior>().getAttack()); })
-                    .Append(playerTran.DOAnchorPos(new Vector2(playerTran.anchoredPosition.x, playerTran.anchoredPosition.y), 0.125f));
+                updateHealth(enemy, -player_card.GetComponent<CardBehavior>().getAttack());
            
             } else {
-                RectTransform enemyTran = enemy_card.GetComponent<RectTransform>();
-                RectTransform playerTran = player_card.GetComponent<RectTransform>();
-                attack.Append(enemyTran.DOAnchorPos(new Vector2(enemyTran.anchoredPosition.x, enemyTran.anchoredPosition.y + 100), 0.25f))
-                    .Join(playerTran.DOAnchorPos(new Vector2(playerTran.anchoredPosition.x, playerTran.anchoredPosition.y - 100), 0.25f))
-                    .Append(enemyTran.DOAnchorPos(new Vector2(enemyTran.anchoredPosition.x, enemyTran.anchoredPosition.y - 100), 0.125f))
-                    .Join(playerTran.DOAnchorPos(new Vector2(playerTran.anchoredPosition.x, playerTran.anchoredPosition.y + 100), 0.125f))
-                    .AppendCallback(() =>
-                    {
-                        player_card.GetComponent<CardBehavior>().updateStats(0, -enemy_card.GetComponent<CardBehavior>().getAttack());
-                        enemy_card.GetComponent<CardBehavior>().updateStats(0, -player_card.GetComponent<CardBehavior>().getAttack());
-                    })
-                    .AppendCallback(() => { updateHealth(player, -enemy_card.GetComponent<CardBehavior>().getAttack()); })
-                    .Append(enemyTran.DOAnchorPos(new Vector2(enemyTran.anchoredPosition.x, enemyTran.anchoredPosition.y), 0.125f))
-                    .Join(playerTran.DOAnchorPos(new Vector2(playerTran.anchoredPosition.x, playerTran.anchoredPosition.y), 0.125f));
-                
+                player_card.GetComponent<CardBehavior>().updateStats(0, -enemy_card.GetComponent<CardBehavior>().getAttack());
+                enemy_card.GetComponent<CardBehavior>().updateStats(0, -player_card.GetComponent<CardBehavior>().getAttack());
             }
         }
 
-        attack.AppendCallback(() =>
+        // second iteration; 
+        for (int i = 0; i < field.GetLength(1); i++)
         {
-            // second iteration; 
-            for (int i = 0; i < field.GetLength(1); i++)
+            GameObject player_card = field[1, i];
+            GameObject enemy_card = field[0, i];
+
+            if (player_card != null && player_card.GetComponent<CardBehavior>().getHealth() <= 0)
             {
-                GameObject player_card = field[1, i];
-                GameObject enemy_card = field[0, i];
-
-                if (player_card != null && player_card.GetComponent<CardBehavior>().getHealth() <= 0)
-                {
-                    Destroy(field[1, i]);
-                }
-
-                if (enemy_card != null && enemy_card.GetComponent<CardBehavior>().getHealth() <= 0)
-                {
-                    Debug.Log("card is destoryed!");
-                    Destroy(field[0, i]);
-                }
+                Destroy(field[1, i]);
             }
 
-            battleNum += 1;
-            turnNum = 1;
-            
-        });
+            if (enemy_card != null && enemy_card.GetComponent<CardBehavior>().getHealth() <= 0)
+            {
+                Debug.Log("card is destoryed!");
+                Destroy(field[0, i]);
+            }
+        }
 
         yield return new WaitForSeconds(1f);
 
-        StartCoroutine(newRound());
+        StartCoroutine("newRound");
         
     }
 
     public IEnumerator enemyTurn() {
-        passTurnSpinner.transform.DORotate(new Vector3(0, 0, 180f), 1f);
+        passTurnSpinner.transform.DORotate(new Vector3(0, 0, 180f), 0.75f);
         if (!player_ready_for_battle) {
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.75f);
         }
         current_turn = turn.ENEMY;
         if (num_enemy_summoned_card == enemy_lanes.transform.childCount || enemy.hand.Count == 0) {
@@ -266,11 +237,11 @@ public class GameController : MonoBehaviour
 
             if (player_ready_for_battle)
             {
-                StartCoroutine(onBattle());
+                StartCoroutine("onBattle");
             } else
             {
                 turnNum++;
-                StartCoroutine(playerTurn());
+                StartCoroutine("playerTurn");
             }
            
         }
@@ -296,7 +267,7 @@ public class GameController : MonoBehaviour
         }
 
         enemy_has_summoned = true;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
 
         turnNum++;
         if (!player_ready_for_battle)
@@ -313,19 +284,22 @@ public class GameController : MonoBehaviour
     {
         player_ready_for_battle = false;
         enemy_ready_for_battle = false;
-        //player.drawCard();
-        //enemy.drawCard();
+        player.drawCard();
+        enemy.drawCard();
+        battleNum++;
+        turnNum = 1;
 
         yield return new WaitForSeconds(1f);
 
         if (battleNum % 2 == 0)
         {
-            StartCoroutine(enemyTurn());
+            StartCoroutine("enemyTurn");
         }
         else
         {
-            StartCoroutine(playerTurn());
+            StartCoroutine("playerTurn");
         }
+        StopCoroutine("newRound");
     }
 
 }

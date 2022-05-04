@@ -19,6 +19,6 @@ public class PlayerUI : MonoBehaviour
     void Update()
     {
         HP_Text.text = player.health + "";
-        Mana_Text.text = player.mana + "";
+        Mana_Text.text = player.mana + "/" + player.maxMana;
     }
 }

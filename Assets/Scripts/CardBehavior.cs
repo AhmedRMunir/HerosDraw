@@ -117,7 +117,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (!battleController.player_has_summoned && summoned == false && battleController.current_turn == GameController.turn.PLAYER && battleController.player_can_play && isEnemy == false)
+        if (!battleController.player_has_summoned && summoned == false && battleController.current_turn == GameController.turn.PLAYER && battleController.player_can_play && isEnemy == false && deck.mana >= cost)
         {
             exitHover();
             if (battleController.enemy_ready_for_battle == false )
@@ -158,7 +158,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     {
         cardback.SetActive(false);
         summoned = true;
-        //battleController.playerMana -= cost;
+        deck.mana -= cost;
         
         container.SetParent(spawn);
         Sequence activateCard = DOTween.Sequence();

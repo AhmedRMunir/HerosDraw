@@ -23,7 +23,7 @@ public class EnemyDeckController : PlayerController
             drawCard();
         }
         shiftHand(cardSpeed);
-        Conditions.canPlay = true;
+
     }
 
     // Update is called once per frame

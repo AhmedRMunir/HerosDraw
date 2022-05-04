@@ -246,25 +246,10 @@ public class GameController : MonoBehaviour
            
         }
 
-        for (int i = 0; i < enemy.hand.Count; i++) {
-            GameObject card = enemy.hand[i];
-            Debug.Log("First loop, index " + i);
-            if (card.GetComponent<CardBehavior>().getCost() < enemy.mana) {
-                // play the card onto the empty lane
-                for (int j = 0; j < field.GetLength(1); j++) {
-                    Debug.Log("Second loop, index " + j);
-                    if (field[0, j] == null) {
-                        field[0, j] = card;
-                        enemy.hand.Remove(card);
-                        num_enemy_summoned_card ++;
-                        card.GetComponent<CardBehavior>().summonCard(enemy_lanes.transform.GetChild(j).GetComponent<RectTransform>(), j);
-                        Debug.Log("enemy plays " + card.GetComponent<CardBehavior>().nameText.text + " at lane " + j);
-                        break;
-                    }
-                }
-                break;
-            }
-        }
+        // Enemy AI
+        // enemy_play_card_first_open_lane();
+        // enemy_play_card_first_block_lane();
+        enemy_play_card_block_strongest_on_field();
 
         enemy_has_summoned = true;
         yield return new WaitForSeconds(0.5f);
@@ -302,4 +287,179 @@ public class GameController : MonoBehaviour
         StopCoroutine("newRound");
     }
 
+    // Return a list of the indices of open lanes
+    // 0 -> enemy
+    // 1 -> player
+    private List<int> get_open_lanes(int player) {
+        List<int> open_lanes = new List<int>();
+
+        for (int i = 0; i < field.GetLength(1); i++) {
+            if (field[player, i] == null) {
+                open_lanes.Add(i);
+            }
+        }
+        return open_lanes;
+    }
+
+    // Return a list of cards in the enemy hand that can be played
+    private List<GameObject> get_playable_cards(int player_num) {
+        List<GameObject> cards = new List<GameObject>();
+
+        if (player_num == 0) {
+            for (int i = 0; i < enemy.hand.Count; i++) {
+                GameObject potential_card = enemy.hand[i];
+                int potential_cost = getCardCost(potential_card);
+
+                if (potential_cost < enemy.mana) {
+                    cards.Add(potential_card);
+                }
+            }
+        } else {
+            for (int i = 0; i < player.hand.Count; i++) {
+                GameObject potential_card = player.hand[i];
+                int potential_cost = getCardCost(potential_card);
+
+                if (potential_cost < player.mana) {
+                    cards.Add(potential_card);
+                }
+            }
+        }
+
+        return cards;
+    }
+
+    private GameObject getStrongestCard(int player_num) {
+        List<GameObject> playable_cards = get_playable_cards(player_num);
+        int strength = -1;
+        GameObject strongest_card = null;
+        for (int i = 0; i < playable_cards.Count; i++) {
+            if (getCardStrength(playable_cards[i]) > strength) {
+                strength = getCardStrength(playable_cards[i]);
+                strongest_card = playable_cards[i];
+            }
+        }
+        return strongest_card;
+    }
+
+    // returns the cost of a card
+    private int getCardCost(GameObject card) {
+        return card.GetComponent<CardBehavior>().getCost();
+    }
+
+    private int getCardAttack(GameObject card) {
+        return card.GetComponent<CardBehavior>().getAttack();
+    }
+
+    private int getCardHealth(GameObject card) {
+        return card.GetComponent<CardBehavior>().getHealth();
+    }
+
+    private int getCardStrength(GameObject card) {
+        return getCardAttack(card) + getCardHealth(card);
+    }
+
+    // Summons the given card into the given lane
+    // To do: Use a player parameter to allow to use the same function for player and enemy
+    private void summon_card(int player_num, int lane, GameObject card) {
+
+        if (player_num == 0) {
+            enemy.hand.Remove(card);
+            num_enemy_summoned_card++;
+            card.GetComponent<CardBehavior>()
+                .summonCard(enemy_lanes.transform.GetChild(lane).GetComponent<RectTransform>(), lane);
+
+            Debug.Log("enemy plays " + card.GetComponent<CardBehavior>().nameText.text + " at lane " + lane); 
+        } else {
+            player.hand.Remove(card);
+            num_player_summoned_card++;
+            card.GetComponent<CardBehavior>()
+                .summonCard(player_lanes.transform.GetChild(lane).GetComponent<RectTransform>(), lane);
+
+            Debug.Log("player plays " + card.GetComponent<CardBehavior>().nameText.text + " at lane " + lane); 
+        }
+    }
+
+
+    // Plays card into the first open lane
+    public void enemy_play_card_first_open_lane() {
+
+        // Enemy has a playable card
+        // Enemy has an open lane 
+
+        List<int> enemy_open_lanes = get_open_lanes(0);
+        List<GameObject> enemy_playable_cards = get_playable_cards(0);
+
+        if (enemy_open_lanes.Count == 0 || enemy_playable_cards.Count == 0) {
+            return;
+        }
+
+        // play the first playable card into the first open space
+        int lane_num = enemy_open_lanes[0];
+        summon_card(0, lane_num, enemy_playable_cards[0]);
+        enemy.hand.Remove(enemy_playable_cards[0]);      
+    }
+
+    public void enemy_play_card_first_block_lane() {
+        List<int> enemy_open_lanes = get_open_lanes(0);
+        List<int> player_open_lanes = get_open_lanes(1);
+
+        List<GameObject> enemy_playable_cards = get_playable_cards(0);
+
+        if (enemy_open_lanes.Count == 0 || enemy_playable_cards.Count == 0) {
+            return;
+        }
+
+        int lane_num = enemy_open_lanes[0];
+
+        for (int i = 0; i < enemy_open_lanes.Count; i++) {
+            if (!player_open_lanes.Contains(enemy_open_lanes[i])) {
+                lane_num = enemy_open_lanes[i];
+                break;
+            }
+        }
+
+
+        summon_card(0, lane_num, enemy_playable_cards[0]); 
+        enemy.hand.Remove(enemy_playable_cards[0]);
+    }
+
+
+    public void enemy_play_card_block_strongest_on_field() {
+        List<int> enemy_open_lanes = get_open_lanes(0);
+        List<int> player_open_lanes = get_open_lanes(1);
+
+        List<GameObject> enemy_playable_cards = get_playable_cards(0);
+
+        if (enemy_open_lanes.Count == 0 || enemy_playable_cards.Count == 0) {
+            return;
+        }
+
+        List<int> shared_lanes = new List<int>();
+
+        for (int i = 0; i < enemy_open_lanes.Count; i++) {
+            if (!player_open_lanes.Contains(enemy_open_lanes[i])) {
+                shared_lanes.Add(enemy_open_lanes[i]);
+            }
+        }
+
+        if (shared_lanes.Count == 0) {
+            enemy_play_card_first_open_lane();
+            return;
+        }
+
+        int strongest_player_lane = shared_lanes[0];
+        int strongest_val = -1;
+
+        for (int i = 0; i < shared_lanes.Count; i++) {
+            int lane_num = shared_lanes[i];
+            int card_strength = getCardStrength(field[1, lane_num]);
+            if (card_strength > strongest_val) {
+                strongest_val = card_strength;
+                strongest_player_lane = shared_lanes[i];
+            }
+        }
+
+        summon_card(0, strongest_player_lane, enemy_playable_cards[0]);
+        enemy.hand.Remove(enemy_playable_cards[0]);
+    }
 }

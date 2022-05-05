@@ -288,6 +288,8 @@ public class GameController : MonoBehaviour
             }
         }
 
+        yield return new WaitForSeconds(0.5f);
+
         StartCoroutine("newRound");
         
     }

@@ -984,7 +984,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 48394346168a5434685d324ad47dcd0d, type: 2}
   - {fileID: 11400000, guid: 48394346168a5434685d324ad47dcd0d, type: 2}
   - {fileID: 11400000, guid: 48394346168a5434685d324ad47dcd0d, type: 2}
-  - {fileID: 11400000, guid: 48394346168a5434685d324ad47dcd0d, type: 2}
+  - {fileID: 11400000, guid: 80d9d75ea2e554ceb870425af85e1ec2, type: 2}
+  - {fileID: 11400000, guid: 80d9d75ea2e554ceb870425af85e1ec2, type: 2}
+  - {fileID: 11400000, guid: 80d9d75ea2e554ceb870425af85e1ec2, type: 2}
   - {fileID: 11400000, guid: 48394346168a5434685d324ad47dcd0d, type: 2}
   - {fileID: 11400000, guid: 48394346168a5434685d324ad47dcd0d, type: 2}
   - {fileID: 11400000, guid: 48394346168a5434685d324ad47dcd0d, type: 2}
@@ -2244,15 +2246,16 @@ MonoBehaviour:
   mana: 10
   maxMana: 10
   deck:
-  - {fileID: 11400000, guid: 48394346168a5434685d324ad47dcd0d, type: 2}
+  - {fileID: 11400000, guid: 9f3c8d2c911547c49b392db11cec5464, type: 2}
+  - {fileID: 11400000, guid: 9f3c8d2c911547c49b392db11cec5464, type: 2}
+  - {fileID: 11400000, guid: 9f3c8d2c911547c49b392db11cec5464, type: 2}
   - {fileID: 11400000, guid: 9f3c8d2c911547c49b392db11cec5464, type: 2}
   - {fileID: 11400000, guid: c5d946fe1ff50ea45aacdc74adf21eaf, type: 2}
-  - {fileID: 11400000, guid: 48394346168a5434685d324ad47dcd0d, type: 2}
+  - {fileID: 11400000, guid: 5544904aa00a44195b5403361f1c68d8, type: 2}
+  - {fileID: 11400000, guid: 5544904aa00a44195b5403361f1c68d8, type: 2}
+  - {fileID: 11400000, guid: 5544904aa00a44195b5403361f1c68d8, type: 2}
+  - {fileID: 11400000, guid: 5544904aa00a44195b5403361f1c68d8, type: 2}
   - {fileID: 11400000, guid: c5d946fe1ff50ea45aacdc74adf21eaf, type: 2}
-  - {fileID: 11400000, guid: 9f3c8d2c911547c49b392db11cec5464, type: 2}
-  - {fileID: 11400000, guid: 48394346168a5434685d324ad47dcd0d, type: 2}
-  - {fileID: 11400000, guid: 9f3c8d2c911547c49b392db11cec5464, type: 2}
-  - {fileID: 11400000, guid: 9f3c8d2c911547c49b392db11cec5464, type: 2}
   hand: []
   discardPile: []
   completeCard: {fileID: 8725599466063141245, guid: c17454e7db0b04d678f044b4bc4dfc54, type: 3}

@@ -6,7 +6,7 @@ using DG.Tweening;
 public class Battle_1_Controller : GameController
 {
 
-    public IEnumerator enemyTurn() {
+    public new IEnumerator enemyTurn() {
         passTurnSpinner.transform.DORotate(new Vector3(0, 0, 180f), 0.75f);
         if (!player_ready_for_battle) {
             yield return new WaitForSeconds(0.75f);
@@ -53,15 +53,23 @@ public class Battle_1_Controller : GameController
     }
 
     private void enemy_play_card() {
-        
         switch(battleNum) {
             case 1:
                 summon_card(0, 2, get_playable_cards(0)[0]);
                 break;
+            case 2:
+                switch (turnNum) {
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    default:
+                        break;
+                } 
+            break;
             default:
                 enemy_play_card_first_open_lane();
                 break;
         }
-
     }
 }

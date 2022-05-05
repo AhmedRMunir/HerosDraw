@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dae911b8a3f77fc48acac94448328ce0, type: 3}
-  m_Name: Apprentice
+  m_Name: 1C-2A-1H
   m_EditorClassIdentifier: 
-  cardName: Apprentice
-  art: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
+  cardName: Double Attack
+  art: {fileID: 0}
   description: 
   cost: 1
-  attack: 1
+  attack: 2
   health: 1
-  faction: Mage
+  faction: 
   cardAbility: {fileID: 0}

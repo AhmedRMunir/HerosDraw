@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour
     public int num_player_summoned_card;
     public bool player_has_summoned;
     public bool player_ready_for_battle;
+    public GameObject player_Avatar;
 
     // animation flag
     public bool player_can_play;
@@ -23,14 +24,18 @@ public class GameController : MonoBehaviour
     public int num_enemy_summoned_card;
     public bool enemy_ready_for_battle;
     public bool enemy_has_summoned;
+    public GameObject enemy_Avatar;
 
     // 2d field
     public GameObject[,] field;
 
+    public int handStartSize;
     public int turnNum;
     public int battleNum;
 
     public GameObject passTurnSpinner;
+
+    public EndPrompt EndPrompt;
 
     public enum turn {
         PLAYER, ENEMY
@@ -62,8 +67,8 @@ public class GameController : MonoBehaviour
         enemy.mana = 1;
 
         yield return new WaitForSeconds(0.5f);
-        player.handSize = Conditions.handStartSize;
-        enemy.handSize = Conditions.handStartSize;
+        player.handSize = handStartSize;
+        enemy.handSize = handStartSize;
         player.shuffle();
         player.drawHand();
         enemy.shuffle();
@@ -83,8 +88,12 @@ public class GameController : MonoBehaviour
 
     public IEnumerator playerTurn()
     {
-        passTurnSpinner.transform.DORotate(new Vector3(0, 0, 0), 0.75f);
-        yield return new WaitForSeconds(0.75f);
+        if (passTurnSpinner.transform.eulerAngles.z != 0)
+        {
+            passTurnSpinner.transform.DORotate(new Vector3(0, 0, 0), 0.75f);
+            yield return new WaitForSeconds(0.75f);
+        }
+        
         current_turn = turn.PLAYER;
         player_has_summoned = (num_player_summoned_card == field.GetLength(1));
         yield return new WaitForEndOfFrame();
@@ -114,73 +123,6 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*if (current_turn == turn.PLAYER) {
-
-            if (player_ready_for_battle == true)
-            {
-                player_can_play = false;
-                current_turn = turn.ENEMY;
-                return;
-            }
-
-            if (player_has_summoned == true) {
-                // highlight pass turn
-            }
-
-            if (num_player_summoned_card == player_lanes.transform.childCount) {
-                player_has_summoned = true;
-                // highlight Ready for Battle, disable Pass Turn
-            }
-
-            enemy_has_summoned = false;*/
-
-            // player is allowed to click a card to an available lane
-            // code for moving the card to the lane
-            // update the flag array
-
-            // CardBehavior.cs onSummon function set player_has_played to true.
-            // CardBehavior.cs should check player_has_played; if true, cannot summon.
-            
-            // loop through player_summoned_card array, highlight all cards that have active abilities.
-            // in CardBehavior.cs, check if player has enough cost to use active ability.
-
-            /*  if (player_has_played = true) {
-                    highlight Pass Turn button
-                }*/
-
-            // if (player_summoned_card.length() == player_lanes.transform.childCount()) {
-                // player_has_played = true;
-                // highlight Ready For Battle, and disable Pass Turn
-            //}
-
-            // enemy_has_played = false;
-        //}
-
-        // separate script for button "Pass Turn"
-        // onPointerClick() -> set current_turn = ENEMY
-
-        // separate script for button "Ready For Battle"
-        // onPointerClick() -> set player_ready_for_battle = true
-
-        /*if (current_turn == turn.ENEMY && enemy_ready_for_battle != true) {
-            enemyTurn();
-
-            player_has_summoned = false;
-            // enemy makes move; returned by enemy AI script
-            // do the necessary updates according to the move
-
-            // after enemy made move, current_turn = PLAYER
-
-            // if enemy cannot move, enemy_ready_for_battle = true;
-
-            // at end of enemy turn, set player_has_played = false
-        }*/
-
-        // after enemy has made a move, set current_turn = PLAYER
-
-        /*if (player_ready_for_battle && enemy_ready_for_battle) {
-            StartCoroutine(onBattle());
-        }*/
     }
 
     public void updateHealth(PlayerController player, int change) {
@@ -213,44 +155,54 @@ public class GameController : MonoBehaviour
             else if (player_card == null && enemy_card != null)
             {
                 Sequence attack = DOTween.Sequence();
-                RectTransform enemyTran = enemy_card.GetComponent<RectTransform>();
-                attack.Append(enemyTran.DOAnchorPos(new Vector2(enemyTran.anchoredPosition.x, enemyTran.anchoredPosition.y + 100), 0.25f))
-                    .Append(enemyTran.DOAnchorPos(new Vector2(enemyTran.anchoredPosition.x, enemyTran.anchoredPosition.y - 100), 0.125f))
+                Transform enemyTran = enemy_card.transform.GetChild(0).GetChild(6).gameObject.transform;
+                attack.Append(enemyTran.DOMove(new Vector2(enemyTran.position.x, enemyTran.position.y + 100), 0.25f))
+                    .Join(enemyTran.DOScale(1.5f, 0.25f))
+                    .Append(enemyTran.DOMove(player_Avatar.transform.position, 0.25f))
                     .AppendCallback(() => { updateHealth(player, -enemy_card.GetComponent<CardBehavior>().getAttack()); })
-                    .Append(enemyTran.DOAnchorPos(new Vector2(enemyTran.anchoredPosition.x, enemyTran.anchoredPosition.y), 0.125f));
+                    .Append(enemyTran.DOMove(new Vector2(enemyTran.position.x, enemyTran.position.y), 0.4f))
+                    .Join(enemyTran.DOScale(1f, 0.4f));
 
             }
             else if (player_card != null && enemy_card == null)
             {
                 Sequence attack = DOTween.Sequence();
-                RectTransform playerTran = player_card.GetComponent<RectTransform>();
-                attack.Append(playerTran.DOAnchorPos(new Vector2(playerTran.anchoredPosition.x, playerTran.anchoredPosition.y - 100), 0.25f))
-                    .Append(playerTran.DOAnchorPos(new Vector2(playerTran.anchoredPosition.x, playerTran.anchoredPosition.y + 100), 0.125f))
+                Transform playerTran = player_card.transform.GetChild(0).GetChild(6).gameObject.transform;
+                attack.Append(playerTran.DOMove(new Vector2(playerTran.position.x, playerTran.position.y - 100), 0.25f))
+                    .Join(playerTran.DOScale(1.5f, 0.25f))
+                    .Append(playerTran.DOMove(enemy_Avatar.transform.position, 0.25f))
                     .AppendCallback(() => { updateHealth(enemy, -player_card.GetComponent<CardBehavior>().getAttack()); })
-                    .Append(playerTran.DOAnchorPos(new Vector2(playerTran.anchoredPosition.x, playerTran.anchoredPosition.y), 0.125f));
+                    .Append(playerTran.DOMove(new Vector2(playerTran.position.x, playerTran.position.y), 0.4f))
+                    .Join(playerTran.DOScale(1f, 0.4f));
 
             }
             else
             {
                 Sequence attack = DOTween.Sequence();
-                RectTransform enemyTran = enemy_card.GetComponent<RectTransform>();
-                RectTransform playerTran = player_card.GetComponent<RectTransform>();
-                attack.Append(enemyTran.DOAnchorPos(new Vector2(enemyTran.anchoredPosition.x, enemyTran.anchoredPosition.y + 100), 0.25f))
-                    .Join(playerTran.DOAnchorPos(new Vector2(playerTran.anchoredPosition.x, playerTran.anchoredPosition.y - 100), 0.25f))
-                    .Append(enemyTran.DOAnchorPos(new Vector2(enemyTran.anchoredPosition.x, enemyTran.anchoredPosition.y - 100), 0.125f))
-                    .Join(playerTran.DOAnchorPos(new Vector2(playerTran.anchoredPosition.x, playerTran.anchoredPosition.y + 100), 0.125f))
+                Transform enemyTran = enemy_card.transform.GetChild(0).GetChild(6).gameObject.transform;
+                Transform enemyHP = enemy_card.transform.GetChild(0).GetChild(5).gameObject.transform;
+                Transform playerTran = player_card.transform.GetChild(0).GetChild(6).gameObject.transform;
+                Transform playerHP = player_card.transform.GetChild(0).GetChild(5).gameObject.transform;
+                attack.Append(enemyTran.DOMove(new Vector2(enemyTran.position.x, enemyTran.position.y + 100), 0.25f))
+                    .Join(playerTran.DOMove(new Vector2(playerTran.position.x, playerTran.position.y - 100), 0.25f))
+                    .Join(enemyTran.DOScale(1.5f, 0.25f))
+                    .Join(playerTran.DOScale(1.5f, 0.25f))
+                    .Append(enemyTran.DOMove(playerHP.transform.position, 0.25f))
+                    .Join(playerTran.DOMove(enemyHP.transform.position, 0.25f))
                     .AppendCallback(() =>
                     {
                         player_card.GetComponent<CardBehavior>().updateStats(0, -enemy_card.GetComponent<CardBehavior>().getAttack());
                         enemy_card.GetComponent<CardBehavior>().updateStats(0, -player_card.GetComponent<CardBehavior>().getAttack());
                     })
-                    .Append(enemyTran.DOAnchorPos(new Vector2(enemyTran.anchoredPosition.x, enemyTran.anchoredPosition.y), 0.125f))
-                    .Join(playerTran.DOAnchorPos(new Vector2(playerTran.anchoredPosition.x, playerTran.anchoredPosition.y), 0.125f));
+                    .Append(enemyTran.DOMove(new Vector2(enemyTran.position.x, enemyTran.position.y), 0.4f))
+                    .Join(playerTran.DOMove(new Vector2(playerTran.position.x, playerTran.position.y), 0.4f))
+                    .Join(enemyTran.DOScale(1f, 0.4f))
+                    .Join(playerTran.DOScale(1f, 0.4f));
 
             }
         }
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(1.5f);
 
         // second iteration; 
         for (int i = 0; i < field.GetLength(1); i++)
@@ -272,8 +224,14 @@ public class GameController : MonoBehaviour
             }
         }
 
-        StartCoroutine("newRound");
-        
+        yield return new WaitForSeconds(0.5f);
+
+        if (player.health <= 0 || enemy.health <= 0) {
+            StartCoroutine("endGame");
+        } else {
+            StartCoroutine("newRound");
+        }
+
     }
 
     public IEnumerator enemyTurn() {
@@ -347,10 +305,19 @@ public class GameController : MonoBehaviour
         StopCoroutine("newRound");
     }
 
+    public IEnumerator endGame()
+    {
+        bool playerWin = enemy.health <= 0;
+        EndPrompt.Setup(playerWin);
+
+        StopAllCoroutines();
+        yield return new WaitForSeconds(1f);
+    }
+
     // Return a list of the indices of open lanes
     // 0 -> enemy
     // 1 -> player
-    private List<int> get_open_lanes(int player) {
+    protected List<int> get_open_lanes(int player) {
         List<int> open_lanes = new List<int>();
 
         for (int i = 0; i < field.GetLength(1); i++) {
@@ -362,7 +329,7 @@ public class GameController : MonoBehaviour
     }
 
     // Return a list of cards in the enemy hand that can be played
-    private List<GameObject> get_playable_cards(int player_num) {
+    protected List<GameObject> get_playable_cards(int player_num) {
         List<GameObject> cards = new List<GameObject>();
 
         if (player_num == 0) {
@@ -388,7 +355,7 @@ public class GameController : MonoBehaviour
         return cards;
     }
 
-    private GameObject getStrongestCard(int player_num) {
+    protected GameObject getStrongestCard(int player_num) {
         List<GameObject> playable_cards = get_playable_cards(player_num);
         int strength = -1;
         GameObject strongest_card = null;
@@ -414,13 +381,13 @@ public class GameController : MonoBehaviour
         return card.GetComponent<CardBehavior>().getHealth();
     }
 
-    private int getCardStrength(GameObject card) {
+    public int getCardStrength(GameObject card) {
         return getCardAttack(card) + getCardHealth(card);
     }
 
     // Summons the given card into the given lane
     // To do: Use a player parameter to allow to use the same function for player and enemy
-    private void summon_card(int player_num, int lane, GameObject card) {
+    protected void summon_card(int player_num, int lane, GameObject card) {
 
         if (player_num == 0) {
             enemy.hand.Remove(card);

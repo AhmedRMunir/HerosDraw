@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class EndPrompt : MonoBehaviour
 {
     public Text promptText;
+    public string levelName;
     public void Setup(bool win) {
         gameObject.SetActive(true);
         if (win) {
@@ -17,6 +18,6 @@ public class EndPrompt : MonoBehaviour
     }
 
     public void ContinueButton() {
-        SceneManager.LoadScene("Tutorial-1");
+        SceneManager.LoadScene(levelName);
     }
 }

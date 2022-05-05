@@ -29,6 +29,7 @@ public class GameController : MonoBehaviour
     // 2d field
     public GameObject[,] field;
 
+    public int handStartSize;
     public int turnNum;
     public int battleNum;
 
@@ -66,8 +67,8 @@ public class GameController : MonoBehaviour
         enemy.mana = 1;
 
         yield return new WaitForSeconds(0.5f);
-        player.handSize = Conditions.handStartSize;
-        enemy.handSize = Conditions.handStartSize;
+        player.handSize = handStartSize;
+        enemy.handSize = handStartSize;
         player.shuffle();
         player.drawHand();
         enemy.shuffle();

@@ -34,6 +34,8 @@ public class GameController : MonoBehaviour
 
     public GameObject passTurnSpinner;
 
+    public EndPrompt EndPrompt;
+
     public enum turn {
         PLAYER, ENEMY
     }
@@ -120,73 +122,6 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*if (current_turn == turn.PLAYER) {
-
-            if (player_ready_for_battle == true)
-            {
-                player_can_play = false;
-                current_turn = turn.ENEMY;
-                return;
-            }
-
-            if (player_has_summoned == true) {
-                // highlight pass turn
-            }
-
-            if (num_player_summoned_card == player_lanes.transform.childCount) {
-                player_has_summoned = true;
-                // highlight Ready for Battle, disable Pass Turn
-            }
-
-            enemy_has_summoned = false;*/
-
-            // player is allowed to click a card to an available lane
-            // code for moving the card to the lane
-            // update the flag array
-
-            // CardBehavior.cs onSummon function set player_has_played to true.
-            // CardBehavior.cs should check player_has_played; if true, cannot summon.
-            
-            // loop through player_summoned_card array, highlight all cards that have active abilities.
-            // in CardBehavior.cs, check if player has enough cost to use active ability.
-
-            /*  if (player_has_played = true) {
-                    highlight Pass Turn button
-                }*/
-
-            // if (player_summoned_card.length() == player_lanes.transform.childCount()) {
-                // player_has_played = true;
-                // highlight Ready For Battle, and disable Pass Turn
-            //}
-
-            // enemy_has_played = false;
-        //}
-
-        // separate script for button "Pass Turn"
-        // onPointerClick() -> set current_turn = ENEMY
-
-        // separate script for button "Ready For Battle"
-        // onPointerClick() -> set player_ready_for_battle = true
-
-        /*if (current_turn == turn.ENEMY && enemy_ready_for_battle != true) {
-            enemyTurn();
-
-            player_has_summoned = false;
-            // enemy makes move; returned by enemy AI script
-            // do the necessary updates according to the move
-
-            // after enemy made move, current_turn = PLAYER
-
-            // if enemy cannot move, enemy_ready_for_battle = true;
-
-            // at end of enemy turn, set player_has_played = false
-        }*/
-
-        // after enemy has made a move, set current_turn = PLAYER
-
-        /*if (player_ready_for_battle && enemy_ready_for_battle) {
-            StartCoroutine(onBattle());
-        }*/
     }
 
     public void updateHealth(PlayerController player, int change) {
@@ -290,8 +225,12 @@ public class GameController : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f);
 
-        StartCoroutine("newRound");
-        
+        if (player.health <= 0 || enemy.health <= 0) {
+            StartCoroutine("endGame");
+        } else {
+            StartCoroutine("newRound");
+        }
+
     }
 
     public IEnumerator enemyTurn() {
@@ -365,10 +304,19 @@ public class GameController : MonoBehaviour
         StopCoroutine("newRound");
     }
 
+    public IEnumerator endGame()
+    {
+        bool playerWin = enemy.health <= 0;
+        EndPrompt.Setup(playerWin);
+
+        StopAllCoroutines();
+        yield return new WaitForSeconds(1f);
+    }
+
     // Return a list of the indices of open lanes
     // 0 -> enemy
     // 1 -> player
-    private List<int> get_open_lanes(int player) {
+    protected List<int> get_open_lanes(int player) {
         List<int> open_lanes = new List<int>();
 
         for (int i = 0; i < field.GetLength(1); i++) {
@@ -380,7 +328,7 @@ public class GameController : MonoBehaviour
     }
 
     // Return a list of cards in the enemy hand that can be played
-    private List<GameObject> get_playable_cards(int player_num) {
+    protected List<GameObject> get_playable_cards(int player_num) {
         List<GameObject> cards = new List<GameObject>();
 
         if (player_num == 0) {
@@ -406,7 +354,7 @@ public class GameController : MonoBehaviour
         return cards;
     }
 
-    private GameObject getStrongestCard(int player_num) {
+    protected GameObject getStrongestCard(int player_num) {
         List<GameObject> playable_cards = get_playable_cards(player_num);
         int strength = -1;
         GameObject strongest_card = null;
@@ -432,13 +380,13 @@ public class GameController : MonoBehaviour
         return card.GetComponent<CardBehavior>().getHealth();
     }
 
-    private int getCardStrength(GameObject card) {
+    public int getCardStrength(GameObject card) {
         return getCardAttack(card) + getCardHealth(card);
     }
 
     // Summons the given card into the given lane
     // To do: Use a player parameter to allow to use the same function for player and enemy
-    private void summon_card(int player_num, int lane, GameObject card) {
+    protected void summon_card(int player_num, int lane, GameObject card) {
 
         if (player_num == 0) {
             enemy.hand.Remove(card);

@@ -14,16 +14,8 @@ public class EnemyDeckController : PlayerController
     // Start is called before the first frame update
     void Start()
     {
-        handSize = handSizeStart;
         cardWidth = completeCard.GetComponent<RectTransform>().sizeDelta.x * completeCard.GetComponent<RectTransform>().localScale.x;
 
-        shuffle();
-        for (int i = 0; i < handSize; i++)
-        {
-            drawCard();
-        }
-        shiftHand(cardSpeed);
-        Conditions.canPlay = true;
     }
 
     // Update is called once per frame
@@ -64,4 +56,6 @@ public class EnemyDeckController : PlayerController
         }
 
     }
+
+    
 }

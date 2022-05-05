@@ -978,17 +978,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 10
   mana: 10
+  maxMana: 10
   deck:
   - {fileID: 11400000, guid: 48394346168a5434685d324ad47dcd0d, type: 2}
   - {fileID: 11400000, guid: 48394346168a5434685d324ad47dcd0d, type: 2}
   - {fileID: 11400000, guid: 48394346168a5434685d324ad47dcd0d, type: 2}
-  - {fileID: 11400000, guid: 9f3c8d2c911547c49b392db11cec5464, type: 2}
-  - {fileID: 11400000, guid: 9f3c8d2c911547c49b392db11cec5464, type: 2}
-  - {fileID: 11400000, guid: 9f3c8d2c911547c49b392db11cec5464, type: 2}
+  - {fileID: 11400000, guid: 48394346168a5434685d324ad47dcd0d, type: 2}
+  - {fileID: 11400000, guid: 48394346168a5434685d324ad47dcd0d, type: 2}
+  - {fileID: 11400000, guid: 48394346168a5434685d324ad47dcd0d, type: 2}
+  - {fileID: 11400000, guid: 48394346168a5434685d324ad47dcd0d, type: 2}
+  - {fileID: 11400000, guid: 48394346168a5434685d324ad47dcd0d, type: 2}
   hand: []
   discardPile: []
   completeCard: {fileID: 8725599466063141245, guid: c17454e7db0b04d678f044b4bc4dfc54, type: 3}
-  handSizeStart: 4
   handSize: 0
   cardGap: -40
   cardSpeed: 1
@@ -1906,7 +1908,7 @@ MonoBehaviour:
   turnNum: 1
   battleNum: 1
   passTurnSpinner: {fileID: 1073768435}
-  current_turn: 0
+  current_turn: 1
 --- !u!4 &1079057734
 Transform:
   m_ObjectHideFlags: 0
@@ -2238,6 +2240,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 10
   mana: 10
+  maxMana: 10
   deck:
   - {fileID: 11400000, guid: 48394346168a5434685d324ad47dcd0d, type: 2}
   - {fileID: 11400000, guid: 9f3c8d2c911547c49b392db11cec5464, type: 2}
@@ -2251,7 +2254,6 @@ MonoBehaviour:
   hand: []
   discardPile: []
   completeCard: {fileID: 8725599466063141245, guid: c17454e7db0b04d678f044b4bc4dfc54, type: 3}
-  handSizeStart: 4
   handSize: 0
   cardGap: -40
   cardSpeed: 1

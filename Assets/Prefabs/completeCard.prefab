@@ -896,7 +896,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardTran: {fileID: 8725599464230183386}
   upAmount: 0
-  upDuration: 0.5
+  upDuration: 0.3
   container: {fileID: 8725599466063141244}
   cardIdentity: {fileID: 0}
   nameText: {fileID: 8725599464801722182}

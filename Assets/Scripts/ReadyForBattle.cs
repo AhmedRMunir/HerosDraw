@@ -52,6 +52,7 @@ public class ReadyForBattle : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         if (battleController.current_turn == GameController.turn.PLAYER && battleController.player_can_play)
         {
             battleController.player_ready_for_battle = true;
+            battleController.player_can_play = false;
             if (battleController.enemy_ready_for_battle)
             {
                 battleController.StartCoroutine(battleController.onBattle());

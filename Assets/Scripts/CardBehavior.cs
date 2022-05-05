@@ -38,12 +38,12 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public GameObject cancelButton;
 
     private RectTransform playedCardSlot;
-    private GameController battleController;
+    private GameController gameController;
 
     // Start is called before the first frame update
     void Start()
     {
-        battleController = GameObject.FindGameObjectWithTag("Controller").GetComponent<GameController>();
+        gameController = GameObject.FindGameObjectWithTag("Controller").GetComponent<GameController>();
         playedCardSlot = GameObject.FindGameObjectWithTag("CardSlot").GetComponent<RectTransform>();
         summoned = false;
         ogPosition = cardTran.anchoredPosition;
@@ -117,12 +117,12 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (!battleController.player_has_summoned && summoned == false && battleController.current_turn == GameController.turn.PLAYER && battleController.player_can_play && isEnemy == false)
+        if (!gameController.player_has_summoned && summoned == false && gameController.current_turn == GameController.turn.PLAYER && gameController.player_can_play && isEnemy == false && deck.mana >= cost)
         {
             exitHover();
-            if (battleController.enemy_ready_for_battle == false )
+            if (gameController.enemy_ready_for_battle == false )
             {
-                battleController.player_has_summoned = true;
+                gameController.player_has_summoned = true;
             }
             
             // Attach to Canvas
@@ -158,7 +158,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     {
         cardback.SetActive(false);
         summoned = true;
-        //battleController.playerMana -= cost;
+        deck.mana -= cost;
         
         container.SetParent(spawn);
         Sequence activateCard = DOTween.Sequence();
@@ -166,12 +166,12 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             .AppendCallback(() => {
                 deck.hand.Remove(gameObject);
                 if (isEnemy) {
-                    battleController.field[0,laneIndex] = gameObject;
+                    gameController.field[0,laneIndex] = gameObject;
                 } else {
-                    battleController.field[1,laneIndex] = gameObject;
+                    gameController.field[1,laneIndex] = gameObject;
                 }
                 
-                //battleController.player_summoned_card[laneIndex] = cardIdentity;
+                //gameController.player_summoned_card[laneIndex] = cardIdentity;
                 removeIndicators();
             })
             .Append(cardTran.DOAnchorPos(new Vector2(ogPosition.x, ogPosition.y), upDuration))
@@ -204,8 +204,8 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         returnToHand.Join(cardTran.DOAnchorPos(new Vector2(ogPosition.x, ogPosition.y), 0))
                 .Join(container.DOScale(0.85f, upDuration))
                 .Join(playerHandholder.DOAnchorPos(new Vector2(0, 0), upDuration))
-                .PrependCallback(() => { deck.shiftHand(deck.cardSpeed);  })
-                .AppendCallback(() => { summoned = false; battleController.player_has_summoned = false; })
+                .PrependCallback(() => { deck.shiftHand(deck.cardSpeed/2f);  })
+                .AppendCallback(() => { summoned = false; gameController.player_has_summoned = false; })
                 .Play();
     }
 

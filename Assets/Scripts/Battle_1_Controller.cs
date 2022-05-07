@@ -6,7 +6,7 @@ using DG.Tweening;
 public class Battle_1_Controller : GameController
 {
 
-    public IEnumerator gameStart()
+    public new IEnumerator gameStart()
     {
         player.maxMana = 1;
         player.mana = 1;

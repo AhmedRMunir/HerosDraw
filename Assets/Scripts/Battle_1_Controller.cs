@@ -89,16 +89,18 @@ public class Battle_1_Controller : GameController
             case 1:
                 summon_card(0, 2, get_playable_cards(0)[0]);
                 break;
-            // case 2:
-            //     switch (turnNum) {
-            //         case 3:
-            //             break;
-            //         case 4:
-            //             break;
-            //         default:
-            //             break;
-            //     } 
-            // break;
+            case 2:
+                switch (turnNum) {
+                    case 3:
+                        summon_card(0, 1, get_playable_cards(0)[0]);
+                        break;
+                    // case 4:
+                    //     break;
+                    default:
+                        enemy_play_card_first_open_lane();
+                        break;
+                } 
+            break;
             default:
                 enemy_play_card_first_open_lane();
                 break;

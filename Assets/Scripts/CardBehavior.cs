@@ -92,7 +92,13 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     // Update is called once per frame
     void Update()
     {
-
+        if (cost > deck.mana && !summoned)
+        {
+            costValue.color = Color.red;
+        } else
+        {
+            costValue.color = Color.white;
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)

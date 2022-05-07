@@ -42,6 +42,7 @@ public class GameController : MonoBehaviour
     }
 
     public turn current_turn;
+    public turn next_player;
     
     // Start is called before the first frame update
     void Start()
@@ -73,6 +74,12 @@ public class GameController : MonoBehaviour
         player.drawHand();
         enemy.shuffle();
         enemy.drawHand();
+
+        if (current_turn == turn.PLAYER) {
+            next_player = turn.ENEMY;
+        } else {
+            next_player = turn.PLAYER;
+        }
 
         yield return new WaitForSeconds(1f);
 
@@ -298,14 +305,17 @@ public class GameController : MonoBehaviour
         resetMana(player);
         resetMana(enemy);
 
+
         yield return new WaitForSeconds(1f);
 
-        if (battleNum % 2 == 0)
+        if (next_player == turn.ENEMY)
         {
+            next_player = turn.PLAYER;
             StartCoroutine("enemyTurn");
         }
         else
         {
+            next_player = turn.ENEMY;
             StartCoroutine("playerTurn");
         }
         StopCoroutine("newRound");

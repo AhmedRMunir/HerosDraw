@@ -6,6 +6,39 @@ using DG.Tweening;
 public class Battle_1_Controller : GameController
 {
 
+    public new IEnumerator gameStart()
+    {
+        player.maxMana = 1;
+        player.mana = 1;
+        enemy.maxMana = 1;
+        enemy.mana = 1;
+
+        yield return new WaitForSeconds(0.5f);
+        player.handSize = handStartSize;
+        enemy.handSize = handStartSize;
+        // player.shuffle();
+        player.drawHand();
+        // enemy.shuffle();
+        enemy.drawHand();
+
+        if (current_turn == turn.PLAYER) {
+            next_player = turn.ENEMY;
+        } else {
+            next_player = turn.PLAYER;
+        }
+
+        yield return new WaitForSeconds(1f);
+
+        if (current_turn == turn.PLAYER)
+        {
+            StartCoroutine("playerTurn");
+        }
+        else
+        {
+            StartCoroutine("enemyTurn");
+        }
+    }
+
     public new IEnumerator enemyTurn() {
         passTurnSpinner.transform.DORotate(new Vector3(0, 0, 180f), 0.75f);
         if (!player_ready_for_battle) {
@@ -49,7 +82,6 @@ public class Battle_1_Controller : GameController
                 StartCoroutine(enemyTurn());
             }
         }
-        
     }
 
     private void enemy_play_card() {
@@ -57,16 +89,16 @@ public class Battle_1_Controller : GameController
             case 1:
                 summon_card(0, 2, get_playable_cards(0)[0]);
                 break;
-            case 2:
-                switch (turnNum) {
-                    case 3:
-                        break;
-                    case 4:
-                        break;
-                    default:
-                        break;
-                } 
-            break;
+            // case 2:
+            //     switch (turnNum) {
+            //         case 3:
+            //             break;
+            //         case 4:
+            //             break;
+            //         default:
+            //             break;
+            //     } 
+            // break;
             default:
                 enemy_play_card_first_open_lane();
                 break;

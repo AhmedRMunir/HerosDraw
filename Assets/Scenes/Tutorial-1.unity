@@ -982,6 +982,8 @@ MonoBehaviour:
   deck:
   - {fileID: 11400000, guid: 676da32835f1e8f4e901856a5852f793, type: 2}
   - {fileID: 11400000, guid: 48394346168a5434685d324ad47dcd0d, type: 2}
+  - {fileID: 11400000, guid: 5b2533ecdc5dcc24982470bdcb59320d, type: 2}
+  - {fileID: 11400000, guid: 676da32835f1e8f4e901856a5852f793, type: 2}
   hand: []
   discardPile: []
   completeCard: {fileID: 8725599466063141245, guid: c17454e7db0b04d678f044b4bc4dfc54, type: 3}
@@ -2260,6 +2262,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 676da32835f1e8f4e901856a5852f793, type: 2}
   - {fileID: 11400000, guid: 48394346168a5434685d324ad47dcd0d, type: 2}
   - {fileID: 11400000, guid: ce5e9ad50b520af49aa1395585aa4f3f, type: 2}
+  - {fileID: 11400000, guid: c5d946fe1ff50ea45aacdc74adf21eaf, type: 2}
+  - {fileID: 11400000, guid: 5b2533ecdc5dcc24982470bdcb59320d, type: 2}
   hand: []
   discardPile: []
   completeCard: {fileID: 8725599466063141245, guid: c17454e7db0b04d678f044b4bc4dfc54, type: 3}

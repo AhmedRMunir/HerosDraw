@@ -42,6 +42,7 @@ public class GameController : MonoBehaviour
     }
 
     public turn current_turn;
+    public turn next_player;
     
     // Start is called before the first frame update
     void Start()
@@ -73,6 +74,12 @@ public class GameController : MonoBehaviour
         player.drawHand();
         enemy.shuffle();
         enemy.drawHand();
+
+        if (current_turn == turn.PLAYER) {
+            next_player = turn.ENEMY;
+        } else {
+            next_player = turn.PLAYER;
+        }
 
         yield return new WaitForSeconds(1f);
 
@@ -186,7 +193,9 @@ public class GameController : MonoBehaviour
                 attack.Append(enemyTran.DOMove(new Vector2(enemyTran.position.x, enemyTran.position.y + 100), 0.25f))
                     .Join(playerTran.DOMove(new Vector2(playerTran.position.x, playerTran.position.y - 100), 0.25f))
                     .Join(enemyTran.DOScale(1.5f, 0.25f))
-                    .Join(playerTran.DOScale(1.5f, 0.25f))
+                    .Join(enemyHP.DOScale(1.5f, 0.25f))
+                    .Join(playerTran.DOScale(1.5f, 0.1f))
+                    .Join(playerHP.DOScale(1.5f, 0.1f))
                     .Append(enemyTran.DOMove(playerHP.transform.position, 0.25f))
                     .Join(playerTran.DOMove(enemyHP.transform.position, 0.25f))
                     .AppendCallback(() =>
@@ -194,15 +203,19 @@ public class GameController : MonoBehaviour
                         player_card.GetComponent<CardBehavior>().updateStats(0, -enemy_card.GetComponent<CardBehavior>().getAttack());
                         enemy_card.GetComponent<CardBehavior>().updateStats(0, -player_card.GetComponent<CardBehavior>().getAttack());
                     })
-                    .Append(enemyTran.DOMove(new Vector2(enemyTran.position.x, enemyTran.position.y), 0.4f))
+                    .Join(enemyHP.DOPunchScale(new Vector3(1.5f, 1.5f, 1.5f), 0.5f, 10, 1))
+                    .Join(playerHP.DOPunchScale(new Vector3(1.5f, 1.5f, 1.5f), 0.5f, 10, 1))
+                    .Join(enemyTran.DOMove(new Vector2(enemyTran.position.x, enemyTran.position.y), 0.4f))
                     .Join(playerTran.DOMove(new Vector2(playerTran.position.x, playerTran.position.y), 0.4f))
                     .Join(enemyTran.DOScale(1f, 0.4f))
-                    .Join(playerTran.DOScale(1f, 0.4f));
+                    .Join(playerTran.DOScale(1f, 0.4f))
+                    .Append(enemyHP.DOScale(1f, 0.2f))
+                    .Join(playerHP.DOScale(1f, 0.2f));
 
             }
         }
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(2f);
 
         // second iteration; 
         for (int i = 0; i < field.GetLength(1); i++)
@@ -292,14 +305,17 @@ public class GameController : MonoBehaviour
         resetMana(player);
         resetMana(enemy);
 
+
         yield return new WaitForSeconds(1f);
 
-        if (battleNum % 2 == 0)
+        if (next_player == turn.ENEMY)
         {
+            next_player = turn.PLAYER;
             StartCoroutine("enemyTurn");
         }
         else
         {
+            next_player = turn.ENEMY;
             StartCoroutine("playerTurn");
         }
         StopCoroutine("newRound");

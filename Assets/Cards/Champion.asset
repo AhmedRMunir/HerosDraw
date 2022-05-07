@@ -15,7 +15,7 @@ MonoBehaviour:
   cardName: Champion
   art: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   description: 'Passive: Something cool'
-  cost: 6
+  cost: 5
   attack: 5
   health: 5
   faction: Knight

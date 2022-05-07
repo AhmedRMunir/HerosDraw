@@ -19,11 +19,7 @@ MonoBehaviour:
     width: 1440
     height: 792
   m_ShowMode: 4
-<<<<<<< HEAD
-  m_Title: Game
-=======
   m_Title: Project
->>>>>>> main
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}

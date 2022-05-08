@@ -16,6 +16,9 @@ public class GameController : MonoBehaviour
     public GameObject player_Avatar;
     public GameObject ready_Button;
 
+    public bool player_free_pass;
+    public bool player_can_pass;
+
     // animation flag
     public bool player_can_play;
 
@@ -70,6 +73,9 @@ public class GameController : MonoBehaviour
         player.mana = 1;
         enemy.maxMana = 1;
         enemy.mana = 1;
+
+        player_free_pass = true;
+        player_can_pass = true;
 
         yield return new WaitForSeconds(0.5f);
         player.handSize = handStartSize;
@@ -127,6 +133,10 @@ public class GameController : MonoBehaviour
         current_turn = turn.PLAYER;
         player_has_summoned = (num_player_summoned_card == field.GetLength(1));
         yield return new WaitForEndOfFrame();
+
+        if (!player_free_pass) {
+            player_can_pass = false;
+        }
 
         if (player_ready_for_battle == false && current_turn == turn.PLAYER)
         {
@@ -329,6 +339,9 @@ public class GameController : MonoBehaviour
         resetMana(player);
         resetMana(enemy);
         ready_Button.GetComponent<Animator>().SetBool("isPushed", false);
+
+        player_free_pass = true;
+        player_can_pass = true;
 
 
         yield return new WaitForSeconds(0.5f);

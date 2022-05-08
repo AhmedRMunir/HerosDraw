@@ -201,6 +201,8 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             .Join(container.DOScale(1f, upDuration))
             .Append(playerHandholder.DOAnchorPos(new Vector2(0, 0), upDuration))
             .Play();
+
+        gameController.player_can_pass = true;
     }
 
     public void updateStats(int attack, int health)

@@ -20,7 +20,7 @@ public class PassTurn : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     // Update is called once per frame
     void Update()
     {
-        if (gameController.current_turn != GameController.turn.PLAYER || gameController.enemy_ready_for_battle == true || !gameController.player_can_play)
+        if (gameController.current_turn != GameController.turn.PLAYER || gameController.enemy_ready_for_battle == true || !gameController.player_can_play || !gameController.player_can_pass)
         {
             passButton.color = new Color(0.6235294f, 0.6235294f, 0.6235294f);
         } else
@@ -41,9 +41,14 @@ public class PassTurn : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (gameController.current_turn == GameController.turn.PLAYER && !gameController.enemy_ready_for_battle && gameController.player_can_play)
+        if (gameController.current_turn == GameController.turn.PLAYER && !gameController.enemy_ready_for_battle && gameController.player_can_play && gameController.player_can_pass)
         {
             gameController.player_can_play = false;
+
+            if (gameController.player_free_pass && !gameController.player_has_summoned) {
+                gameController.player_free_pass = false;
+            }
+
             if (gameController.current_turn == GameController.turn.PLAYER)
             {
                 //gameController.current_turn = GameController.turn.ENEMY;

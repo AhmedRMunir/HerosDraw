@@ -25,7 +25,9 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public Image factionIcon;
     public GameObject cardback;
     public GameObject highlight;
-    public GameObject cardAbility; // Check if equals null to check if card has ability
+    //public GameObject cardAbility; // Check if equals null to check if card has ability
+    public string cardAbility;
+    public int[] abilityParams;
     public bool hasActivatedAbility;
 
     private int attackPoints;
@@ -40,6 +42,8 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     private RectTransform playedCardSlot;
     private GameController gameController;
+
+    private CardAbility ability;
 
     // Start is called before the first frame update
     void Start()
@@ -73,6 +77,8 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         attackValue.text = "" + attackPoints;
         healthValue.text = "" + healthPoints;
         cardAbility = cardIdentity.cardAbility;
+        abilityParams = cardIdentity.abilityParams.ToArray();
+        ability = GameObject.FindGameObjectWithTag("Ability").GetComponent<CardAbility>();
         hasActivatedAbility = false;
 
         // Update faction icon based on value of faction string
@@ -202,6 +208,10 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             .Append(playerHandholder.DOAnchorPos(new Vector2(0, 0), upDuration))
             .Play();
 
+        if (cardIdentity.hasPassiveAbility) {
+            //Debug.Log("starts ability coroutine");
+            ability.passiveAbility(cardAbility, abilityParams);
+        }
         gameController.player_can_pass = true;
     }
 

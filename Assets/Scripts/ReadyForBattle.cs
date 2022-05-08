@@ -8,18 +8,27 @@ public class ReadyForBattle : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 {
     public Image playerReady;
     public Image enemyReady;
-    private GameController battleController;
+    public GameObject highlight;
+    private GameController gameController;
 
     // Start is called before the first frame update
     void Start()
     {
-        battleController = GameObject.FindGameObjectWithTag("Controller").GetComponent<GameController>();
+        gameController = GameObject.FindGameObjectWithTag("Controller").GetComponent<GameController>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (battleController.enemy_ready_for_battle)
+        if (gameController.current_turn == GameController.turn.PLAYER && gameController.enemy_ready_for_battle == true && gameController.player_can_play)
+        {
+            highlight.SetActive(true);
+        } else
+        {
+            highlight.SetActive(false);
+        }
+
+        if (gameController.enemy_ready_for_battle)
         {
             enemyReady.color = Color.white;
         }
@@ -27,7 +36,7 @@ public class ReadyForBattle : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         {
             enemyReady.color = Color.gray;
         }
-        if (battleController.player_ready_for_battle)
+        if (gameController.player_ready_for_battle)
         {
             playerReady.color = Color.white;
         }
@@ -49,16 +58,17 @@ public class ReadyForBattle : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (battleController.current_turn == GameController.turn.PLAYER && battleController.player_can_play)
+        if (gameController.current_turn == GameController.turn.PLAYER && gameController.player_can_play)
         {
-            battleController.player_ready_for_battle = true;
-            battleController.player_can_play = false;
-            if (battleController.enemy_ready_for_battle)
+            gameObject.GetComponent<Animator>().SetBool("isPushed", true);
+            gameController.player_ready_for_battle = true;
+            gameController.player_can_play = false;
+            if (gameController.enemy_ready_for_battle)
             {
-                battleController.StartCoroutine(battleController.onBattle());
+                gameController.StartCoroutine(gameController.indicateTurn("onBattle"));
             } else
             {
-                battleController.StartCoroutine(battleController.enemyTurn());
+                gameController.StartCoroutine(gameController.enemyTurn());
             }
             
         }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using DG.Tweening;
 
 public class GameController : MonoBehaviour
@@ -13,6 +14,7 @@ public class GameController : MonoBehaviour
     public bool player_has_summoned;
     public bool player_ready_for_battle;
     public GameObject player_Avatar;
+    public GameObject ready_Button;
 
     // animation flag
     public bool player_can_play;
@@ -32,8 +34,10 @@ public class GameController : MonoBehaviour
     public int handStartSize;
     public int turnNum;
     public int battleNum;
+    public float slideSpeed;
 
     public GameObject passTurnSpinner;
+    public GameObject phaseIndicator;
 
     public EndPrompt EndPrompt;
 
@@ -85,14 +89,33 @@ public class GameController : MonoBehaviour
 
         if (current_turn == turn.PLAYER)
         {
-            StartCoroutine("playerTurn");
+            //StartCoroutine("playerTurn");
+            StartCoroutine(indicateTurn("playerTurn"));
         }
         else
         {
-            StartCoroutine("enemyTurn");
+            //StartCoroutine("enemyTurn");
+            StartCoroutine(indicateTurn("enemyTurn"));
         }
     }
 
+    public IEnumerator indicateTurn(string phase)
+    {
+        Debug.Log("Call " + phase);
+        phaseIndicator.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Phases/" + phase);
+        RectTransform phaseTransform = phaseIndicator.GetComponent<RectTransform>();
+        phaseTransform.anchoredPosition = new Vector2(0, Screen.height);
+        yield return new WaitForEndOfFrame();
+        Sequence slideIn = DOTween.Sequence();
+        phaseTransform.DOAnchorPos(new Vector2(0, 0), slideSpeed);
+
+        yield return new WaitForSeconds(slideSpeed + 0.5f);
+
+        Sequence slideOut = DOTween.Sequence();
+        slideOut.Append(phaseTransform.DOAnchorPos(new Vector2(0, Screen.height), slideSpeed))
+            .AppendCallback(() => { StartCoroutine(phase); });
+
+    }
     public IEnumerator playerTurn()
     {
         if (passTurnSpinner.transform.eulerAngles.z != 0)
@@ -162,7 +185,7 @@ public class GameController : MonoBehaviour
             else if (player_card == null && enemy_card != null)
             {
                 Sequence attack = DOTween.Sequence();
-                Transform enemyTran = enemy_card.transform.GetChild(0).GetChild(6).gameObject.transform;
+                Transform enemyTran = enemy_card.transform.GetChild(0).GetChild(7).gameObject.transform;
                 attack.Append(enemyTran.DOMove(new Vector2(enemyTran.position.x, enemyTran.position.y + 100), 0.25f))
                     .Join(enemyTran.DOScale(1.5f, 0.25f))
                     .Append(enemyTran.DOMove(player_Avatar.transform.position, 0.25f))
@@ -174,7 +197,7 @@ public class GameController : MonoBehaviour
             else if (player_card != null && enemy_card == null)
             {
                 Sequence attack = DOTween.Sequence();
-                Transform playerTran = player_card.transform.GetChild(0).GetChild(6).gameObject.transform;
+                Transform playerTran = player_card.transform.GetChild(0).GetChild(7).gameObject.transform;
                 attack.Append(playerTran.DOMove(new Vector2(playerTran.position.x, playerTran.position.y - 100), 0.25f))
                     .Join(playerTran.DOScale(1.5f, 0.25f))
                     .Append(playerTran.DOMove(enemy_Avatar.transform.position, 0.25f))
@@ -186,10 +209,10 @@ public class GameController : MonoBehaviour
             else
             {
                 Sequence attack = DOTween.Sequence();
-                Transform enemyTran = enemy_card.transform.GetChild(0).GetChild(6).gameObject.transform;
-                Transform enemyHP = enemy_card.transform.GetChild(0).GetChild(5).gameObject.transform;
-                Transform playerTran = player_card.transform.GetChild(0).GetChild(6).gameObject.transform;
-                Transform playerHP = player_card.transform.GetChild(0).GetChild(5).gameObject.transform;
+                Transform enemyTran = enemy_card.transform.GetChild(0).GetChild(7).gameObject.transform;
+                Transform enemyHP = enemy_card.transform.GetChild(0).GetChild(6).gameObject.transform;
+                Transform playerTran = player_card.transform.GetChild(0).GetChild(7).gameObject.transform;
+                Transform playerHP = player_card.transform.GetChild(0).GetChild(6).gameObject.transform;
                 attack.Append(enemyTran.DOMove(new Vector2(enemyTran.position.x, enemyTran.position.y + 100), 0.25f))
                     .Join(playerTran.DOMove(new Vector2(playerTran.position.x, playerTran.position.y - 100), 0.25f))
                     .Join(enemyTran.DOScale(1.5f, 0.25f))
@@ -264,7 +287,8 @@ public class GameController : MonoBehaviour
 
             if (player_ready_for_battle)
             {
-                StartCoroutine("onBattle");
+                //StartCoroutine("onBattle");
+                StartCoroutine(indicateTurn("onBattle"));
             } else
             {
                 turnNum++;
@@ -304,19 +328,22 @@ public class GameController : MonoBehaviour
         turnNum = 1;
         resetMana(player);
         resetMana(enemy);
+        ready_Button.GetComponent<Animator>().SetBool("isPushed", false);
 
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
 
         if (next_player == turn.ENEMY)
         {
             next_player = turn.PLAYER;
-            StartCoroutine("enemyTurn");
+            StartCoroutine(indicateTurn("enemyTurn"));
+            //StartCoroutine("enemyTurn");
         }
         else
         {
             next_player = turn.ENEMY;
-            StartCoroutine("playerTurn");
+            StartCoroutine(indicateTurn("playerTurn"));
+            //StartCoroutine("playerTurn");
         }
         StopCoroutine("newRound");
     }

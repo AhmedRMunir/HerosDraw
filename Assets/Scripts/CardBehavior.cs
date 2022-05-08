@@ -24,6 +24,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public Text attackValue;
     public Image factionIcon;
     public GameObject cardback;
+    public GameObject highlight;
     public GameObject cardAbility; // Check if equals null to check if card has ability
     public bool hasActivatedAbility;
 
@@ -59,11 +60,11 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         }
         else
         {
-            art.sprite = cardIdentity.art;
             deck = GameObject.FindGameObjectWithTag("Deck").GetComponent<PlayerController>();
             spawnLocation = GameObject.FindGameObjectWithTag("PlayerLanes");
         }
-        
+
+        art.sprite = cardIdentity.art;
         descriptionText.text = cardIdentity.description;
         cost = cardIdentity.cost;
         costValue.text = "" + cost;
@@ -92,9 +93,24 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     // Update is called once per frame
     void Update()
     {
+        if (isEnemy)
+        {
+            highlight.SetActive(false);
+        } else if (!gameController.player_has_summoned && gameController.player_can_play && gameController.current_turn == GameController.turn.PLAYER && !summoned)
+        {
+            highlight.SetActive(true);
+        } else if (summoned && !hasActivatedAbility && cardAbility != null)
+        {
+            highlight.SetActive(true);
+        } else
+        {
+            highlight.SetActive(false);
+        }
+
         if (cost > deck.mana && !summoned)
         {
             costValue.color = Color.red;
+            highlight.SetActive(false);
         } else
         {
             costValue.color = Color.white;

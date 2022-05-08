@@ -1877,6 +1877,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f70e44ee41a9f407482d61a446013508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  passButton: {fileID: 0}
 --- !u!1 &1079057732
 GameObject:
   m_ObjectHideFlags: 0
@@ -1940,6 +1941,7 @@ MonoBehaviour:
   passTurnSpinner: {fileID: 1073768435}
   EndPrompt: {fileID: 1067974796}
   current_turn: 1
+  next_player: 0
 --- !u!1 &1133684261
 GameObject:
   m_ObjectHideFlags: 0
@@ -2262,8 +2264,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 676da32835f1e8f4e901856a5852f793, type: 2}
   - {fileID: 11400000, guid: 48394346168a5434685d324ad47dcd0d, type: 2}
   - {fileID: 11400000, guid: ce5e9ad50b520af49aa1395585aa4f3f, type: 2}
-  - {fileID: 11400000, guid: c5d946fe1ff50ea45aacdc74adf21eaf, type: 2}
   - {fileID: 11400000, guid: 5b2533ecdc5dcc24982470bdcb59320d, type: 2}
+  - {fileID: 11400000, guid: c5d946fe1ff50ea45aacdc74adf21eaf, type: 2}
   hand: []
   discardPile: []
   completeCard: {fileID: 8725599466063141245, guid: c17454e7db0b04d678f044b4bc4dfc54, type: 3}

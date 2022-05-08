@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Double Attack
   art: {fileID: 0}
-  description: 
+  description: 'Passive: Double Attack'
   cost: 1
-  attack: 2
+  attack: 1
   health: 1
   faction: 
   cardAbility: {fileID: 0}

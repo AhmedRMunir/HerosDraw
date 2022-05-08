@@ -60,11 +60,11 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         }
         else
         {
-            art.sprite = cardIdentity.art;
             deck = GameObject.FindGameObjectWithTag("Deck").GetComponent<PlayerController>();
             spawnLocation = GameObject.FindGameObjectWithTag("PlayerLanes");
         }
-        
+
+        art.sprite = cardIdentity.art;
         descriptionText.text = cardIdentity.description;
         cost = cardIdentity.cost;
         costValue.text = "" + cost;

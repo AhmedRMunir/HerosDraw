@@ -50,6 +50,7 @@ public class GameController : MonoBehaviour
 
     public turn current_turn;
     public turn next_player;
+
     
     // Start is called before the first frame update
     void Start()
@@ -69,6 +70,8 @@ public class GameController : MonoBehaviour
 
     public IEnumerator gameStart()
     {
+        StartCoroutine(LoadingController.LOGGER.LogLevelStart(1, "{ User entered battle }"));
+
         player.maxMana = 1;
         player.mana = 1;
         enemy.maxMana = 1;
@@ -364,6 +367,7 @@ public class GameController : MonoBehaviour
     public IEnumerator endGame()
     {
         bool playerWin = enemy.health <= 0;
+        LoadingController.LOGGER.LogLevelEnd("{ Player Won: " + playerWin + ", Number of battles: " + battleNum + " }");
         EndPrompt.Setup(playerWin);
 
         StopAllCoroutines();

@@ -43,6 +43,7 @@ public class PassTurn : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         if (gameController.current_turn == GameController.turn.PLAYER && !gameController.enemy_ready_for_battle && gameController.player_can_play && gameController.player_can_pass)
         {
+            LoadingController.LOGGER.LogLevelAction(50, "{ Player passed turn }");
             gameController.player_can_play = false;
 
             if (gameController.player_free_pass && !gameController.player_has_summoned) {

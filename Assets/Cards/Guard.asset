@@ -15,9 +15,9 @@ MonoBehaviour:
   cardName: Guard
   art: {fileID: 0}
   description: 'On summon: Reinforce(+1/+1) all allies.'
-  cost: 0
+  cost: 4
   attack: 2
-  health: 3
+  health: 2
   faction: Knight
   cardAbility: reinforce
   abilityParams: 01000000010000000000000000000000

@@ -60,6 +60,8 @@ public class ReadyForBattle : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         if (gameController.current_turn == GameController.turn.PLAYER && gameController.player_can_play)
         {
+            LoadingController.LOGGER.LogLevelAction(51, "{ Player readied for battle }");
+
             gameObject.GetComponent<Animator>().SetBool("isPushed", true);
             gameController.player_ready_for_battle = true;
             gameController.player_can_play = false;

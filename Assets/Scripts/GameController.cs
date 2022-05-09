@@ -300,7 +300,8 @@ public class GameController : MonoBehaviour
             // Enemy AI
             // enemy_play_card_first_open_lane();
             // enemy_play_card_first_block_lane();
-            enemy_play_card_block_strongest_on_field();
+            // enemy_play_card_block_strongest_on_field();
+            enemy_play_card();
 
             enemy_has_summoned = true;
             yield return new WaitForSeconds(0.5f);
@@ -447,6 +448,12 @@ public class GameController : MonoBehaviour
 
             Debug.Log("player plays " + card.GetComponent<CardBehavior>().nameText.text + " at lane " + lane); 
         }
+    }
+    
+
+    public virtual void enemy_play_card() {
+        // enemy_play_card_first_open_lane();
+        enemy_play_card_block_strongest_on_field();
     }
 
 

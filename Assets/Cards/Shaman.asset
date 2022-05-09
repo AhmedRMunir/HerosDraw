@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Shaman
   art: {fileID: 0}
-  description: 
+  description: 'Active (1): Restore 1 health to player.'
   cost: 1
   attack: 1
   health: 1

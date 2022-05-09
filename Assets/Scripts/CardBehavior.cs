@@ -77,7 +77,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         attackValue.text = "" + attackPoints;
         healthValue.text = "" + healthPoints;
         cardAbility = cardIdentity.cardAbility;
-        abilityParams = cardIdentity.abilityParams;
+        abilityParams = new List<int>(cardIdentity.abilityParams);
         ability = GameObject.FindGameObjectWithTag("Ability").GetComponent<CardAbility>();
         hasUseableAbility = false;
 
@@ -207,12 +207,18 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
                 deck.hand.Remove(gameObject);
                 if (isEnemy) {
                     gameController.field[0,laneIndex] = gameObject;
-                    abilityParams.Add(0);
-                    abilityParams.Add(laneIndex);
+                    if (!cardAbility.Equals(""))
+                    {
+                        abilityParams[2] = 0;
+                        abilityParams[3] = laneIndex;
+                    } 
                 } else {
                     gameController.field[1,laneIndex] = gameObject;
-                    abilityParams.Add(1);
-                    abilityParams.Add(laneIndex);
+                    if (!cardAbility.Equals(""))
+                    {
+                        abilityParams[2] = 1;
+                        abilityParams[3] = laneIndex;
+                    }
                 }
                 
                 //gameController.player_summoned_card[laneIndex] = cardIdentity;
@@ -222,11 +228,14 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             .Join(container.DOAnchorPos(new Vector2(0, 0), upDuration))
             .Join(container.DOScale(1f, upDuration))
             .Append(playerHandholder.DOAnchorPos(new Vector2(0, 0), upDuration))
+            .AppendCallback(() => {
+                if (cardIdentity.hasPassiveAbility)
+                {
+                    ability.passiveAbility(cardAbility, abilityParams.ToArray());
+                }
+            })
             .Play();
 
-        if (cardIdentity.hasPassiveAbility) {
-            ability.passiveAbility(cardAbility, abilityParams.ToArray());
-        }
         gameController.player_can_pass = true;
     }
 

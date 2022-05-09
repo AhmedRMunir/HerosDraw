@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Guard
   art: {fileID: 0}
-  description: 
-  cost: 2
+  description: 'On summon: Reinforce(+1/+1) all allies.'
+  cost: 0
   attack: 2
   health: 3
   faction: Knight
   cardAbility: reinforce
-  abilityParams: 0100000001000000
+  abilityParams: 01000000010000000000000000000000
   hasActiveAbility: 0
   hasPassiveAbility: 1
   activeAbilityCost: 

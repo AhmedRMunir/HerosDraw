@@ -42,7 +42,8 @@ public class CardAbility : MonoBehaviour
                 idx 3 - lane index
     */
     public IEnumerator reinforce(int[] values) {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForEndOfFrame();
+        Debug.Log(values[2]);
         for (int i = 0; i < gm.field.GetLength(1); i++) {
             GameObject card = gm.field[values[2],i];
             if (card != null) {
@@ -50,7 +51,7 @@ public class CardAbility : MonoBehaviour
                 card.GetComponent<CardBehavior>().updateStats(values[0], values[1]);
             }
         }
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForEndOfFrame();
     }
 
     /* values:  idx 0 - health updates
@@ -59,10 +60,10 @@ public class CardAbility : MonoBehaviour
                 idx 3 - lane index
     */
     public IEnumerator invigorate(int[] values) {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForEndOfFrame();
         GameObject card = gm.field[values[2], values[3]];
         gm.player.mana -= values[1];
         card.GetComponent<CardBehavior>().updateStats(0, values[0]);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForEndOfFrame();
     }
 }

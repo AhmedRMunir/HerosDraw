@@ -27,8 +27,8 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public GameObject highlight;
     //public GameObject cardAbility; // Check if equals null to check if card has ability
     public string cardAbility;
-    public int[] abilityParams;
-    public bool hasActivatedAbility;
+    public List<int> abilityParams;
+    public bool hasUseableAbility;
 
     private int attackPoints;
     private int healthPoints;
@@ -77,9 +77,9 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         attackValue.text = "" + attackPoints;
         healthValue.text = "" + healthPoints;
         cardAbility = cardIdentity.cardAbility;
-        abilityParams = cardIdentity.abilityParams.ToArray();
+        abilityParams = cardIdentity.abilityParams;
         ability = GameObject.FindGameObjectWithTag("Ability").GetComponent<CardAbility>();
-        hasActivatedAbility = false;
+        hasUseableAbility = false;
 
         // Update faction icon based on value of faction string
         if (cardIdentity.faction == "Knight")
@@ -99,13 +99,23 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     // Update is called once per frame
     void Update()
     {
+        if (cardIdentity.hasActiveAbility) {
+            if (cardIdentity.activeAbilityCost[0] < gameController.player.health && cardIdentity.activeAbilityCost[1] <= gameController.player.mana) {
+                hasUseableAbility = true;
+            } else {
+                hasUseableAbility = false;
+            }
+        } else {
+            hasUseableAbility = false;
+        }
+
         if (isEnemy)
         {
             highlight.SetActive(false);
         } else if (!gameController.player_has_summoned && gameController.player_can_play && gameController.current_turn == GameController.turn.PLAYER && !summoned)
         {
             highlight.SetActive(true);
-        } else if (summoned && !hasActivatedAbility && cardAbility != null)
+        } else if (summoned && hasUseableAbility && cardAbility != "" && gameController.current_turn == GameController.turn.PLAYER)
         {
             highlight.SetActive(true);
         } else
@@ -171,6 +181,8 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
                     indicatePlayableLane(child);
                 }
             }
+        } else if (summoned == true && isEnemy == false && gameController.current_turn == GameController.turn.PLAYER && hasUseableAbility) {
+            ability.activeAbility(cardAbility, abilityParams.ToArray());
         }
         
     }
@@ -195,8 +207,12 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
                 deck.hand.Remove(gameObject);
                 if (isEnemy) {
                     gameController.field[0,laneIndex] = gameObject;
+                    abilityParams.Add(0);
+                    abilityParams.Add(laneIndex);
                 } else {
                     gameController.field[1,laneIndex] = gameObject;
+                    abilityParams.Add(1);
+                    abilityParams.Add(laneIndex);
                 }
                 
                 //gameController.player_summoned_card[laneIndex] = cardIdentity;
@@ -209,8 +225,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             .Play();
 
         if (cardIdentity.hasPassiveAbility) {
-            //Debug.Log("starts ability coroutine");
-            ability.passiveAbility(cardAbility, abilityParams);
+            ability.passiveAbility(cardAbility, abilityParams.ToArray());
         }
         gameController.player_can_pass = true;
     }

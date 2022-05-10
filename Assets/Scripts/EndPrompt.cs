@@ -8,16 +8,21 @@ public class EndPrompt : MonoBehaviour
 {
     public Text promptText;
     public string levelName;
-    public void Setup(bool win) {
+    public void Setup(string text) {
         gameObject.SetActive(true);
-        if (win) {
-            promptText.text = "YOU WIN :)";
-        } else {
-            promptText.text = "YOU LOSE :(";
-        }
+        promptText.text = text;
+        // if (win) {
+        //     promptText.text = "YOU WIN :)";
+        // } else {
+        //     promptText.text = "YOU LOSE :(";
+        // }
     }
 
     public void ContinueButton() {
-        SceneManager.LoadScene(levelName);
+        if (levelName == "none") {
+            gameObject.SetActive(false);
+        } else {
+            SceneManager.LoadScene(levelName);
+        }
     }
 }

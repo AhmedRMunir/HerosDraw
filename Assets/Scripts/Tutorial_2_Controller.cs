@@ -10,22 +10,24 @@ using DG.Tweening;
  Set player and enemy HP to 3 HP
 
 Enemy Deck:
- - 1C - 0A - 1 H
+ - Knight
+ - Wizard
  - 1C - 1A - 1 H
- - 1C - 1A - 2 H
+ - Fireball
 
 
 Player Deck:
- - 1C - 0A - 1H
- - 1C - 1A - 1H
- - Double Attack Passive Card
+ - 1C - 1A - 2H
+ - Double Attack
+ - Fireball
+ - Champion
  
 */
 
-public class Battle_1_Controller : GameController
+public class Tutorial_2_Controller : GameController
 {
 
-    public new IEnumerator gameStart()
+    public override IEnumerator gameStart()
     {
         player.maxMana = 1;
         player.mana = 1;
@@ -63,27 +65,28 @@ public class Battle_1_Controller : GameController
         }
     }
 
-    public override void enemy_play_card() {
-        Debug.Log(battleNum + ", " + turnNum);
-        switch(battleNum) {
-            case 1:
-                Debug.Log("playing card in 2nd position");
-                summon_card(0, 2, get_playable_cards(0)[0]);
-                enemy_ready_for_battle = true;
-                break;
-            case 2:
-                switch(turnNum) {
-                    case 1:
-                        summon_card(0, 1, get_playable_cards(0)[0]);
-                        break;
-                    case 2:
-                        summon_card(0, 3, get_playable_cards(0)[0]);
-                        break;
-                }
-                break;
-            default:
-                enemy_play_card_first_open_lane();
-                break;
-        }
-    }
+    // public override void enemy_play_card() {
+    //     Debug.Log(battleNum + ", " + turnNum);
+    //     switch(battleNum) {
+    //         case 1:
+    //             Debug.Log("playing card in 2nd position");
+    //             summon_card(0, 2, get_playable_cards(0)[0]);
+    //             enemy_ready_for_battle = true;
+    //             break;
+    //         case 2:
+    //             switch(turnNum) {
+    //                 case 1:
+    //                     summon_card(0, 1, get_playable_cards(0)[0]);
+    //                     break;
+    //                 case 2:
+    //                     if (get_playable_cards(0).Count != 0)
+    //                     summon_card(0, 2, get_playable_cards(0)[0]);
+    //                     break;
+    //             }
+    //             break;
+    //         default:
+    //             enemy_play_card_first_open_lane();
+    //             break;
+    //     }
+    // }
 }

@@ -41,6 +41,8 @@ public class GameController : MonoBehaviour
 
     public EndPrompt EndPrompt;
 
+    public EndPrompt dialogPrompt;
+
     public enum turn {
         PLAYER, ENEMY
     }
@@ -64,7 +66,7 @@ public class GameController : MonoBehaviour
        
     }
 
-    public IEnumerator gameStart()
+    public virtual IEnumerator gameStart()
     {
         player.maxMana = 1;
         player.mana = 1;
@@ -128,6 +130,8 @@ public class GameController : MonoBehaviour
         player_has_summoned = (num_player_summoned_card == field.GetLength(1));
         yield return new WaitForEndOfFrame();
 
+        displayDialog();
+
         if (player_ready_for_battle == false && current_turn == turn.PLAYER)
         {
             if (enemy_ready_for_battle)
@@ -148,6 +152,10 @@ public class GameController : MonoBehaviour
             StartCoroutine("enemyTurn");
         }
         
+    }
+
+    public virtual void displayDialog() {
+        return;
     }
 
     // Update is called once per frame
@@ -352,8 +360,12 @@ public class GameController : MonoBehaviour
     public IEnumerator endGame()
     {
         bool playerWin = enemy.health <= 0;
-        EndPrompt.Setup(playerWin);
-
+        if (playerWin) {
+            EndPrompt.Setup("YOU WIN :)");    
+        } else {
+            EndPrompt.Setup("YOU LOSE :(");
+        }
+        
         StopAllCoroutines();
         yield return new WaitForSeconds(1f);
     }

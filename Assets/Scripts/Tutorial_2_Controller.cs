@@ -10,16 +10,17 @@ using DG.Tweening;
  Set player and enemy HP to 3 HP
 
 Enemy Deck:
+ - 1A-1H
+ - 1A-2H
  - Knight
  - Wizard
- - 1C - 1A - 1 H
- - Fireball
 
 
 Player Deck:
  - 1C - 1A - 2H
  - Double Attack
  - Fireball
+ - Knight
  - Champion
  
 */
@@ -62,6 +63,25 @@ public class Tutorial_2_Controller : GameController
         {
             //StartCoroutine("enemyTurn");
             StartCoroutine(indicateTurn("enemyTurn"));
+        }
+    }
+
+    public override void displayDialog()
+    {
+        switch(battleNum) {
+            case 1: 
+                dialogPrompt.Setup("Time to Learn about spells and heroes, but first play a good first card");
+                break;
+            case 2:
+                if (turnNum == 1) {
+                    dialogPrompt.Setup("First, pass and then play your fireball");
+                }
+                break;
+            case 3:
+                dialogPrompt.Setup("See the game out!");
+                break;
+            default:
+                break;
         }
     }
 

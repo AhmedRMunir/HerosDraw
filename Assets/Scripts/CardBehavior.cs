@@ -182,6 +182,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
                 }
             }
         } else if (summoned == true && isEnemy == false && gameController.current_turn == GameController.turn.PLAYER && hasUseableAbility) {
+            LoadingController.LOGGER.LogActionWithNoLevel(52, "{ Player activated: " + cardAbility + " }");
             ability.activeAbility(cardAbility, abilityParams.ToArray());
         }
         

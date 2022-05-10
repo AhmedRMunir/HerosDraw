@@ -30,6 +30,8 @@ public class Tutorial_2_Controller : GameController
 
     public override IEnumerator gameStart()
     {
+        StartCoroutine(LoadingController.LOGGER.LogLevelStart(1, "{ User entered tutorial 2 }"));
+
         player.maxMana = 1;
         player.mana = 1;
         enemy.maxMana = 1;
@@ -69,18 +71,34 @@ public class Tutorial_2_Controller : GameController
     public override void displayDialog()
     {
         switch(battleNum) {
-            case 1: 
-                dialogPrompt.Setup("Time to Learn about Actives, but first play a good first card");
+            case 1:
+                if (turnNum == 2)
+                {
+                    dialogPrompt.Setup("Time to Learn about Actives, but first play a good first card");
+                }   
                 break;
             case 2:
                 if (turnNum == 1) {
                     dialogPrompt.Setup("You're allowed one free pass per Battle. Use it!");
+                    for (int i = 0; i < player.handSize; i++)
+                    {
+                        player.hand[i].GetComponent<CardBehavior>().summoned = true;
+                    }
+                    
                 } else if (turnNum == 2) {
+                    player.hand[player.handSize - 1].GetComponent<CardBehavior>().summoned = false;
                     dialogPrompt.Setup("Play the Shaman and use its active");
                 }
                 break;
             case 3:
-                dialogPrompt.Setup("See the game out!");
+                if (turnNum == 2)
+                {
+                    dialogPrompt.Setup("See the game out!");
+                    for(int i = 0; i < player.handSize; i++)
+                    {
+                        player.hand[i].GetComponent<CardBehavior>().summoned = false;
+                    }
+                }
                 break;
             default:
                 break;

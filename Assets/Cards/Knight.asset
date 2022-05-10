@@ -15,8 +15,8 @@ MonoBehaviour:
   cardName: Knight
   art: {fileID: 21300000, guid: b60ac593eb7ef7a41b21ec3383898fc7, type: 3}
   description: 
-  cost: 2
-  attack: 2
+  cost: 1
+  attack: 1
   health: 2
   faction: Knight
   cardAbility: 

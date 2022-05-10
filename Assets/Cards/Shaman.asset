@@ -17,7 +17,7 @@ MonoBehaviour:
   description: 'Active (1): Restore 1 health to player.'
   cost: 1
   attack: 1
-  health: 1
+  health: 2
   faction: Mage
   cardAbility: invigorate
   abilityParams: 01000000010000000100000000000000

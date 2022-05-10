@@ -9,9 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Title Screen.unity
     guid: 7297100e1713046a18f2423869a86467
   - enabled: 1
-    path: Assets/Scenes/Tutorial-1.unity
-    guid: 1fc93950db9f1024899587e5469c7d91
-  - enabled: 1
     path: Assets/Scenes/Battle.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
@@ -20,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Tutorial-2.unity
     guid: 67afcef0d61e04f46a6dfb2c597a5381
+  - enabled: 1
+    path: Assets/Scenes/Tutorial-3.unity
+    guid: e0460fec603fc4e1085e7945a0f414d6
   m_configObjects: {}

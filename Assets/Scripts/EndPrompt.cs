@@ -25,4 +25,12 @@ public class EndPrompt : MonoBehaviour
             SceneManager.LoadScene(levelName);
         }
     }
+
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            ContinueButton();
+        }
+    }
 }

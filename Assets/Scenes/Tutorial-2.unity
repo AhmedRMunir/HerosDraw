@@ -1100,7 +1100,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8265639055150095211, guid: 7c754788b0965094e86d13bc33c65b00, type: 3}
       propertyPath: levelName
-      value: Tutorial-2
+      value: Battle
       objectReference: {fileID: 0}
     - target: {fileID: 8265639055150095213, guid: 7c754788b0965094e86d13bc33c65b00, type: 3}
       propertyPath: m_Sprite

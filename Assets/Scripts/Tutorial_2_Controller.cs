@@ -74,6 +74,8 @@ public class Tutorial_2_Controller : GameController
                 break;
             case 2:
                 if (turnNum == 1) {
+                    dialogPrompt.Setup("You're allowed one free pass per Battle. Use it!");
+                } else if (turnNum == 2) {
                     dialogPrompt.Setup("Play the Shaman and use its active");
                 }
                 break;

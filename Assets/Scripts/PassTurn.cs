@@ -9,6 +9,8 @@ public class PassTurn : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private GameController gameController;
     public Image passButton;
+    public GameObject highlight;
+    public Image freePass;
 
     // Start is called before the first frame update
     void Start()
@@ -22,11 +24,25 @@ public class PassTurn : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         if (gameController.current_turn != GameController.turn.PLAYER || gameController.enemy_ready_for_battle == true || !gameController.player_can_play || !gameController.player_can_pass)
         {
+            highlight.SetActive(false);
             passButton.color = new Color(0.6235294f, 0.6235294f, 0.6235294f);
         } else
         {
+            if (!gameController.player_ready_for_battle)
+            {
+                highlight.SetActive(true);
+            }
             passButton.color = Color.white;
         }
+
+        if (gameController.player_can_pass)
+        {
+            freePass.color = Color.white;
+        } else
+        {
+            freePass.color = new Color(0.6235294f, 0.6235294f, 0.6235294f);
+        }
+
     }
 
     public void OnPointerEnter(PointerEventData eventData)

@@ -19,4 +19,8 @@ MonoBehaviour:
   attack: 2
   health: 2
   faction: Knight
-  cardAbility: {fileID: 0}
+  cardAbility: 
+  abilityParams: 
+  hasActiveAbility: 0
+  hasPassiveAbility: 0
+  activeAbilityCost: 

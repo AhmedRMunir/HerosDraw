@@ -61,9 +61,16 @@ public class CardAbility : MonoBehaviour
     */
     public IEnumerator invigorate(int[] values) {
         yield return new WaitForEndOfFrame();
-        GameObject card = gm.field[values[2], values[3]];
+        //GameObject card = gm.field[values[2], values[3]];
         gm.player.mana -= values[1];
-        card.GetComponent<CardBehavior>().updateStats(0, values[0]);
+        if (values[2] == 1) // Player
+        {
+            gm.updateHealth(gm.player, values[0]);
+        } else // Enemy
+        {
+            gm.updateHealth(gm.enemy, values[0]);
+        }
+        
         yield return new WaitForEndOfFrame();
     }
 }

@@ -19,4 +19,8 @@ MonoBehaviour:
   attack: 1
   health: 1
   faction: Mage
-  cardAbility: {fileID: 0}
+  cardAbility: 
+  abilityParams: 
+  hasActiveAbility: 0
+  hasPassiveAbility: 0
+  activeAbilityCost: 

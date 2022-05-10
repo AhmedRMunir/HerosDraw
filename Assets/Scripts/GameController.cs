@@ -16,6 +16,9 @@ public class GameController : MonoBehaviour
     public GameObject player_Avatar;
     public GameObject ready_Button;
 
+    public bool player_free_pass;
+    public bool player_can_pass;
+
     // animation flag
     public bool player_can_play;
 
@@ -49,6 +52,7 @@ public class GameController : MonoBehaviour
 
     public turn current_turn;
     public turn next_player;
+
     
     // Start is called before the first frame update
     void Start()
@@ -68,10 +72,15 @@ public class GameController : MonoBehaviour
 
     public virtual IEnumerator gameStart()
     {
+        StartCoroutine(LoadingController.LOGGER.LogLevelStart(1, "{ User entered battle }"));
+
         player.maxMana = 1;
         player.mana = 1;
         enemy.maxMana = 1;
         enemy.mana = 1;
+
+        player_free_pass = true;
+        player_can_pass = true;
 
         yield return new WaitForSeconds(0.5f);
         player.handSize = handStartSize;
@@ -131,6 +140,9 @@ public class GameController : MonoBehaviour
         yield return new WaitForEndOfFrame();
 
         displayDialog();
+        if (!player_free_pass) {
+            player_can_pass = false;
+        }
 
         if (player_ready_for_battle == false && current_turn == turn.PLAYER)
         {
@@ -339,6 +351,9 @@ public class GameController : MonoBehaviour
         resetMana(enemy);
         ready_Button.GetComponent<Animator>().SetBool("isPushed", false);
 
+        player_free_pass = true;
+        player_can_pass = true;
+
 
         yield return new WaitForSeconds(0.5f);
 
@@ -359,13 +374,18 @@ public class GameController : MonoBehaviour
 
     public IEnumerator endGame()
     {
+        
         bool playerWin = enemy.health <= 0;
+        LoadingController.LOGGER.LogLevelEnd("{ Player Won: " + playerWin + ", Number of battles: " + battleNum + " }");
+
         if (playerWin) {
             EndPrompt.Setup("YOU WIN :)");    
         } else {
             EndPrompt.Setup("YOU LOSE :(");
         }
         
+        // EndPrompt.Setup(playerWin);
+
         StopAllCoroutines();
         yield return new WaitForSeconds(1f);
     }

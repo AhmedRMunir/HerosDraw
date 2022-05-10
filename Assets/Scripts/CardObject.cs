@@ -12,7 +12,13 @@ public class CardObject : ScriptableObject
     public int attack;
     public int health;
     public string faction;
-    public GameObject cardAbility; // We'll probably have to write prefabs with the card ability and instantiate them on activation
+    //public GameObject cardAbility; // We'll probably have to write prefabs with the card ability and instantiate them on activation
 
+    public string cardAbility;
+    public List<int> abilityParams;
     // Other potential stats
+
+    public bool hasActiveAbility;
+    public bool hasPassiveAbility;
+    public List<int> activeAbilityCost;
 }

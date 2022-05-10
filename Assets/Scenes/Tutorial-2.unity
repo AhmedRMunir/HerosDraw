@@ -438,7 +438,6 @@ GameObject:
   m_Component:
   - component: {fileID: 282750597}
   - component: {fileID: 282750599}
-  - component: {fileID: 282750598}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Controller
@@ -461,42 +460,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &282750598
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 282750595}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a129460f1f000be4cb1e979083d6f66c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 1443830527}
-  player_lanes: {fileID: 918711454}
-  num_player_summoned_card: 0
-  player_has_summoned: 0
-  player_ready_for_battle: 0
-  player_Avatar: {fileID: 1164187664}
-  ready_Button: {fileID: 1132267700}
-  player_can_play: 0
-  enemy: {fileID: 467298935}
-  enemy_lanes: {fileID: 1376112990}
-  num_enemy_summoned_card: 0
-  enemy_ready_for_battle: 0
-  enemy_has_summoned: 0
-  enemy_Avatar: {fileID: 1986999601}
-  handStartSize: 2
-  turnNum: 1
-  battleNum: 1
-  slideSpeed: 0.3
-  passTurnSpinner: {fileID: 37614318}
-  phaseIndicator: {fileID: 2128728766}
-  EndPrompt: {fileID: 691965148}
-  dialogPrompt: {fileID: 1440235099}
-  current_turn: 1
-  next_player: 0
 --- !u!114 &282750599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -516,6 +479,8 @@ MonoBehaviour:
   player_ready_for_battle: 0
   player_Avatar: {fileID: 1164187664}
   ready_Button: {fileID: 1132267700}
+  player_free_pass: 0
+  player_can_pass: 0
   player_can_play: 0
   enemy: {fileID: 467298935}
   enemy_lanes: {fileID: 1376112990}
@@ -2743,8 +2708,8 @@ MonoBehaviour:
   maxMana: 10
   deck:
   - {fileID: 11400000, guid: 5b2533ecdc5dcc24982470bdcb59320d, type: 2}
-  - {fileID: 11400000, guid: ce5e9ad50b520af49aa1395585aa4f3f, type: 2}
-  - {fileID: 11400000, guid: 3f236d7816e073e4d92b578128abdbb0, type: 2}
+  - {fileID: 11400000, guid: 5b2533ecdc5dcc24982470bdcb59320d, type: 2}
+  - {fileID: 11400000, guid: a9aa976afa8afe648a8e64fa5edd9b3e, type: 2}
   - {fileID: 11400000, guid: 5544904aa00a44195b5403361f1c68d8, type: 2}
   - {fileID: 11400000, guid: c5d946fe1ff50ea45aacdc74adf21eaf, type: 2}
   hand: []

@@ -70,11 +70,11 @@ public class Tutorial_2_Controller : GameController
     {
         switch(battleNum) {
             case 1: 
-                dialogPrompt.Setup("Time to Learn about spells and heroes, but first play a good first card");
+                dialogPrompt.Setup("Time to Learn about Actives, but first play a good first card");
                 break;
             case 2:
                 if (turnNum == 1) {
-                    dialogPrompt.Setup("First, pass and then play your fireball");
+                    dialogPrompt.Setup("Play the Shaman and use its active");
                 }
                 break;
             case 3:

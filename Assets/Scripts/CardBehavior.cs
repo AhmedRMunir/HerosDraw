@@ -13,7 +13,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public RectTransform container;
     private Vector2 ogPosition;
     private PlayerController deck;
-    private bool summoned;
+    public bool summoned;
 
     public CardObject cardIdentity;
     public Text nameText;

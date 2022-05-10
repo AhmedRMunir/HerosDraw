@@ -67,7 +67,8 @@ public class Tutorial_1_Controller : GameController
     public override void displayDialog()
     {
         switch(battleNum) {
-            case 1: 
+            case 1:
+                player.hand[0].GetComponent<CardBehavior>().summoned = true;
                 dialogPrompt.Setup("Block the enemy card with a higher attack card");
                 break;
             case 2:

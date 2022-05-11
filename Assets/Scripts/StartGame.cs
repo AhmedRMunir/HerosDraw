@@ -22,5 +22,6 @@ public class StartGame : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         SceneManager.LoadScene("Tutorial-1");
+        //SceneManager.LoadScene("Battle");
     }
 }

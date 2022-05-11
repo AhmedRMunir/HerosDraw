@@ -18,6 +18,7 @@ public class GameController : MonoBehaviour
 
     public bool player_free_pass;
     public bool player_can_pass;
+    public bool player_has_playable_card;
 
     // animation flag
     public bool player_can_play;
@@ -143,6 +144,8 @@ public class GameController : MonoBehaviour
         if (!player_free_pass) {
             player_can_pass = false;
         }
+
+        player_has_playable_card = (get_playable_cards(1).Count != 0);
 
         if (player_ready_for_battle == false && current_turn == turn.PLAYER)
         {

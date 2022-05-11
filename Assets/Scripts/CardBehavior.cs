@@ -173,6 +173,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
                 .Join(container.DOScale(1.2f, upDuration))
                 .Play();
             summoned = true;
+            gameController.player_can_play = false;
 
             foreach (RectTransform child in spawnLocation.transform)
             {
@@ -237,6 +238,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             })
             .Play();
 
+        gameController.player_can_play = true;
         gameController.player_can_pass = true;
     }
 

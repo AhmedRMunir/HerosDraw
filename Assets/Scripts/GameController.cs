@@ -6,7 +6,7 @@ using DG.Tweening;
 
 public class GameController : MonoBehaviour
 {
-    public int battleID;
+    public int levelID;
 
     // Player
     //public Player player;
@@ -69,6 +69,7 @@ public class GameController : MonoBehaviour
         * Update Field
         */
 
+        // Get levelID from level manager
         field = new GameObject[2, Conditions.maxLanes];
         StartCoroutine("gameStart");
        
@@ -76,7 +77,7 @@ public class GameController : MonoBehaviour
 
     public virtual IEnumerator gameStart()
     {
-        StartCoroutine(LoadingController.LOGGER.LogLevelStart(battleID, "{ User entered battle }"));
+        StartCoroutine(LoadingController.LOGGER.LogLevelStart(levelID, "{ User entered battle }"));
 
         player.maxMana = 1;
         player.mana = 1;

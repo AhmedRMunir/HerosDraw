@@ -72,7 +72,7 @@ public class GameController : MonoBehaviour
 
     public virtual IEnumerator gameStart()
     {
-        StartCoroutine(LoadingController.LOGGER.LogLevelStart(1, "{ User entered battle }"));
+        StartCoroutine(LoadingController.LOGGER.LogLevelStart(3, "{ User entered battle }"));
 
         player.maxMana = 1;
         player.mana = 1;

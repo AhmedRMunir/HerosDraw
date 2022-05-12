@@ -130,11 +130,14 @@ public class GameController : MonoBehaviour
     }
     public IEnumerator playerTurn()
     {
-        if (passTurnSpinner.transform.eulerAngles.z != 0)
-        {
-            passTurnSpinner.transform.DORotate(new Vector3(0, 0, 0), 0.75f);
-            yield return new WaitForSeconds(0.75f);
-        }
+        // if (passTurnSpinner.transform.eulerAngles.z != 0)
+        // {
+        //     passTurnSpinner.transform.DORotate(new Vector3(0, 0, 0), 0.75f);
+        //     yield return new WaitForSeconds(0.75f);
+        // }
+
+        spinPassTurn();
+        yield return new WaitForSeconds(0.75f);
         
         current_turn = turn.PLAYER;
         player_has_summoned = (num_player_summoned_card == field.GetLength(1));
@@ -293,12 +296,23 @@ public class GameController : MonoBehaviour
 
     }
 
-    public IEnumerator enemyTurn() {
-        if (passTurnSpinner.transform.eulerAngles.z != 180f)
-        {
+    private void spinPassTurn() {
+        if (passTurnSpinner.transform.eulerAngles.z != 180f) {
             passTurnSpinner.transform.DORotate(new Vector3(0, 0, 180f), 0.75f);
-            yield return new WaitForSeconds(0.75f);
+        } else if (passTurnSpinner.transform.eulerAngles.z != 0) {
+            passTurnSpinner.transform.DORotate(new Vector3(0, 0, 0), 0.75f);
         }
+    }
+
+    public IEnumerator enemyTurn() {
+        // if (passTurnSpinner.transform.eulerAngles.z != 180f)
+        // {
+        //     passTurnSpinner.transform.DORotate(new Vector3(0, 0, 180f), 0.75f);
+        //     yield return new WaitForSeconds(0.75f);
+        // }
+
+        spinPassTurn();
+        yield return new WaitForSeconds(0.75f);
         
         current_turn = turn.ENEMY;
         if (num_enemy_summoned_card == enemy_lanes.transform.childCount || enemy.hand.Count == 0 || enemy_ready_for_battle) {

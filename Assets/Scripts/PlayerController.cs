@@ -28,6 +28,8 @@ public class PlayerController : MonoBehaviour
 
     private float cardWidth;
 
+    private int lowestCardMana;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -94,6 +96,19 @@ public class PlayerController : MonoBehaviour
             drawCard();
         }
         shiftHand(cardSpeed);
+    }
+
+    public int getLowestCardMana() {
+        if (hand.Count == 0) {
+            foreach (GameObject g in hand) {
+                CardBehavior card = g.GetComponent<CardBehavior>();
+                lowestCardMana = Math.Min(lowestCardMana, card.getCost());
+            }
+
+            return lowestCardMana;
+        }
+        
+        return maxMana + 1;
     }
 
 }

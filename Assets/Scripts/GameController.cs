@@ -20,6 +20,7 @@ public class GameController : MonoBehaviour
 
     public bool player_free_pass;
     public bool player_can_pass;
+    public bool player_has_playable_card;
 
     public bool player_is_summoning;
 
@@ -135,11 +136,14 @@ public class GameController : MonoBehaviour
 
     public IEnumerator playerTurn()
     {
-        if (passTurnSpinner.transform.eulerAngles.z != 0)
-        {
-            passTurnSpinner.transform.DORotate(new Vector3(0, 0, 0), 0.75f);
-            yield return new WaitForSeconds(0.75f);
-        }
+        // if (passTurnSpinner.transform.eulerAngles.z != 0)
+        // {
+        //     passTurnSpinner.transform.DORotate(new Vector3(0, 0, 0), 0.75f);
+        //     yield return new WaitForSeconds(0.75f);
+        // }
+
+        spinPassTurn(0);
+        yield return new WaitForSeconds(0.75f);
         
         current_turn = turn.PLAYER;
         player_has_summoned = (num_player_summoned_card == field.GetLength(1));
@@ -211,14 +215,11 @@ public class GameController : MonoBehaviour
         // iterate through cards on the field
         // update card values post damage
         // update player and enemy avatar health
-        //attack.Pause();
-        
 
         for (int i = 0; i < field.GetLength(1); i++) {
             Debug.Log(i);
             GameObject player_card = field[1,i];
             GameObject enemy_card = field[0,i];
-
 
             // instead of manually updating health, should make a function
             // take into consideration of card's ability, e.g. double attack
@@ -228,57 +229,15 @@ public class GameController : MonoBehaviour
             }
             else if (player_card == null && enemy_card != null)
             {
-                Sequence attack = DOTween.Sequence();
-                Transform enemyTran = enemy_card.transform.GetChild(0).GetChild(7).gameObject.transform;
-                attack.Append(enemyTran.DOMove(new Vector2(enemyTran.position.x, enemyTran.position.y + 100), 0.25f))
-                    .Join(enemyTran.DOScale(1.5f, 0.25f))
-                    .Append(enemyTran.DOMove(player_Avatar.transform.position, 0.25f))
-                    .AppendCallback(() => { updateHealth(player, -enemy_card.GetComponent<CardBehavior>().getAttack()); })
-                    .Append(enemyTran.DOMove(new Vector2(enemyTran.position.x, enemyTran.position.y), 0.4f))
-                    .Join(enemyTran.DOScale(1f, 0.4f));
-
+                attackAvatar(enemy_card, player, player_Avatar, 100);
             }
             else if (player_card != null && enemy_card == null)
             {
-                Sequence attack = DOTween.Sequence();
-                Transform playerTran = player_card.transform.GetChild(0).GetChild(7).gameObject.transform;
-                attack.Append(playerTran.DOMove(new Vector2(playerTran.position.x, playerTran.position.y - 100), 0.25f))
-                    .Join(playerTran.DOScale(1.5f, 0.25f))
-                    .Append(playerTran.DOMove(enemy_Avatar.transform.position, 0.25f))
-                    .AppendCallback(() => { updateHealth(enemy, -player_card.GetComponent<CardBehavior>().getAttack()); })
-                    .Append(playerTran.DOMove(new Vector2(playerTran.position.x, playerTran.position.y), 0.4f))
-                    .Join(playerTran.DOScale(1f, 0.4f));
-
+                attackAvatar(player_card, enemy, enemy_Avatar, -100);
             }
             else
             {
-                Sequence attack = DOTween.Sequence();
-                Transform enemyTran = enemy_card.transform.GetChild(0).GetChild(7).gameObject.transform;
-                Transform enemyHP = enemy_card.transform.GetChild(0).GetChild(6).gameObject.transform;
-                Transform playerTran = player_card.transform.GetChild(0).GetChild(7).gameObject.transform;
-                Transform playerHP = player_card.transform.GetChild(0).GetChild(6).gameObject.transform;
-                attack.Append(enemyTran.DOMove(new Vector2(enemyTran.position.x, enemyTran.position.y + 100), 0.25f))
-                    .Join(playerTran.DOMove(new Vector2(playerTran.position.x, playerTran.position.y - 100), 0.25f))
-                    .Join(enemyTran.DOScale(1.5f, 0.25f))
-                    .Join(enemyHP.DOScale(1.5f, 0.25f))
-                    .Join(playerTran.DOScale(1.5f, 0.1f))
-                    .Join(playerHP.DOScale(1.5f, 0.1f))
-                    .Append(enemyTran.DOMove(playerHP.transform.position, 0.25f))
-                    .Join(playerTran.DOMove(enemyHP.transform.position, 0.25f))
-                    .AppendCallback(() =>
-                    {
-                        player_card.GetComponent<CardBehavior>().updateStats(0, -enemy_card.GetComponent<CardBehavior>().getAttack());
-                        enemy_card.GetComponent<CardBehavior>().updateStats(0, -player_card.GetComponent<CardBehavior>().getAttack());
-                    })
-                    .Join(enemyHP.DOPunchScale(new Vector3(1.5f, 1.5f, 1.5f), 0.5f, 10, 1))
-                    .Join(playerHP.DOPunchScale(new Vector3(1.5f, 1.5f, 1.5f), 0.5f, 10, 1))
-                    .Join(enemyTran.DOMove(new Vector2(enemyTran.position.x, enemyTran.position.y), 0.4f))
-                    .Join(playerTran.DOMove(new Vector2(playerTran.position.x, playerTran.position.y), 0.4f))
-                    .Join(enemyTran.DOScale(1f, 0.4f))
-                    .Join(playerTran.DOScale(1f, 0.4f))
-                    .Append(enemyHP.DOScale(1f, 0.2f))
-                    .Join(playerHP.DOScale(1f, 0.2f));
-
+                attackPawns(player_card, enemy_card);
             }
         }
 
@@ -311,15 +270,70 @@ public class GameController : MonoBehaviour
         } else {
             StartCoroutine("newRound");
         }
+    }
 
+    public void attackAvatar(GameObject pawn, PlayerController target, GameObject targetAvatar, int animationParam) {
+        Sequence attack = DOTween.Sequence();
+        Transform pawnTran = pawn.transform.GetChild(0).GetChild(7).gameObject.transform;
+        attack.Append(pawnTran.DOMove(new Vector2(pawnTran.position.x, pawnTran.position.y + animationParam), 0.25f))
+              .Join(pawnTran.DOScale(1.5f, 0.25f))
+              .Append(pawnTran.DOMove(targetAvatar.transform.position, 0.25f))
+              .AppendCallback(() => { updateHealth(target, -pawn.GetComponent<CardBehavior>().getAttack()); })
+              .Append(pawnTran.DOMove(new Vector2(pawnTran.position.x, pawnTran.position.y), 0.4f))
+              .Join(pawnTran.DOScale(1f, 0.4f));
+    }
+
+    public void attackPawns(GameObject player_card, GameObject enemy_card) {
+         Sequence attack = DOTween.Sequence();
+                Transform enemyTran = enemy_card.transform.GetChild(0).GetChild(7).gameObject.transform;
+                Transform enemyHP = enemy_card.transform.GetChild(0).GetChild(6).gameObject.transform;
+                Transform playerTran = player_card.transform.GetChild(0).GetChild(7).gameObject.transform;
+                Transform playerHP = player_card.transform.GetChild(0).GetChild(6).gameObject.transform;
+                attack.Append(enemyTran.DOMove(new Vector2(enemyTran.position.x, enemyTran.position.y + 100), 0.25f))
+                    .Join(playerTran.DOMove(new Vector2(playerTran.position.x, playerTran.position.y - 100), 0.25f))
+                    .Join(enemyTran.DOScale(1.5f, 0.25f))
+                    .Join(enemyHP.DOScale(1.5f, 0.25f))
+                    .Join(playerTran.DOScale(1.5f, 0.1f))
+                    .Join(playerHP.DOScale(1.5f, 0.1f))
+                    .Append(enemyTran.DOMove(playerHP.transform.position, 0.25f))
+                    .Join(playerTran.DOMove(enemyHP.transform.position, 0.25f))
+                    .AppendCallback(() =>
+                    {
+                        player_card.GetComponent<CardBehavior>().updateStats(0, -enemy_card.GetComponent<CardBehavior>().getAttack());
+                        enemy_card.GetComponent<CardBehavior>().updateStats(0, -player_card.GetComponent<CardBehavior>().getAttack());
+                    })
+                    .Join(enemyHP.DOPunchScale(new Vector3(1.5f, 1.5f, 1.5f), 0.5f, 10, 1))
+                    .Join(playerHP.DOPunchScale(new Vector3(1.5f, 1.5f, 1.5f), 0.5f, 10, 1))
+                    .Join(enemyTran.DOMove(new Vector2(enemyTran.position.x, enemyTran.position.y), 0.4f))
+                    .Join(playerTran.DOMove(new Vector2(playerTran.position.x, playerTran.position.y), 0.4f))
+                    .Join(enemyTran.DOScale(1f, 0.4f))
+                    .Join(playerTran.DOScale(1f, 0.4f))
+                    .Append(enemyHP.DOScale(1f, 0.2f))
+                    .Join(playerHP.DOScale(1f, 0.2f));
+    }
+    
+
+    private void spinPassTurn(float angle) {
+        // if (passTurnSpinner.transform.eulerAngles.z != 180f) {
+        //     passTurnSpinner.transform.DORotate(new Vector3(0, 0, 180f), 0.75f);
+        // } else if (passTurnSpinner.transform.eulerAngles.z != 0) {
+        //     passTurnSpinner.transform.DORotate(new Vector3(0, 0, 0), 0.75f);
+        // }
+
+        if (passTurnSpinner.transform.eulerAngles.z != angle) {
+            passTurnSpinner.transform.DORotate(new Vector3(0, 0, angle), 0.75f);
+        }
     }
 
     public IEnumerator enemyTurn() {
-        if (passTurnSpinner.transform.eulerAngles.z != 180f)
-        {
-            passTurnSpinner.transform.DORotate(new Vector3(0, 0, 180f), 0.75f);
-            yield return new WaitForSeconds(0.75f);
-        }
+        // if (passTurnSpinner.transform.eulerAngles.z != 180f)
+        // {
+        //     passTurnSpinner.transform.DORotate(new Vector3(0, 0, 180f), 0.75f);
+        //     yield return new WaitForSeconds(0.75f);
+        // }
+
+        spinPassTurn(180f);
+        yield return new WaitForSeconds(0.75f);
         
         current_turn = turn.ENEMY;
         if (num_enemy_summoned_card == enemy_lanes.transform.childCount || enemy.hand.Count == 0 || enemy_ready_for_battle) {

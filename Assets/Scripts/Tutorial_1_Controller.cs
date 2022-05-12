@@ -70,21 +70,22 @@ public class Tutorial_1_Controller : GameController
     {
         switch(battleNum) {
             case 1:
-                player.hand[0].GetComponent<CardBehavior>().summoned = true;
+                //player.hand[0].GetComponent<CardBehavior>().summoned = true;
                 dialogPrompt.Setup("Block the enemy card with a higher attack card.");
                 break;
             case 2:
                 if (turnNum == 1) {
                     dialogPrompt.Setup("Play your weaker card into the 2nd lane and pass your summon.");
                     player_lanes.transform.GetChild(1).gameObject.SetActive(true);
-                    player.hand[0].GetComponent<CardBehavior>().summoned = false;
-                    player.hand[1].GetComponent<CardBehavior>().summoned = true;
+                    player_lanes.transform.GetChild(3).gameObject.SetActive(true);
+                    /*player.hand[0].GetComponent<CardBehavior>().summoned = false;
+                    player.hand[1].GetComponent<CardBehavior>().summoned = true;*/
                     player.hand[0].GetComponent<CardBehavior>().removeIndicators();
                 } else if (turnNum == 2)
                 {
-                    player_lanes.transform.GetChild(3).gameObject.SetActive(true);
-                    player.hand[0].GetComponent<CardBehavior>().summoned = false;
-                    player.hand[0].GetComponent<CardBehavior>().removeIndicators();
+                    //player_lanes.transform.GetChild(3).gameObject.SetActive(true);
+                    //player.hand[0].GetComponent<CardBehavior>().summoned = false;
+                    //player.hand[0].GetComponent<CardBehavior>().removeIndicators();
                     dialogPrompt.Setup("You can continue to play cards each round until you run out of mana or choose to ready for battle.");
                 }
                 break;
@@ -94,7 +95,7 @@ public class Tutorial_1_Controller : GameController
                     player_lanes.transform.GetChild(0).gameObject.SetActive(true);
                     player_lanes.transform.GetChild(4).gameObject.SetActive(true);
                     player.hand[0].GetComponent<CardBehavior>().removeIndicators();
-                    player.hand[0].GetComponent<CardBehavior>().summoned = false;
+                    //player.hand[0].GetComponent<CardBehavior>().summoned = false;
                     dialogPrompt.Setup("Some cards possess powerful passive abilities that can turn the tide of battle.");
 
                 }

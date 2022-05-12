@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     public int health;
     public int mana;
     public int maxMana;
+    public int prevMana;
+    public bool isPlayer;
 
     public List<CardObject> deck;
     public List<GameObject> hand;

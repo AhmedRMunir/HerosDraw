@@ -30,7 +30,7 @@ public class Tutorial_2_Controller : GameController
 
     public override IEnumerator gameStart()
     {
-        StartCoroutine(LoadingController.LOGGER.LogLevelStart(1, "{ User entered tutorial 2 }"));
+        StartCoroutine(LoadingController.LOGGER.LogLevelStart(2, "{ User entered tutorial 2 }"));
 
         player.maxMana = 1;
         player.mana = 1;
@@ -80,13 +80,13 @@ public class Tutorial_2_Controller : GameController
             case 2:
                 if (turnNum == 1) {
                     dialogPrompt.Setup("You're allowed one free pass per Battle. Use it!");
-                    for (int i = 0; i < player.handSize; i++)
+                    /*for (int i = 0; i < player.handSize; i++)
                     {
                         player.hand[i].GetComponent<CardBehavior>().summoned = true;
-                    }
+                    }*/
                     
                 } else if (turnNum == 2) {
-                    player.hand[player.handSize - 1].GetComponent<CardBehavior>().summoned = false;
+                    //player.hand[player.handSize - 1].GetComponent<CardBehavior>().summoned = false;
                     dialogPrompt.Setup("Play the Shaman and use its active");
                 }
                 break;

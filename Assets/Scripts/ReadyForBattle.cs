@@ -20,7 +20,7 @@ public class ReadyForBattle : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     // Update is called once per frame
     void Update()
     {
-        if (gameController.current_turn == GameController.turn.PLAYER && gameController.enemy_ready_for_battle == true && gameController.player_can_play)
+        if (gameController.current_turn == GameController.turn.PLAYER && (gameController.enemy_ready_for_battle == true || !gameController.playerHasPlayable()) && gameController.player_can_play)
         {
             highlight.SetActive(true);
         } else
@@ -58,9 +58,10 @@ public class ReadyForBattle : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (gameController.current_turn == GameController.turn.PLAYER && gameController.player_can_play)
+        if (gameController.current_turn == GameController.turn.PLAYER && gameController.player_can_play && !gameController.player_is_summoning)
         {
             LoadingController.LOGGER.LogLevelAction(51, "{ Player readied for battle }");
+            LoadingController.LOGGER.LogActionWithNoLevel(51, "{ Player readied for battle }");
 
             gameObject.GetComponent<Animator>().SetBool("isPushed", true);
             gameController.player_ready_for_battle = true;

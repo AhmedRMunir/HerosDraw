@@ -41,7 +41,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public GameObject cancelButton;
 
     private RectTransform playedCardSlot;
-    private GameController gameController;
+    public GameController gameController;
 
     private CardAbility ability;
 
@@ -162,7 +162,8 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             {
                 gameController.player_has_summoned = true;
             }
-            
+
+            gameController.player_is_summoning = true;
             // Attach to Canvas
             GameObject cancel = Instantiate(cancelButton, gameObject.transform.parent.transform.parent.transform);
             cancel.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -1080 / 2.5f);
@@ -199,6 +200,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     {
         cardback.SetActive(false);
         summoned = true;
+        gameController.player_is_summoning = false;
         deck.mana -= cost;
         
         container.SetParent(spawn);

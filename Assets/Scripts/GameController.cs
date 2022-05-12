@@ -6,6 +6,8 @@ using DG.Tweening;
 
 public class GameController : MonoBehaviour
 {
+    public int battleID;
+
     // Player
     //public Player player;
     public PlayerController player;
@@ -18,6 +20,8 @@ public class GameController : MonoBehaviour
 
     public bool player_free_pass;
     public bool player_can_pass;
+
+    public bool player_is_summoning;
 
     // animation flag
     public bool player_can_play;
@@ -72,7 +76,7 @@ public class GameController : MonoBehaviour
 
     public virtual IEnumerator gameStart()
     {
-        StartCoroutine(LoadingController.LOGGER.LogLevelStart(3, "{ User entered battle }"));
+        StartCoroutine(LoadingController.LOGGER.LogLevelStart(battleID, "{ User entered battle }"));
 
         player.maxMana = 1;
         player.mana = 1;
@@ -127,6 +131,7 @@ public class GameController : MonoBehaviour
             .AppendCallback(() => { StartCoroutine(phase); });
 
     }
+
     public IEnumerator playerTurn()
     {
         if (passTurnSpinner.transform.eulerAngles.z != 0)
@@ -144,9 +149,15 @@ public class GameController : MonoBehaviour
             player_can_pass = false;
         }
 
+        List<GameObject> playableCards = get_playable_cards(1);
+        if (!playerHasPlayable())
+        {
+            player_can_pass = false;
+        }
+
         if (player_ready_for_battle == false && current_turn == turn.PLAYER)
         {
-            if (enemy_ready_for_battle)
+            /*&if (enemy_ready_for_battle)
             {
                 player_can_play = true;
             } else
@@ -158,12 +169,24 @@ public class GameController : MonoBehaviour
                 {
                     player_can_play = true;
                 }
-            }
+            }*/
+            player_can_play = true;
         } else if (player_ready_for_battle)
         {
             StartCoroutine("enemyTurn");
         }
         
+    }
+
+    public bool playerHasPlayable()
+    {
+        List<GameObject> playableCards = get_playable_cards(1);
+        if (playableCards.Count == 0 || num_player_summoned_card == field.GetLength(1))
+        {
+            return false;
+        }
+
+        return true;
     }
 
     public virtual void displayDialog() {

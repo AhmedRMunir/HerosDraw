@@ -51,24 +51,16 @@ public class Tutorial_1_Controller : GameController
         // dialogPrompt.pressed = false;
 
         Debug.Log("AAAAH HERE");
-        Debug.Log("About to Draw hands");
-        // player.shuffle();
-        player.drawHand();
-        // enemy.shuffle();
-        enemy.drawHand();
-        Debug.Log("Drew hands");
-        // StartCoroutine(continue_start());
+        continue_start();
         Debug.Log("AAAAH There");       
     }
 
     public IEnumerator continue_start()
     {
-        Debug.Log("About to Draw hands");
         // player.shuffle();
         player.drawHand();
         // enemy.shuffle();
         enemy.drawHand();
-        Debug.Log("Drew hands");
 
         if (current_turn == turn.PLAYER) {
             next_player = turn.ENEMY;
@@ -94,7 +86,6 @@ public class Tutorial_1_Controller : GameController
     {
         switch(battleNum) {
             case 1:
-
                 List<string> promptList = new List<string>();
                 promptList.Add("Welcome to Hero's Draw.\nLet's run you through the basics!");
                 promptList.Add("Here are the players' Health");

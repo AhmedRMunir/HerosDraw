@@ -7,30 +7,36 @@ using UnityEngine.SceneManagement;
 public class EndPrompt : MonoBehaviour
 {
     public Text promptText;
+
+    public List<string> promptList;
     public string levelName;
-    public void Setup(string text) {
+    public bool pressed;
+    public void Setup(List<string> promptList) {
+
+        this.promptList = promptList; 
+        promptText.text = promptList[0];
         gameObject.SetActive(true);
-        promptText.text = text;
-        // if (win) {
-        //     promptText.text = "YOU WIN :)";
-        // } else {
-        //     promptText.text = "YOU LOSE :(";
-        // }
+        promptList.Remove(promptList[0]);
     }
 
     public void ContinueButton() {
-        if (levelName == "none") {
-            gameObject.SetActive(false);
+
+        if (promptList.Count > 0) {
+            promptText.text = promptList[0];
+            promptList.Remove(promptList[0]);
         } else {
-            SceneManager.LoadScene(levelName);
+            if (levelName == "none") {
+                gameObject.SetActive(false);
+            } else {
+                SceneManager.LoadScene(levelName);
+            }
         }
+        pressed = true;
+        Debug.Log("Button pressed is: " + pressed);        
     }
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            ContinueButton();
-        }
+        
     }
 }

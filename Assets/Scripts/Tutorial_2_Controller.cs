@@ -68,42 +68,42 @@ public class Tutorial_2_Controller : GameController
         }
     }
 
-    public override void displayDialog()
-    {
-        switch(battleNum) {
-            case 1:
-                if (turnNum == 2)
-                {
-                    dialogPrompt.Setup("Time to Learn about Actives, but first play a good first card");
-                }   
-                break;
-            case 2:
-                if (turnNum == 1) {
-                    dialogPrompt.Setup("You're allowed one free pass per Battle. Use it!");
-                    for (int i = 0; i < player.handSize; i++)
-                    {
-                        player.hand[i].GetComponent<CardBehavior>().summoned = true;
-                    }
+    // public override void displayDialog()
+    // {
+    //     switch(battleNum) {
+    //         case 1:
+    //             if (turnNum == 2)
+    //             {
+    //                 dialogPrompt.Setup("Time to Learn about Actives, but first play a good first card");
+    //             }   
+    //             break;
+    //         case 2:
+    //             if (turnNum == 1) {
+    //                 dialogPrompt.Setup("You're allowed one free pass per Battle. Use it!");
+    //                 for (int i = 0; i < player.handSize; i++)
+    //                 {
+    //                     player.hand[i].GetComponent<CardBehavior>().summoned = true;
+    //                 }
                     
-                } else if (turnNum == 2) {
-                    player.hand[player.handSize - 1].GetComponent<CardBehavior>().summoned = false;
-                    dialogPrompt.Setup("Play the Shaman and use its active");
-                }
-                break;
-            case 3:
-                if (turnNum == 2)
-                {
-                    dialogPrompt.Setup("See the game out!");
-                    for(int i = 0; i < player.handSize; i++)
-                    {
-                        player.hand[i].GetComponent<CardBehavior>().summoned = false;
-                    }
-                }
-                break;
-            default:
-                break;
-        }
-    }
+    //             } else if (turnNum == 2) {
+    //                 player.hand[player.handSize - 1].GetComponent<CardBehavior>().summoned = false;
+    //                 dialogPrompt.Setup("Play the Shaman and use its active");
+    //             }
+    //             break;
+    //         case 3:
+    //             if (turnNum == 2)
+    //             {
+    //                 dialogPrompt.Setup("See the game out!");
+    //                 for(int i = 0; i < player.handSize; i++)
+    //                 {
+    //                     player.hand[i].GetComponent<CardBehavior>().summoned = false;
+    //                 }
+    //             }
+    //             break;
+    //         default:
+    //             break;
+    //     }
+    // }
 
     // public override void enemy_play_card() {
     //     Debug.Log(battleNum + ", " + turnNum);

@@ -28,7 +28,7 @@ public class Tutorial_1_Controller : GameController
 
     public override IEnumerator gameStart()
     {
-        StartCoroutine(LoadingController.LOGGER.LogLevelStart(1, "{ User entered tutorial 1 }"));
+        // StartCoroutine(LoadingController.LOGGER.LogLevelStart(1, "{ User entered tutorial 1 }"));
 
         player.maxMana = 1;
         player.mana = 1;
@@ -41,6 +41,22 @@ public class Tutorial_1_Controller : GameController
         yield return new WaitForSeconds(0.5f);
         player.handSize = handStartSize;
         enemy.handSize = handStartSize;
+
+
+        List<string> promptList = new List<string>();
+        promptList.Add("Welcome to Hero's Draw.\nLet's run you through the basics!");
+        dialogPrompt.Setup(promptList);
+
+        yield return new WaitUntil(() => dialogPrompt.pressed);
+        // dialogPrompt.pressed = false;
+
+        Debug.Log("AAAAH HERE");
+        continue_start();
+        Debug.Log("AAAAH There");       
+    }
+
+    public IEnumerator continue_start()
+    {
         // player.shuffle();
         player.drawHand();
         // enemy.shuffle();
@@ -64,41 +80,55 @@ public class Tutorial_1_Controller : GameController
             //StartCoroutine("enemyTurn");
             StartCoroutine(indicateTurn("enemyTurn"));
         }
-    }
+    } 
 
     public override void displayDialog()
     {
         switch(battleNum) {
             case 1:
-                player.hand[0].GetComponent<CardBehavior>().summoned = true;
-                dialogPrompt.Setup("Block the enemy card with a higher attack card.");
-                break;
-            case 2:
-                if (turnNum == 1) {
-                    dialogPrompt.Setup("Play your weaker card into the 2nd lane and pass your summon.");
-                    player_lanes.transform.GetChild(1).gameObject.SetActive(true);
-                    player.hand[0].GetComponent<CardBehavior>().summoned = false;
-                    player.hand[1].GetComponent<CardBehavior>().summoned = true;
-                    player.hand[0].GetComponent<CardBehavior>().removeIndicators();
-                } else if (turnNum == 2)
-                {
-                    player_lanes.transform.GetChild(3).gameObject.SetActive(true);
-                    player.hand[0].GetComponent<CardBehavior>().summoned = false;
-                    player.hand[0].GetComponent<CardBehavior>().removeIndicators();
-                    dialogPrompt.Setup("You can continue to play cards each round until you run out of mana or choose to ready for battle.");
-                }
-                break;
-            case 3:
-                if (turnNum == 2)
-                {
-                    player_lanes.transform.GetChild(0).gameObject.SetActive(true);
-                    player_lanes.transform.GetChild(4).gameObject.SetActive(true);
-                    player.hand[0].GetComponent<CardBehavior>().removeIndicators();
-                    player.hand[0].GetComponent<CardBehavior>().summoned = false;
-                    dialogPrompt.Setup("Some cards possess powerful passive abilities that can turn the tide of battle.");
 
-                }
+                List<string> promptList = new List<string>();
+                promptList.Add("Welcome to Hero's Draw.\nLet's run you through the basics!");
+                promptList.Add("Here are the players' Health");
+                promptList.Add("If it goes down to 0 the other wins");
+                promptList.Add("Here is the mana.\nIt allows you to summon cards");
+                promptList.Add("Here are the summoning Lanes");
+                promptList.Add("Once you summon a card, it can't move");
+                promptList.Add("Try to summon a card!");
+                dialogPrompt.Setup(promptList);
+                // promptList.Add("A game consists of many battles\nEach battle consists of many summons");
+                // promptList.Add("Players take turns to summon one card at a time");
+                // promptList.Add("When both players are out of mana or are Ready to Battle\nThe cards go to battle");
+                // promptList.Add("If a card's health is reduced to 0, the card is destroyed");
+                // player.hand[0].GetComponent<CardBehavior>().summoned = true;
+                // dialogPrompt.Setup(promptList);
                 break;
+            // case 2:
+            //     if (turnNum == 1) {
+            //         dialogPrompt.Setup("Play your weaker card into the 2nd lane and pass your summon.");
+            //         player_lanes.transform.GetChild(1).gameObject.SetActive(true);
+            //         player.hand[0].GetComponent<CardBehavior>().summoned = false;
+            //         player.hand[1].GetComponent<CardBehavior>().summoned = true;
+            //         player.hand[0].GetComponent<CardBehavior>().removeIndicators();
+            //     } else if (turnNum == 2)
+            //     {
+            //         player_lanes.transform.GetChild(3).gameObject.SetActive(true);
+            //         player.hand[0].GetComponent<CardBehavior>().summoned = false;
+            //         player.hand[0].GetComponent<CardBehavior>().removeIndicators();
+            //         dialogPrompt.Setup("You can continue to play cards each round until you run out of mana or choose to ready for battle.");
+            //     }
+            //     break;
+            // case 3:
+            //     if (turnNum == 2)
+            //     {
+            //         player_lanes.transform.GetChild(0).gameObject.SetActive(true);
+            //         player_lanes.transform.GetChild(4).gameObject.SetActive(true);
+            //         player.hand[0].GetComponent<CardBehavior>().removeIndicators();
+            //         player.hand[0].GetComponent<CardBehavior>().summoned = false;
+            //         dialogPrompt.Setup("Some cards possess powerful passive abilities that can turn the tide of battle.");
+
+            //     }
+            //     break;
             default:
                 break;
         }

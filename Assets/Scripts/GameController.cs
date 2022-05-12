@@ -378,14 +378,15 @@ public class GameController : MonoBehaviour
         bool playerWin = enemy.health <= 0;
         LoadingController.LOGGER.LogLevelEnd("{ Player Won: " + playerWin + ", Number of battles: " + battleNum + " }");
 
-        if (playerWin) {
-            EndPrompt.Setup("YOU WIN :)");    
-        } else {
-            EndPrompt.Setup("YOU LOSE :(");
-        }
-        
-        // EndPrompt.Setup(playerWin);
+        List<string> promptList = new List<string>();
 
+        if (playerWin) {
+            promptList.Add("YOU WIN :)");
+        } else {
+            promptList.Add("YOU LOSE :)");
+        }
+        EndPrompt.Setup(promptList);
+        
         StopAllCoroutines();
         yield return new WaitForSeconds(1f);
     }
@@ -464,7 +465,6 @@ public class GameController : MonoBehaviour
     // Summons the given card into the given lane
     // To do: Use a player parameter to allow to use the same function for player and enemy
     protected void summon_card(int player_num, int lane, GameObject card) {
-
         if (player_num == 0) {
             enemy.hand.Remove(card);
             num_enemy_summoned_card++;

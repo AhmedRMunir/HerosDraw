@@ -51,16 +51,24 @@ public class Tutorial_1_Controller : GameController
         // dialogPrompt.pressed = false;
 
         Debug.Log("AAAAH HERE");
-        continue_start();
+        Debug.Log("About to Draw hands");
+        // player.shuffle();
+        player.drawHand();
+        // enemy.shuffle();
+        enemy.drawHand();
+        Debug.Log("Drew hands");
+        // StartCoroutine(continue_start());
         Debug.Log("AAAAH There");       
     }
 
     public IEnumerator continue_start()
     {
+        Debug.Log("About to Draw hands");
         // player.shuffle();
         player.drawHand();
         // enemy.shuffle();
         enemy.drawHand();
+        Debug.Log("Drew hands");
 
         if (current_turn == turn.PLAYER) {
             next_player = turn.ENEMY;

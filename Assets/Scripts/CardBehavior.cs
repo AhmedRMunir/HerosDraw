@@ -218,7 +218,11 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
                         abilityParams[3] = laneIndex;
                     } 
                 } else {
-                    gameController.player_has_summoned = true;
+                    if (!gameController.enemy_ready_for_battle)
+                    {
+                        gameController.player_has_summoned = true;
+                    }
+                    
                     gameController.field[1,laneIndex] = gameObject;
                     if (!cardAbility.Equals(""))
                     {

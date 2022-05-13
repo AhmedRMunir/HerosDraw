@@ -27,7 +27,7 @@ Player Deck:
 
 public class Tutorial_2_Controller : GameController
 {
-
+    public PassTurn passTurn;
     public override IEnumerator gameStart()
     {
         if (Conditions.collectingData)
@@ -45,7 +45,7 @@ public class Tutorial_2_Controller : GameController
 
 
         List<string> promptList = new List<string>();
-        promptList.Add("I see you won your first game!\nTime for another");
+        promptList.Add("I see you won your first game!\nTime for another.");
         dialogPrompt.Setup(promptList);
 
         yield return new WaitUntil(() => dialogPrompt.pressed);
@@ -83,62 +83,93 @@ public class Tutorial_2_Controller : GameController
                 if (turnNum == 2) {
                     // Strategize with weaker card
                     promptList.Add("Time to strategise, but you have to trust me.");
-                    promptList.Add("Play a knight card in a lane where the enemy doesn't have a card.");
+                    promptList.Add("Play a Knight card in a lane where the enemy doesn't have a card.");
                     dialogPrompt.Setup(promptList);
                     // TODO: Highlight lanes index 1, 2, 3, 4
                     yield return new WaitUntil(() => dialogPrompt.pressed);
                     dialogPrompt.pressed = false;
+                    player_lanes.transform.GetChild(0).gameObject.SetActive(false);
+                    ready_Button.GetComponent<ReadyForBattle>().enabled = false;
+
+                    yield return new WaitUntil(() => player_has_summoned);
+
+                    ready_Button.GetComponent<ReadyForBattle>().enabled = true;
                 }   
                 break;
             case 2:
                 if (turnNum == 1) {
-                    promptList.Add("See, it wasn't so bad. You can deal damage and take damage at the same time :)");
+                    promptList.Add("See, it wasn't so bad. You can deal damage and take damage at the same time.");
                     // Free pass
                     promptList.Add("Time for a new mechanic.");
                     promptList.Add("Each Battle, you can pass your turn one time without summoning.");
-                    promptList.Add("You can use this to counter your enemy's moves");
-                    promptList.Add("Pass your turn without playing a card, so we can see what the enemy is planning for us");
+                    promptList.Add("You can use this to counter your enemy's moves.");
+                    promptList.Add("Pass your turn without playing a card, so we can see what the enemy is planning for us.");
                     dialogPrompt.Setup(promptList);
                     // TODO: Highlight Pass Turn Button
                     yield return new WaitUntil(() => dialogPrompt.pressed);
                     dialogPrompt.pressed = false;
+                    ready_Button.GetComponent<ReadyForBattle>().enabled = false;
 
-                    // for (int i = 0; i < player.handSize; i++)
-                    // {
-                    //     player.hand[i].GetComponent<CardBehavior>().summoned = true;
-                    // }
-                    
+                    for (int i = 0; i < player.handSize; i++)
+                    {
+                        player.hand[i].GetComponent<CardBehavior>().summoned = true;
+                    }
+                    // Shaman is the 2nd card in hand.
+                    // Jank way to prevent player from interacting with the Shaman card in hand
+                    player.hand[1].GetComponent<CardBehavior>().cardIdentity.hasActiveAbility = false;
+
                 } else if (turnNum == 2) {
+                                 
+                    player.hand[1].GetComponent<CardBehavior>().summoned = false;
+                    player.hand[1].GetComponent<CardBehavior>().cardIdentity.hasActiveAbility = true;
+                    passTurn.enabled = false;
                     promptList.Add("Aha. The enemy is scared of taking more damage so we got blocked.");
                     promptList.Add("Let's carry on with our strategy and play in an open lane.");
 
                     // Active Card
-                    promptList.Add("Play the Shaman card in an open lane, then let's use it's Active Ability");
-                    // TODO: Wait on the Shaman card to be played.
-                    promptList.Add("Click on it to use it's active and increase your HP");
+                    promptList.Add("The Pawn we drew this turn has an Active Ability.");
+                    promptList.Add("Unlike Passives, Actives must be activated by the player once the Pawn has been summoned.");
+                    promptList.Add("Additionally, you can keep using Actives can be used as long as you can pay the cost.");
+                    promptList.Add("Play the Shaman card in an open lane, then let's use it's Active Ability.");
                     dialogPrompt.Setup(promptList);
                     // TODO: Highlight Shaman Card
                     yield return new WaitUntil(() => dialogPrompt.pressed);
                     dialogPrompt.pressed = false;
 
+                    yield return new WaitUntil(() => player_has_summoned);
+
+                    // TODO: Wait on the Shaman card to be played.
+                    promptList.Add("Click on it to use it's active to increase your HP at the cost of 1 Mana.");
+                    dialogPrompt.Setup(promptList);
+                    // TODO: Highlight Shaman Card
+                    yield return new WaitUntil(() => dialogPrompt.pressed);
+                    dialogPrompt.pressed = false;
+
+                    yield return new WaitUntil(() => player.mana == 0);
+
                     // Go to battle
-                    promptList.Add("Let's go to Battle");
+                    promptList.Add("Now that you're healed up a bit, let's go to Battle");
                     dialogPrompt.Setup(promptList);
                     // TODO: 
                     yield return new WaitUntil(() => dialogPrompt.pressed);
                     dialogPrompt.pressed = false;
 
-                    // player.hand[player.handSize - 1].GetComponent<CardBehavior>().summoned = false;
+                    player.hand[0].GetComponent<CardBehavior>().summoned = false;
+                    ready_Button.GetComponent<ReadyForBattle>().enabled = true;
                 }
                 break;
             case 3:
                 if (turnNum == 2)
                 {
                     // Free pass
+                    passTurn.enabled = true;
+                    player_lanes.transform.GetChild(0).gameObject.SetActive(true);
+                    player.hand[0].GetComponent<CardBehavior>().removeIndicators();
                     promptList.Add("Now that you have an advantage over the enemy\nSee the game out");
                     dialogPrompt.Setup(promptList);
                     yield return new WaitUntil(() => dialogPrompt.pressed);
                     dialogPrompt.pressed = false;
+                    
 
                     // for(int i = 0; i < player.handSize; i++)
                     // {

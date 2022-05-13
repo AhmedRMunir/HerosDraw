@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Shaman
   m_EditorClassIdentifier: 
   cardName: Shaman
-  art: {fileID: 0}
+  art: {fileID: 21300000, guid: 187580e2e1a3b54478c25796a6d3420b, type: 3}
   description: 'Active (1): Restore 1 health to player.'
   cost: 1
   attack: 1

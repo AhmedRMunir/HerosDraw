@@ -1913,6 +1913,7 @@ MonoBehaviour:
   phaseIndicator: {fileID: 6291162184804686459}
   EndPrompt: {fileID: 1252788001}
   dialogPrompt: {fileID: 1974860318}
+  ManaRegenOverlay: {fileID: 1769227806286872275, guid: 880eb63c30a944004abaa6966bff89fb, type: 3}
   current_turn: 1
   next_player: 0
 --- !u!1 &1079203499

@@ -1100,6 +1100,8 @@ MonoBehaviour:
   health: 10
   mana: 10
   maxMana: 10
+  prevMana: 0
+  isPlayer: 0
   deck:
   - {fileID: 11400000, guid: 48394346168a5434685d324ad47dcd0d, type: 2}
   - {fileID: 11400000, guid: 48394346168a5434685d324ad47dcd0d, type: 2}
@@ -1969,7 +1971,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8c2178c3cc81354183a43c20eed54d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  battleID: 0
+  levelID: 0
   player: {fileID: 1420533680}
   player_lanes: {fileID: 261869568}
   num_player_summoned_card: 0
@@ -1979,11 +1981,8 @@ MonoBehaviour:
   ready_Button: {fileID: 557738121}
   player_free_pass: 0
   player_can_pass: 0
-<<<<<<< HEAD
   player_has_playable_card: 0
-=======
   player_is_summoning: 0
->>>>>>> main
   player_can_play: 0
   enemy: {fileID: 481518284}
   enemy_lanes: {fileID: 63097066}
@@ -1999,6 +1998,7 @@ MonoBehaviour:
   phaseIndicator: {fileID: 6291162184804686459}
   EndPrompt: {fileID: 1252788001}
   dialogPrompt: {fileID: 1252788001}
+  ManaRegenOverlay: {fileID: 1769227806286872275, guid: 880eb63c30a944004abaa6966bff89fb, type: 3}
   current_turn: 1
   next_player: 0
 --- !u!4 &1079057734
@@ -2604,6 +2604,8 @@ MonoBehaviour:
   health: 10
   mana: 10
   maxMana: 10
+  prevMana: 0
+  isPlayer: 0
   deck:
   - {fileID: 11400000, guid: 3e2cbdb7e0c55cc4e92dcf7d69f94dcd, type: 2}
   - {fileID: 11400000, guid: 3e2cbdb7e0c55cc4e92dcf7d69f94dcd, type: 2}

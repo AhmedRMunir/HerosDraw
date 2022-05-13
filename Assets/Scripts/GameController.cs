@@ -51,6 +51,8 @@ public class GameController : MonoBehaviour
 
     public EndPrompt dialogPrompt;
 
+    public GameObject ManaRegenOverlay;
+
     public enum turn {
         PLAYER, ENEMY
     }
@@ -380,6 +382,7 @@ public class GameController : MonoBehaviour
 
     public IEnumerator newRound()
     {
+        Instantiate(ManaRegenOverlay, phaseIndicator.transform.parent);
         player_ready_for_battle = false;
         enemy_ready_for_battle = false;
         player.drawCard();

@@ -353,6 +353,7 @@ MonoBehaviour:
   phaseIndicator: {fileID: 2128728766}
   EndPrompt: {fileID: 691965148}
   dialogPrompt: {fileID: 1440235099}
+  ManaRegenOverlay: {fileID: 1769227806286872275, guid: 880eb63c30a944004abaa6966bff89fb, type: 3}
   current_turn: 1
   next_player: 0
   indicatorArrow: {fileID: 983455087857258273, guid: f3fd2d8969dfbbe4b83acb350b581bb5, type: 3}

@@ -49,9 +49,12 @@ public class Tutorial_1_Controller : GameController
         yield return new WaitForSeconds(0.5f);
 
         List<string> promptList = new List<string>();
-        promptList.Add("Welcome to Hero's Draw.\nLet's run you through the basics!");
+        promptList.Add("Welcome to Hero's Draw.");
+        promptList.Add("Your goal is to become the Card Hero, but first let's run you through how the battle works");
         dialogPrompt.Setup(promptList);
 
+        yield return new WaitUntil(() => dialogPrompt.pressed);
+        dialogPrompt.pressed = false;
         yield return new WaitUntil(() => dialogPrompt.pressed);
         dialogPrompt.pressed = false;
 
@@ -223,9 +226,17 @@ public class Tutorial_1_Controller : GameController
             case 2:
                 if (turnNum == 1) {
                     // GOING FIRST STRATEGY
+<<<<<<< HEAD
                     promptList.Add("After each battle, the player who makes the first move alternates.");
                     promptList.Add("The opponent went first last time, so now you will take the first turn.");
                     promptList.Add("Start by summoning the weaker Pawn to bait the opponent.");
+=======
+                    promptList.Add("Cool. First Battle went well!");
+                    promptList.Add("Let's try to win the second Battle as well!");
+                    promptList.Add("Notice, your Mana increases by 1 and replenishes every Battle!");
+                    promptList.Add("Also, the player who goes first in each battle alternates");
+                    promptList.Add("Start by playing the card with the lower health to bait the opponent");
+>>>>>>> ee1c7cee5e6862b1caabb8addb85346febfa4198
                     dialogPrompt.Setup(promptList);
                     player.hand[1].GetComponent<CardBehavior>().summoned = true;
                     player_lanes.transform.GetChild(1).gameObject.SetActive(true);

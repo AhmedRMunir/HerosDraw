@@ -184,7 +184,7 @@ GameObject:
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &112638770
 RectTransform:
   m_ObjectHideFlags: 0
@@ -326,7 +326,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a129460f1f000be4cb1e979083d6f66c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  battleID: 1
+  levelID: 0
   player: {fileID: 1443830527}
   player_lanes: {fileID: 918711454}
   num_player_summoned_card: 0
@@ -336,6 +336,7 @@ MonoBehaviour:
   ready_Button: {fileID: 1132267700}
   player_free_pass: 0
   player_can_pass: 0
+  player_has_playable_card: 0
   player_is_summoning: 0
   player_can_play: 0
   enemy: {fileID: 467298935}
@@ -354,6 +355,11 @@ MonoBehaviour:
   dialogPrompt: {fileID: 1440235099}
   current_turn: 1
   next_player: 0
+  indicatorArrow: {fileID: 983455087857258273, guid: f3fd2d8969dfbbe4b83acb350b581bb5, type: 3}
+  summonZone: {fileID: 1905622764}
+  completeCard: {fileID: 8725599466063141245, guid: c17454e7db0b04d678f044b4bc4dfc54, type: 3}
+  exampleCardIdentity: {fileID: 11400000, guid: c5d946fe1ff50ea45aacdc74adf21eaf, type: 2}
+  passTurn: {fileID: 1030023601}
 --- !u!1 &345183080
 GameObject:
   m_ObjectHideFlags: 0
@@ -1003,7 +1009,7 @@ GameObject:
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &689955516
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1035,22 +1041,6 @@ PrefabInstance:
       propertyPath: levelName
       value: Tutorial-2
       objectReference: {fileID: 0}
-    - target: {fileID: 8265639055150095213, guid: 7c754788b0965094e86d13bc33c65b00, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: d636c00bec6a90944890cbde5911e547, type: 3}
-    - target: {fileID: 8265639055150095213, guid: 7c754788b0965094e86d13bc33c65b00, type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8265639055150095213, guid: 7c754788b0965094e86d13bc33c65b00, type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8265639055150095213, guid: 7c754788b0965094e86d13bc33c65b00, type: 3}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8265639055150095214, guid: 7c754788b0965094e86d13bc33c65b00, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1081,11 +1071,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8265639055150095214, guid: 7c754788b0965094e86d13bc33c65b00, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 446.8456
+      value: 3840
       objectReference: {fileID: 0}
     - target: {fileID: 8265639055150095214, guid: 7c754788b0965094e86d13bc33c65b00, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 402.4207
+      value: 2160
       objectReference: {fileID: 0}
     - target: {fileID: 8265639055150095214, guid: 7c754788b0965094e86d13bc33c65b00, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1746,7 +1736,7 @@ GameObject:
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1121227591
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2206,7 +2196,7 @@ GameObject:
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1357552487
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2384,22 +2374,6 @@ PrefabInstance:
       propertyPath: levelName
       value: none
       objectReference: {fileID: 0}
-    - target: {fileID: 8265639055150095213, guid: 7c754788b0965094e86d13bc33c65b00, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: d636c00bec6a90944890cbde5911e547, type: 3}
-    - target: {fileID: 8265639055150095213, guid: 7c754788b0965094e86d13bc33c65b00, type: 3}
-      propertyPath: m_Color.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8265639055150095213, guid: 7c754788b0965094e86d13bc33c65b00, type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8265639055150095213, guid: 7c754788b0965094e86d13bc33c65b00, type: 3}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8265639055150095214, guid: 7c754788b0965094e86d13bc33c65b00, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2430,11 +2404,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8265639055150095214, guid: 7c754788b0965094e86d13bc33c65b00, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 446.8456
+      value: 3840
       objectReference: {fileID: 0}
     - target: {fileID: 8265639055150095214, guid: 7c754788b0965094e86d13bc33c65b00, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 402.4207
+      value: 2160
       objectReference: {fileID: 0}
     - target: {fileID: 8265639055150095214, guid: 7c754788b0965094e86d13bc33c65b00, type: 3}
       propertyPath: m_LocalPosition.x

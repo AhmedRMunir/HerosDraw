@@ -15,6 +15,7 @@ TagManager:
   - CardSlot
   - Cancel
   - Ability
+  - PlayerPiece
   layers:
   - Default
   - TransparentFX

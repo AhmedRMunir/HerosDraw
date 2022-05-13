@@ -41,7 +41,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public GameObject cancelButton;
 
     private RectTransform playedCardSlot;
-    private GameController gameController;
+    public GameController gameController;
 
     private CardAbility ability;
 
@@ -162,7 +162,8 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             {
                 gameController.player_has_summoned = true;
             }
-            
+
+            gameController.player_is_summoning = true;
             // Attach to Canvas
             GameObject cancel = Instantiate(cancelButton, gameObject.transform.parent.transform.parent.transform);
             cancel.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -1080 / 2.5f);
@@ -173,6 +174,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
                 .Join(container.DOScale(1.2f, upDuration))
                 .Play();
             summoned = true;
+            //gameController.player_can_play = false;
 
             foreach (RectTransform child in spawnLocation.transform)
             {
@@ -182,7 +184,8 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
                 }
             }
         } else if (summoned == true && isEnemy == false && gameController.current_turn == GameController.turn.PLAYER && hasUseableAbility) {
-            LoadingController.LOGGER.LogActionWithNoLevel(52, "{ Player activated: " + cardAbility + " }");
+            if (Conditions.collectingData)
+                LoadingController.LOGGER.LogActionWithNoLevel(52, "{ Player activated: " + cardAbility + " }");
             ability.activeAbility(cardAbility, abilityParams.ToArray());
         }
         
@@ -199,6 +202,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     {
         cardback.SetActive(false);
         summoned = true;
+        gameController.player_is_summoning = false;
         deck.mana -= cost;
         
         container.SetParent(spawn);
@@ -237,6 +241,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             })
             .Play();
 
+        //gameController.player_can_play = true;
         gameController.player_can_pass = true;
     }
 

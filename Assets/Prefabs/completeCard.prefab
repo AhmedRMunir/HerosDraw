@@ -976,6 +976,7 @@ MonoBehaviour:
   upAmount: 0
   upDuration: 0.3
   container: {fileID: 8725599466063141244}
+  summoned: 0
   cardIdentity: {fileID: 0}
   nameText: {fileID: 8725599464801722182}
   art: {fileID: 3177513746995046861}
@@ -986,13 +987,15 @@ MonoBehaviour:
   factionIcon: {fileID: 7886491368872331163}
   cardback: {fileID: 766646241251027339}
   highlight: {fileID: 2022498893868136511}
-  cardAbility: {fileID: 0}
-  hasActivatedAbility: 0
+  cardAbility: 
+  abilityParams: 
+  hasUseableAbility: 0
   isEnemy: 0
   spawnLocation: {fileID: 0}
   summonIndicator: {fileID: 2569273729455634803, guid: a3ab45d12ee754b96b4ad66ccda5a12e, type: 3}
   playerHandholder: {fileID: 0}
   cancelButton: {fileID: 2817569646096620774, guid: 6741731b3d52a439dbe3a55ac256549b, type: 3}
+  gameController: {fileID: 0}
 --- !u!1 &8909905145639098532
 GameObject:
   m_ObjectHideFlags: 0
@@ -1159,6 +1162,10 @@ PrefabInstance:
     - target: {fileID: 4879506056199318978, guid: d9cbe74c02046854c81b2760bb3451ac, type: 3}
       propertyPath: m_Name
       value: Highlight
+      objectReference: {fileID: 0}
+    - target: {fileID: 4879506056199318978, guid: d9cbe74c02046854c81b2760bb3451ac, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9087196714174665546, guid: d9cbe74c02046854c81b2760bb3451ac, type: 3}
       propertyPath: m_Pivot.x

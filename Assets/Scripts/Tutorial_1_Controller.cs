@@ -28,7 +28,8 @@ public class Tutorial_1_Controller : GameController
 
     public override IEnumerator gameStart()
     {
-        // StartCoroutine(LoadingController.LOGGER.LogLevelStart(1, "{ User entered tutorial 1 }"));
+        if (Conditions.collectingData)
+            StartCoroutine(LoadingController.LOGGER.LogLevelStart(1, "{ User entered tutorial 1 }"));
 
         player.maxMana = 1;
         player.mana = 1;
@@ -86,7 +87,6 @@ public class Tutorial_1_Controller : GameController
     {
         switch(battleNum) {
             case 1:
-
                 List<string> promptList = new List<string>();
                 promptList.Add("Welcome to Hero's Draw.\nLet's run you through the basics!");
                 promptList.Add("Here are the players' Health");

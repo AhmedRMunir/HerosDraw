@@ -39,95 +39,170 @@ public class Tutorial_1_Controller : GameController
         enemy.health = 3;
 
         yield return new WaitForSeconds(0.5f);
-        player.handSize = handStartSize;
-        enemy.handSize = handStartSize;
-
 
         List<string> promptList = new List<string>();
         promptList.Add("Welcome to Hero's Draw.\nLet's run you through the basics!");
         dialogPrompt.Setup(promptList);
 
         yield return new WaitUntil(() => dialogPrompt.pressed);
-        // dialogPrompt.pressed = false;
+        dialogPrompt.pressed = false;
 
-        Debug.Log("AAAAH HERE");
-        continue_start();
-        Debug.Log("AAAAH There");       
-    }
-
-    public IEnumerator continue_start()
-    {
-        // player.shuffle();
+        // Draw Hand for Player
+        player.handSize = handStartSize;
         player.drawHand();
-        // enemy.shuffle();
+
+        // Draw Hand for Enemy
+        enemy.handSize = handStartSize;
         enemy.drawHand();
 
+
+        // Declare the next player variable
         if (current_turn == turn.PLAYER) {
             next_player = turn.ENEMY;
         } else {
             next_player = turn.PLAYER;
         }
 
-        yield return new WaitForSeconds(1f);
+        // yield return new WaitForSeconds(1f);
 
+        // Start with player or enemy turn
         if (current_turn == turn.PLAYER)
         {
-            //StartCoroutine("playerTurn");
             StartCoroutine(indicateTurn("playerTurn"));
         }
         else
         {
-            //StartCoroutine("enemyTurn");
             StartCoroutine(indicateTurn("enemyTurn"));
-        }
-    } 
+        }       
+    }
 
-    public override void displayDialog()
+    public override IEnumerator displayDialog()
     {
+        List<string> promptList = new List<string>();
         switch(battleNum) {
             case 1:
-                List<string> promptList = new List<string>();
-                promptList.Add("Welcome to Hero's Draw.\nLet's run you through the basics!");
+                // HEALTH DIALOG
                 promptList.Add("Here are the players' Health");
-                promptList.Add("If it goes down to 0 the other wins");
-                promptList.Add("Here is the mana.\nIt allows you to summon cards");
-                promptList.Add("Here are the summoning Lanes");
-                promptList.Add("Once you summon a card, it can't move");
-                promptList.Add("Try to summon a card!");
                 dialogPrompt.Setup(promptList);
-                // promptList.Add("A game consists of many battles\nEach battle consists of many summons");
-                // promptList.Add("Players take turns to summon one card at a time");
-                // promptList.Add("When both players are out of mana or are Ready to Battle\nThe cards go to battle");
-                // promptList.Add("If a card's health is reduced to 0, the card is destroyed");
-                // player.hand[0].GetComponent<CardBehavior>().summoned = true;
-                // dialogPrompt.Setup(promptList);
-                break;
-            // case 2:
-            //     if (turnNum == 1) {
-            //         dialogPrompt.Setup("Play your weaker card into the 2nd lane and pass your summon.");
-            //         player_lanes.transform.GetChild(1).gameObject.SetActive(true);
-            //         player.hand[0].GetComponent<CardBehavior>().summoned = false;
-            //         player.hand[1].GetComponent<CardBehavior>().summoned = true;
-            //         player.hand[0].GetComponent<CardBehavior>().removeIndicators();
-            //     } else if (turnNum == 2)
-            //     {
-            //         player_lanes.transform.GetChild(3).gameObject.SetActive(true);
-            //         player.hand[0].GetComponent<CardBehavior>().summoned = false;
-            //         player.hand[0].GetComponent<CardBehavior>().removeIndicators();
-            //         dialogPrompt.Setup("You can continue to play cards each round until you run out of mana or choose to ready for battle.");
-            //     }
-            //     break;
-            // case 3:
-            //     if (turnNum == 2)
-            //     {
-            //         player_lanes.transform.GetChild(0).gameObject.SetActive(true);
-            //         player_lanes.transform.GetChild(4).gameObject.SetActive(true);
-            //         player.hand[0].GetComponent<CardBehavior>().removeIndicators();
-            //         player.hand[0].GetComponent<CardBehavior>().summoned = false;
-            //         dialogPrompt.Setup("Some cards possess powerful passive abilities that can turn the tide of battle.");
+                // TODO:Highlight Health
+                yield return new WaitUntil(() => dialogPrompt.pressed);
+                dialogPrompt.pressed = false;
+                promptList.Add("If it goes down to 0 the other wins");
 
-            //     }
-            //     break;
+                // MANA DIALOG
+                promptList.Add("Here is the mana.\nIt allows you to summon cards");
+                dialogPrompt.Setup(promptList);
+                // TODO: Highlight Mana
+                yield return new WaitUntil(() => dialogPrompt.pressed);
+                dialogPrompt.pressed = false;
+
+
+                // CARD DIALOG
+                promptList.Add("Click on the Highlighted card to Magnify it.");
+                dialogPrompt.Setup(promptList);
+                // TODO: Highlight the 0th index card
+                // Add a variable called card_clicked to the WaitUntil function
+                // That way we can wait on the player to click on card before we display more dialog
+                yield return new WaitUntil(() => dialogPrompt.pressed);
+                dialogPrompt.pressed = false;
+
+                // CARD MANA
+                promptList.Add("This is the Card Mana\nIt's the cost it takes to play the card");
+                // TODO: Highlight Card mana
+                dialogPrompt.Setup(promptList);
+                yield return new WaitUntil(() => dialogPrompt.pressed);
+                dialogPrompt.pressed = false;
+
+                // CARD ATTACK
+                promptList.Add("This is the Card Attack\nIt's the damage the Card can deal");
+                dialogPrompt.Setup(promptList);
+                // TODO: Highlight Card Attack
+                yield return new WaitUntil(() => dialogPrompt.pressed);
+                dialogPrompt.pressed = false;
+
+                // CARD HEALTH
+                promptList.Add("This is the Card Health\nIt's the damage the Card can take");
+                dialogPrompt.Setup(promptList);
+                // TODO: Highlight Card Health
+                yield return new WaitUntil(() => dialogPrompt.pressed);
+                dialogPrompt.pressed = false;
+
+                // CARD Faction
+                promptList.Add("This is the Card Faction\nThis is the Type of the card");
+                dialogPrompt.Setup(promptList);
+                // TODO: Highlight Card Faction
+                yield return new WaitUntil(() => dialogPrompt.pressed);
+                dialogPrompt.pressed = false;
+
+                // CARD Ability
+                promptList.Add("This is the Card Ability Section\nCan be a passive, active, or nothing");
+                dialogPrompt.Setup(promptList);
+                // TODO: Highlight Card Ability
+                yield return new WaitUntil(() => dialogPrompt.pressed);
+                dialogPrompt.pressed = false;
+
+                // LANES
+                promptList.Add("Here are the summoning Lanes");
+                promptList.Add("Once you click a card, it shows you where you can summon the card");
+                promptList.Add("Once you summon a card, it can not be moved");
+                promptList.Add("Select a lane to summon your card!");
+                dialogPrompt.Setup(promptList);
+                // TODO: Highlight Summoning Lanes
+                // Add a variable called card_summoned to the WaitUntil function
+                // That way we can wait on the player to summon a card before we display more dialog
+                yield return new WaitUntil(() => dialogPrompt.pressed);
+                dialogPrompt.pressed = false;
+                
+                // BATTLE PHASE EXPLANATION
+                promptList.Add("BATTLE PHASE EXPLANATION");
+                promptList.Add("Each battle, players take turn to summon cards.");
+                promptList.Add("A player can go to Battle if they are out of mana or cards to play");
+                promptList.Add("Or whenever they want, but be careful!");
+                promptList.Add("The other player can summon as much as their resources allow :|");
+                promptList.Add("During the Battle Phase, cards attack each other");
+                promptList.Add("If a card's health is reduced to 0, the card is destroyed");
+                promptList.Add("If a card is unopposed, it will attack the player directly depleting their health");
+                promptList.Add("Click Ready For Battle!");
+                dialogPrompt.Setup(promptList);
+                // TODO: Highlight the Ready for Battle Button
+                yield return new WaitUntil(() => dialogPrompt.pressed);
+                dialogPrompt.pressed = false;;
+                break;
+            case 2:
+                if (turnNum == 1) {
+                    // GOING FIRST STRATEGY
+                    promptList.Add("Cool. First Battle went well!");
+                    promptList.Add("Let's try to win the second Battle as well!");
+                    promptList.Add("Start by playing the card with the lower health to bait the opponent");
+                    dialogPrompt.Setup(promptList);
+                    // TODO: Highlight the 0th index card
+                    // TODO: Highlight the 1st index lane
+                    // Add a variable called card_summoned to the WaitUntil function
+                    // That way we can wait on the player to click on card before we display more dialog
+                    yield return new WaitUntil(() => dialogPrompt.pressed);
+                    dialogPrompt.pressed = false;
+
+                    // PASSING THE TURN
+                    promptList.Add("Every time you summon a card, you must pass the turn over");
+                    dialogPrompt.Setup(promptList);
+                    // TODO: Highlight the Pass Turn button
+                    yield return new WaitUntil(() => dialogPrompt.pressed);
+                    dialogPrompt.pressed = false;
+                } else if (turnNum == 2) {
+                    // CONTINUATION
+                    promptList.Add("Now play your other card and then go to Battle!");
+                    dialogPrompt.Setup(promptList);
+                    yield return new WaitUntil(() => dialogPrompt.pressed);
+                    dialogPrompt.pressed = false;
+                }
+                break;
+            case 3:
+                // PLAY THE GAME OUT
+                promptList.Add("Given what you know, strategize and win the game!");
+                dialogPrompt.Setup(promptList);
+                yield return new WaitUntil(() => dialogPrompt.pressed);
+                dialogPrompt.pressed = false;
+                break;
             default:
                 break;
         }

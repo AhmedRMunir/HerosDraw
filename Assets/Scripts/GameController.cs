@@ -139,7 +139,7 @@ public class GameController : MonoBehaviour
         player_has_summoned = (num_player_summoned_card == field.GetLength(1));
         yield return new WaitForEndOfFrame();
 
-        displayDialog();
+        StartCoroutine(displayDialog());
         if (!player_free_pass) {
             player_can_pass = false;
         }
@@ -166,8 +166,8 @@ public class GameController : MonoBehaviour
         
     }
 
-    public virtual void displayDialog() {
-        return;
+    public virtual IEnumerator displayDialog() {
+        yield return new WaitForEndOfFrame(); 
     }
 
     // Update is called once per frame
@@ -307,7 +307,6 @@ public class GameController : MonoBehaviour
 
             if (player_ready_for_battle)
             {
-                //StartCoroutine("onBattle");
                 StartCoroutine(indicateTurn("onBattle"));
             } else
             {

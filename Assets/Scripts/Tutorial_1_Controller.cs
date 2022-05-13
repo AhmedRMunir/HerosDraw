@@ -238,7 +238,6 @@ public class Tutorial_1_Controller : GameController
                     // Highlight Mana by accessing game objects in the hierarchy
                     GameObject arrow2 = Instantiate(indicatorArrow, player_Avatar.transform.parent.transform.parent.GetChild(2).transform.position, Quaternion.identity, dialogPrompt.transform);
                     
-
                     promptList.Add("The opponent went first last time, so now you will take the first turn.");
                     yield return new WaitUntil(() => dialogPrompt.pressed);
                     dialogPrompt.pressed = false;

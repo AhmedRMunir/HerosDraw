@@ -219,6 +219,7 @@ namespace cse481.logging {
 			startData.qaction_seqid = ++this.currentActionSeqInLevel;
 			startData.q_detail = details;
 			startData.q_s_id = 1;
+			startData.cid = this.categoryId;
 			startData.session_seqid = ++this.currentActionSeqInSession;
 
 			Dictionary<string, string> requestParams = PrepareParams (startData);
@@ -267,6 +268,7 @@ namespace cse481.logging {
 			endData.qaction_seqid = ++this.currentActionSeqInLevel;
 			endData.q_detail = details;
 			endData.q_s_id = 0;
+			endData.cid = this.categoryId;
 			endData.dqid = this.currentDqid;
 			endData.session_seqid = ++this.currentActionSeqInSession;
 

@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     public int health;
     public int mana;
     public int maxMana;
+    public int prevMana;
+    public bool isPlayer;
 
     public List<CardObject> deck;
     public List<GameObject> hand;
@@ -25,6 +27,8 @@ public class PlayerController : MonoBehaviour
     public GameObject handHolder;
 
     private float cardWidth;
+
+    private int lowestCardMana;
 
     // Start is called before the first frame update
     void Start()
@@ -92,6 +96,19 @@ public class PlayerController : MonoBehaviour
             drawCard();
         }
         shiftHand(cardSpeed);
+    }
+
+    public int getLowestCardMana() {
+        if (hand.Count == 0) {
+            foreach (GameObject g in hand) {
+                CardBehavior card = g.GetComponent<CardBehavior>();
+                lowestCardMana = Math.Min(lowestCardMana, card.getCost());
+            }
+
+            return lowestCardMana;
+        }
+        
+        return maxMana + 1;
     }
 
 }

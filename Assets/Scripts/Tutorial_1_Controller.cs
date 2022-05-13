@@ -34,7 +34,7 @@ public class Tutorial_1_Controller : GameController
     public override IEnumerator gameStart()
     {
         if (Conditions.collectingData)
-            StartCoroutine(LoadingController.LOGGER.LogLevelStart(1, "{ User entered tutorial 1 }"));
+            StartCoroutine(LoadingController.LOGGER.LogLevelStart(levelID, "{ User entered tutorial 1 }"));
 
         player.maxMana = 1;
         player.mana = 1;

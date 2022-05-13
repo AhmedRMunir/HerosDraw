@@ -112,7 +112,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         if (isEnemy)
         {
             highlight.SetActive(false);
-        } else if (!gameController.player_has_summoned && gameController.player_can_play && gameController.current_turn == GameController.turn.PLAYER && !summoned)
+        } else if ((!gameController.player_has_summoned || (gameController.player_has_summoned && gameController.enemy_ready_for_battle)) && gameController.player_can_play && gameController.current_turn == GameController.turn.PLAYER && !summoned)
         {
             highlight.SetActive(true);
         } else if (summoned && hasUseableAbility && cardAbility != "" && gameController.current_turn == GameController.turn.PLAYER)
@@ -155,7 +155,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (!gameController.player_has_summoned && summoned == false && gameController.current_turn == GameController.turn.PLAYER && gameController.player_can_play && isEnemy == false && deck.mana >= cost)
+        if ((!gameController.player_has_summoned || (gameController.player_has_summoned && gameController.enemy_ready_for_battle)) && summoned == false && gameController.current_turn == GameController.turn.PLAYER && gameController.player_can_play && isEnemy == false && deck.mana >= cost)
         {
             exitHover();
             /*if (gameController.enemy_ready_for_battle == false )
@@ -218,10 +218,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
                         abilityParams[3] = laneIndex;
                     } 
                 } else {
-                    if (!gameController.enemy_ready_for_battle)
-                    {
-                        gameController.player_has_summoned = true;
-                    }
+                    gameController.player_has_summoned = true;
                     
                     gameController.field[1,laneIndex] = gameObject;
                     if (!cardAbility.Equals(""))

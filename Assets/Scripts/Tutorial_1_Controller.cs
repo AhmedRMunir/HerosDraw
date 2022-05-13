@@ -42,9 +42,12 @@ public class Tutorial_1_Controller : GameController
         yield return new WaitForSeconds(0.5f);
 
         List<string> promptList = new List<string>();
-        promptList.Add("Welcome to Hero's Draw.\nLet's run you through the basics!");
+        promptList.Add("Welcome to Hero's Draw.");
+        promptList.Add("Your goal is to become the Card Hero, but first let's run you through how the battle works");
         dialogPrompt.Setup(promptList);
 
+        yield return new WaitUntil(() => dialogPrompt.pressed);
+        dialogPrompt.pressed = false;
         yield return new WaitUntil(() => dialogPrompt.pressed);
         dialogPrompt.pressed = false;
 

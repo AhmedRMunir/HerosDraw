@@ -226,17 +226,23 @@ public class Tutorial_1_Controller : GameController
             case 2:
                 if (turnNum == 1) {
                     // GOING FIRST STRATEGY
-<<<<<<< HEAD
+
                     promptList.Add("After each battle, the player who makes the first move alternates.");
+                    yield return new WaitUntil(() => dialogPrompt.pressed);
+                    dialogPrompt.pressed = false;
+                    promptList.Add("Also, notice that your max Mana increases by 1 and replenishes every Battle.");
+                    dialogPrompt.Setup(promptList);
+
+                    yield return new WaitUntil(() => dialogPrompt.pressed);
+                    dialogPrompt.pressed = false;
+                    // Highlight Mana by accessing game objects in the hierarchy
+                    GameObject arrow2 = Instantiate(indicatorArrow, player_Avatar.transform.parent.transform.parent.GetChild(2).transform.position, Quaternion.identity, dialogPrompt.transform);
+                    
                     promptList.Add("The opponent went first last time, so now you will take the first turn.");
+                    yield return new WaitUntil(() => dialogPrompt.pressed);
+                    dialogPrompt.pressed = false;
                     promptList.Add("Start by summoning the weaker Pawn to bait the opponent.");
-=======
-                    promptList.Add("Cool. First Battle went well!");
-                    promptList.Add("Let's try to win the second Battle as well!");
-                    promptList.Add("Notice, your Mana increases by 1 and replenishes every Battle!");
-                    promptList.Add("Also, the player who goes first in each battle alternates");
-                    promptList.Add("Start by playing the card with the lower health to bait the opponent");
->>>>>>> ee1c7cee5e6862b1caabb8addb85346febfa4198
+
                     dialogPrompt.Setup(promptList);
                     player.hand[1].GetComponent<CardBehavior>().summoned = true;
                     player_lanes.transform.GetChild(1).gameObject.SetActive(true);
@@ -248,6 +254,7 @@ public class Tutorial_1_Controller : GameController
                     // Highlight the 0th index card and wait for player to play it before continuing
                     yield return new WaitUntil(() => dialogPrompt.pressed);
                     dialogPrompt.pressed = false;
+                    Destroy(arrow2);
 
                     yield return new WaitUntil(() => player_has_summoned);
                     passTurn.enabled = true;

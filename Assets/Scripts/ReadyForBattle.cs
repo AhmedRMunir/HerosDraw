@@ -60,8 +60,11 @@ public class ReadyForBattle : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         if (gameController.current_turn == GameController.turn.PLAYER && gameController.player_can_play && !gameController.player_is_summoning)
         {
-            LoadingController.LOGGER.LogLevelAction(51, "{ Player readied for battle }");
-            LoadingController.LOGGER.LogActionWithNoLevel(51, "{ Player readied for battle }");
+            if (Conditions.collectingData)
+            {
+                LoadingController.LOGGER.LogLevelAction(51, "{ Player readied for battle }");
+                LoadingController.LOGGER.LogActionWithNoLevel(51, "{ Player readied for battle }");
+            }
 
             gameObject.GetComponent<Animator>().SetBool("isPushed", true);
             gameController.player_ready_for_battle = true;

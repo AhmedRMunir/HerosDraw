@@ -78,7 +78,8 @@ public class GameController : MonoBehaviour
 
     public virtual IEnumerator gameStart()
     {
-        StartCoroutine(LoadingController.LOGGER.LogLevelStart(levelID, "{ User entered battle }"));
+        if (Conditions.collectingData)
+            StartCoroutine(LoadingController.LOGGER.LogLevelStart(levelID, "{ User entered battle }"));
 
         player.maxMana = 1;
         player.mana = 1;
@@ -414,7 +415,8 @@ public class GameController : MonoBehaviour
     {
         
         bool playerWin = enemy.health <= 0;
-        LoadingController.LOGGER.LogLevelEnd("{ Player Won: " + playerWin + ", Number of battles: " + battleNum + " }");
+        if (Conditions.collectingData)
+            LoadingController.LOGGER.LogLevelEnd("{ Player Won: " + playerWin + ", Number of battles: " + battleNum + " }");
 
         if (playerWin) {
             EndPrompt.Setup("YOU WIN :)");    

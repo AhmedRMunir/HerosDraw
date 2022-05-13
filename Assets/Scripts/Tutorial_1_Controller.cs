@@ -174,6 +174,8 @@ public class Tutorial_1_Controller : GameController
                     // GOING FIRST STRATEGY
                     promptList.Add("Cool. First Battle went well!");
                     promptList.Add("Let's try to win the second Battle as well!");
+                    promptList.Add("Notice, your Mana increases by 1 and replenishes every Battle!");
+                    promptList.Add("Also, the player who goes first in each battle alternates");
                     promptList.Add("Start by playing the card with the lower health to bait the opponent");
                     dialogPrompt.Setup(promptList);
                     // TODO: Highlight the 0th index card

@@ -50,7 +50,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     {
         gameController = GameObject.FindGameObjectWithTag("Controller").GetComponent<GameController>();
         playedCardSlot = GameObject.FindGameObjectWithTag("CardSlot").GetComponent<RectTransform>();
-        summoned = false;
+        //summoned = false;
         ogPosition = cardTran.anchoredPosition;
         upAmount = container.sizeDelta.y / 2;
 
@@ -158,10 +158,10 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         if (!gameController.player_has_summoned && summoned == false && gameController.current_turn == GameController.turn.PLAYER && gameController.player_can_play && isEnemy == false && deck.mana >= cost)
         {
             exitHover();
-            if (gameController.enemy_ready_for_battle == false )
+            /*if (gameController.enemy_ready_for_battle == false )
             {
                 gameController.player_has_summoned = true;
-            }
+            }*/
 
             gameController.player_is_summoning = true;
             // Attach to Canvas
@@ -218,6 +218,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
                         abilityParams[3] = laneIndex;
                     } 
                 } else {
+                    gameController.player_has_summoned = true;
                     gameController.field[1,laneIndex] = gameObject;
                     if (!cardAbility.Equals(""))
                     {

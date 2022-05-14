@@ -19,7 +19,7 @@ public class LoadingController : MonoBehaviour
         string skey = "1af01d188ea7d9060535afa83c2c1647";
         int gameId = 202205;
         string gameName = "herosdraw";
-        int cid = 1; // Increment this by 1 for each new official release
+        int cid = 2; // Increment this by 1 for each new official release, (2 = v1.0)
         CapstoneLogger logger = new CapstoneLogger(gameId, gameName, skey, cid);
 
         string userId = logger.GenerateUuid();

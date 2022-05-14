@@ -122,6 +122,7 @@ public class GameController : MonoBehaviour
     public IEnumerator indicateTurn(string phase)
     {
         Debug.Log("Call " + phase);
+        phaseIndicator.SetActive(true);
         phaseIndicator.GetComponent<Image>().sprite = Resources.Load<Sprite>("Sprites/Phases/" + phase);
         RectTransform phaseTransform = phaseIndicator.GetComponent<RectTransform>();
         phaseTransform.anchoredPosition = new Vector2(0, Screen.height);
@@ -133,7 +134,10 @@ public class GameController : MonoBehaviour
 
         Sequence slideOut = DOTween.Sequence();
         slideOut.Append(phaseTransform.DOAnchorPos(new Vector2(0, Screen.height), slideSpeed))
-            .AppendCallback(() => { StartCoroutine(phase); });
+            .AppendCallback(() => {
+                StartCoroutine(phase);
+                phaseIndicator.SetActive(false);
+            });
 
     }
 

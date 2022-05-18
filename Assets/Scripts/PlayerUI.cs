@@ -24,11 +24,11 @@ public class PlayerUI : MonoBehaviour
         {
             if (player.prevMana != player.mana)
             {
+                player.prevMana = player.mana;
                 if (!gameController.playerHasPlayable())
                 {
                     gameController.player_can_pass = false;
-                }
-                player.prevMana = player.mana;
+                } 
             }
         }
         Mana_Text.text = player.mana + "/" + player.maxMana;

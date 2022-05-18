@@ -50,7 +50,7 @@ public class Tutorial_1_Controller : GameController
 
         List<string> promptList = new List<string>();
         promptList.Add("Welcome to Hero's Draw.");
-        promptList.Add("Your goal is to become the Card Hero, but first let's run you through how the battle works");
+        promptList.Add("Your goal is to become the Card Hero, but first let's run you through how battles work.");
         dialogPrompt.Setup(promptList);
 
         yield return new WaitUntil(() => dialogPrompt.pressed);
@@ -136,19 +136,11 @@ public class Tutorial_1_Controller : GameController
                 yield return new WaitUntil(() => dialogPrompt.pressed);
                 dialogPrompt.pressed = false;
 
-                // CARD ATTACK
-                promptList.Add("This is the Pawn's Attack.\nIt is the damage the Pawn will deal in battle.");
+                // CARD ATTACK AND HEALTH
+                promptList.Add("This is the Pawn's Attack and Health.\nPawns deal their Attack to each others' Health.\nIf a Pawn's health drops to 0 or less, it is slain.");
                 dialogPrompt.Setup(promptList);
                 // Highlight Card Attack
                 arrow.transform.position = exampleCard.GetComponent<CardBehavior>().attackValue.transform.position;
-                yield return new WaitUntil(() => dialogPrompt.pressed);
-                dialogPrompt.pressed = false;
-
-                // CARD HEALTH
-                promptList.Add("This is the Pawn's Health.\nOpposing Pawns deal their Attack to each others' Health.\nIf a Pawn's health drops to 0 or less, it is slain.");
-                dialogPrompt.Setup(promptList);
-                // Highlight Card Health
-                arrow.transform.position = exampleCard.GetComponent<CardBehavior>().healthValue.transform.position;
                 yield return new WaitUntil(() => dialogPrompt.pressed);
                 dialogPrompt.pressed = false;
 
@@ -161,7 +153,7 @@ public class Tutorial_1_Controller : GameController
                 dialogPrompt.pressed = false;
 
                 // CARD Ability
-                promptList.Add("This is the Pawn's Ability Section.\nIt can be a passive, active, or nothing.\nWe will get into each ability type later.");
+                promptList.Add("This is the Pawn's Ability Section.\nIt can be a passive, active, or nothing.");
                 dialogPrompt.Setup(promptList);
                 // TODO: Highlight Card Ability
                 arrow.transform.position = exampleCard.GetComponent<CardBehavior>().descriptionText.transform.position;
@@ -174,11 +166,7 @@ public class Tutorial_1_Controller : GameController
                 arrow.transform.position = player_lanes.transform.GetChild(0).transform.position;
                 arrow.transform.eulerAngles = new Vector3(0, 0, 0);
                 arrow.transform.localScale = new Vector2(-1, 1);
-                promptList.Add("Here are the summoning Lanes.");
-                dialogPrompt.Setup(promptList);
-                yield return new WaitUntil(() => dialogPrompt.pressed);
-                dialogPrompt.pressed = false;
-                promptList.Add("There are a maximum of 5 that your Pawns can occupy.");
+                promptList.Add("There are 5 summoning Lanes where you will summon your pawns.");
                 dialogPrompt.Setup(promptList);
                 yield return new WaitUntil(() => dialogPrompt.pressed);
                 dialogPrompt.pressed = false;
@@ -215,7 +203,6 @@ public class Tutorial_1_Controller : GameController
                 // BATTLE EXPLANATION
                 promptList.Add("Once both players are ready for battle, the battle will commence and all Pawns will fight the opposing lane.");
                 promptList.Add("However, if a card is unopposed, it will attack the player directly, depleting their health.");
-                promptList.Add("Now, click Ready For Battle!");
                 dialogPrompt.Setup(promptList);
                 // Enable the Ready for Battle Button
                 yield return new WaitUntil(() => dialogPrompt.pressed);
@@ -261,8 +248,7 @@ public class Tutorial_1_Controller : GameController
                     player.hand[0].GetComponent<CardBehavior>().summoned = false;
 
                     // PASSING THE TURN
-                    promptList.Add("If your opponent is not ready for battle, you may only summon one Pawn per turn.");
-                    promptList.Add("From here you must pass the turn over");
+                    promptList.Add("You may only summon one pawn before passing the turn to your opponent");
                     dialogPrompt.Setup(promptList);
                     // Highlight the Pass Turn button
                     yield return new WaitUntil(() => dialogPrompt.pressed);

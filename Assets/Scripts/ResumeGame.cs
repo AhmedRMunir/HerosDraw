@@ -4,9 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 public class ResumeGame : MonoBehaviour, IPointerClickHandler
 {
+    public GameObject fadeToBlack;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,7 +24,15 @@ public class ResumeGame : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        LevelManager.loadNewLevel(LevelManager.currentLevelName);
+        GameObject fade = Instantiate(fadeToBlack, transform.parent);
+        Image fadeBG = fade.GetComponent<Image>();
+        Sequence sceneTransition = DOTween.Sequence();
+        sceneTransition.Append(fadeBG.DOFade(1f, 1f))
+            .AppendCallback(() =>
+            {
+                LevelManager.loadNewLevel(LevelManager.currentLevelName);
+            });
+        
         //SceneManager.LoadScene("Tutorial-1");
         //SceneManager.LoadScene("Battle");
     }

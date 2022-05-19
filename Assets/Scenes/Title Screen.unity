@@ -376,6 +376,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61189efec83234d068c1ad508bb2c4e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fadeToBlack: {fileID: 1532795100645615760, guid: ec505494e806146739ba79aa357a59a0, type: 3}
 --- !u!1 &451208525
 GameObject:
   m_ObjectHideFlags: 0
@@ -634,6 +635,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f987a809955d540b5b324a887aba9767, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fadeToBlack: {fileID: 1532795100645615760, guid: ec505494e806146739ba79aa357a59a0, type: 3}
 --- !u!222 &902040811
 CanvasRenderer:
   m_ObjectHideFlags: 0

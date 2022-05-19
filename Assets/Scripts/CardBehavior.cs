@@ -115,7 +115,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         } else if ((!gameController.player_has_summoned || (gameController.player_has_summoned && gameController.enemy_ready_for_battle)) && gameController.player_can_play && gameController.current_turn == GameController.turn.PLAYER && !summoned)
         {
             highlight.SetActive(true);
-        } else if (summoned && hasUseableAbility && cardAbility != "" && gameController.current_turn == GameController.turn.PLAYER)
+        } else if (summoned && hasUseableAbility && cardAbility != "" && gameController.current_turn == GameController.turn.PLAYER && !gameController.player_ready_for_battle)
         {
             highlight.SetActive(true);
         } else
@@ -184,7 +184,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
                     indicatePlayableLane(child);
                 }
             }
-        } else if (summoned == true && isEnemy == false && gameController.current_turn == GameController.turn.PLAYER && hasUseableAbility) {
+        } else if (summoned == true && isEnemy == false && gameController.current_turn == GameController.turn.PLAYER && hasUseableAbility && !gameController.player_ready_for_battle) {
             if (Conditions.collectingData)
                 LoadingController.LOGGER.LogActionWithNoLevel(52, "{ Player activated: " + cardAbility + " }");
             Conditions.actionsPerLevel++;

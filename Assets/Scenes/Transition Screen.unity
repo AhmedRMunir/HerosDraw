@@ -295,6 +295,7 @@ GameObject:
   - component: {fileID: 698984343}
   - component: {fileID: 698984342}
   - component: {fileID: 698984341}
+  - component: {fileID: 698984344}
   m_Layer: 5
   m_Name: Deck Builder Button
   m_TagString: Untagged
@@ -366,7 +367,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 698984342}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 698984344}
+        m_TargetAssemblyTypeName: DeckBuilder, Assembly-CSharp
+        m_MethodName: goToDeckBuilder
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &698984342
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -405,6 +418,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 698984339}
   m_CullTransparentMesh: 1
+--- !u!114 &698984344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 698984339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc23e486b03d95c48adcd2126c3446ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deck_min: 20
+  deck_max: 40
 --- !u!1 &928240198
 GameObject:
   m_ObjectHideFlags: 0

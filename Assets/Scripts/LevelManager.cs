@@ -34,6 +34,8 @@ public static class LevelManager
     public static void saveGame()
     {
         PlayerPrefs.SetInt("LevelsCompleted", Conditions.levelsCompleted);
+        PlayerPrefs.SetInt("Wins", Conditions.wins);
+        PlayerPrefs.SetInt("Losses", Conditions.losses);
         //PlayerPrefs.SetInt("CurrentLevelID", currentLevelID);
         PlayerPrefs.SetString("CurrentLevelName", currentLevelName);
         PlayerPrefs.SetString("ClearedLevels", string.Join("/n", clearedLevels));
@@ -42,6 +44,8 @@ public static class LevelManager
     public static void loadGame()
     {
         Conditions.levelsCompleted = PlayerPrefs.GetInt("LevelsCompleted");
+        Conditions.wins = PlayerPrefs.GetInt("Wins");
+        Conditions.wins = PlayerPrefs.GetInt("Losses");
         //currentLevelID = PlayerPrefs.GetInt("CurrentLevelID");
         currentLevelName = PlayerPrefs.GetString("CurrentLevelName");
         string[] clearedLevelsData = PlayerPrefs.GetString("ClearedLevels").Split("/n");

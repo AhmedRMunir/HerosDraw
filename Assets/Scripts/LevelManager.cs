@@ -12,7 +12,10 @@ public static class LevelManager
     public static void loadNewLevel() {
         /*currentLevelName = levelName;
         SceneManager.LoadScene(levelName);*/
-        switch (Conditions.levelCompleted) {
+        switch (Conditions.levelsCompleted) {
+            case 0:
+                SceneManager.LoadScene("Tutorial-1");
+                break;
             case 1:
                 SceneManager.LoadScene("Tutorial-2");
                 break;

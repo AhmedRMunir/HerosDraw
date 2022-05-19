@@ -2728,7 +2728,7 @@ GameObject:
   - component: {fileID: 1782663239}
   - component: {fileID: 1782663238}
   m_Layer: 5
-  m_Name: Scroll View
+  m_Name: All Cards Scroll View
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2838,7 +2838,7 @@ GameObject:
   - component: {fileID: 1886184758}
   - component: {fileID: 1886184757}
   m_Layer: 5
-  m_Name: Scroll View (1)
+  m_Name: Current Deck Scroll View
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

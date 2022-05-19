@@ -8,8 +8,21 @@ public static class LevelManager
     public static int currentLevelID;
     public static List<int> clearedLevels;
 
-    public static void loadNewLevel(string levelName) {
+    public static void loadNewLevel() {
         // front end stuff here
-        SceneManager.LoadScene(levelName);
+        switch (Conditions.levelCompleted) {
+            case 1:
+                SceneManager.LoadScene("Tutorial-2");
+                break;
+            case 2:
+                SceneManager.LoadScene("Tutorial-3");
+                break;
+            // case 3:
+            //     SceneManager.LoadScene("Tutorial-3");
+            //     break;
+            default:
+                SceneManager.LoadScene("Battle");
+                break;
+        }
     }
 }

@@ -30,7 +30,7 @@ public class ResumeGame : MonoBehaviour, IPointerClickHandler
         sceneTransition.Append(fadeBG.DOFade(1f, 1f))
             .AppendCallback(() =>
             {
-                LevelManager.loadNewLevel(LevelManager.currentLevelName);
+                LevelManager.loadNewLevel();
             });
         
         //SceneManager.LoadScene("Tutorial-1");

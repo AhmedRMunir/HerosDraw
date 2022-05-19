@@ -74,8 +74,8 @@ public class GameController : MonoBehaviour
 
         // Get levelID from level manager
         field = new GameObject[2, Conditions.maxLanes];
+        Conditions.levelCompleted++;
         StartCoroutine("gameStart");
-       
     }
 
     public virtual IEnumerator gameStart()
@@ -444,8 +444,10 @@ public class GameController : MonoBehaviour
 
         if (playerWin) {
             LevelManager.clearedLevels.Add(levelID);
+            Conditions.wins++;
             promptList.Add("YOU WIN :)");
         } else {
+            Conditions.losses++;
             promptList.Add("YOU LOSE :)");
         }
         EndPrompt.Setup(promptList);

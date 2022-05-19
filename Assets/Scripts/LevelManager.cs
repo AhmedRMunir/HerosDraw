@@ -7,12 +7,25 @@ public static class LevelManager
 {
     public static int currentLevelID; // Use this when we implement the map
     public static string currentLevelName;
-    public static List<int> clearedLevels;
+    public static List<int> clearedLevels = new List<int>();
 
-    public static void loadNewLevel(string levelName) {
-        // front end stuff here
-        currentLevelName = levelName;
-        SceneManager.LoadScene(levelName);
+    public static void loadNewLevel() {
+        /*currentLevelName = levelName;
+        SceneManager.LoadScene(levelName);*/
+        switch (Conditions.levelCompleted) {
+            case 1:
+                SceneManager.LoadScene("Tutorial-2");
+                break;
+            case 2:
+                SceneManager.LoadScene("Tutorial-3");
+                break;
+            // case 3:
+            //     SceneManager.LoadScene("Tutorial-3");
+            //     break;
+            default:
+                SceneManager.LoadScene("Battle");
+                break;
+        }
     }
 
     public static void saveGame()

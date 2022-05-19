@@ -31,7 +31,7 @@ public class StartGame : MonoBehaviour, IPointerClickHandler
             .AppendCallback(() =>
             {
                 Conditions.levelsCompleted = 0;
-                LevelManager.loadNewLevel("Tutorial-1");
+                LevelManager.loadNewLevel();
             });
         //SceneManager.LoadScene("Tutorial-1");
         //SceneManager.LoadScene("Battle");

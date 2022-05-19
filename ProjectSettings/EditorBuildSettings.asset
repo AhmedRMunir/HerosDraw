@@ -9,9 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Title Screen.unity
     guid: 7297100e1713046a18f2423869a86467
   - enabled: 1
-    path: Assets/Scenes/Battle.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
     path: Assets/Scenes/Tutorial-1.unity
     guid: 1fc93950db9f1024899587e5469c7d91
   - enabled: 1
@@ -20,4 +17,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Tutorial-3.unity
     guid: e0460fec603fc4e1085e7945a0f414d6
+  - enabled: 1
+    path: Assets/Scenes/Battle.unity
+    guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/Transition Screen.unity
+    guid: 39bfc389e5c11a74ab6af73f96dd9903
+  - enabled: 1
+    path: Assets/Scenes/Deck Builder.unity
+    guid: 035731e6914287d4f9f0ddf0af8feeeb
   m_configObjects: {}

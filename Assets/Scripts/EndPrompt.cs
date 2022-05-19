@@ -36,7 +36,7 @@ public class EndPrompt : MonoBehaviour
                 sceneTransition.Append(fadeBG.DOFade(1f, 1f))
                     .AppendCallback(() =>
                     {
-                        LevelManager.loadNewLevel(levelName);
+                        LevelManager.loadNewLevel();
                         LevelManager.saveGame();
                     });
 

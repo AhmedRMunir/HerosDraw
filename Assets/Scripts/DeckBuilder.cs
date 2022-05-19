@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DeckBuilder : MonoBehaviour
 {
@@ -33,5 +34,13 @@ public class DeckBuilder : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void goToDeckBuilder() {
+        SceneManager.LoadScene("Deck Builder");
+    }
+
+    public void goToTransitionScreen() {
+        SceneManager.LoadScene("Transition Screen");
     }
 }

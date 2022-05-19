@@ -11,6 +11,9 @@ public static class LevelManager
     public static void loadNewLevel() {
         // front end stuff here
         switch (Conditions.levelCompleted) {
+            case 0:
+                SceneManager.LoadScene("Tutorial-1");
+                break;
             case 1:
                 SceneManager.LoadScene("Tutorial-2");
                 break;

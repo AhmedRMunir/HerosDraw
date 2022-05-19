@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DeckDisplayCard : MonoBehaviour
 {
+    public DeckBuilder db;
     public string cardName;
     public Sprite art;
     public string description;
@@ -13,6 +14,8 @@ public class DeckDisplayCard : MonoBehaviour
     public string faction;
     public GameObject cardAbility; // We'll probably have to write prefabs with the card ability and instantiate them on activation
     public DeckBuilder.card_type type;
+    public bool inDeck;
+    public int num;
     // Other potential stats
 
 
@@ -27,4 +30,7 @@ public class DeckDisplayCard : MonoBehaviour
     {
         
     }
+
+    public void onClick() {
+    } 
 }

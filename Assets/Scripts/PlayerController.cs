@@ -11,8 +11,6 @@ public class PlayerController : MonoBehaviour
     public int health;
     public int mana;
     public int maxMana;
-    public int prevMana;
-    public bool isPlayer;
 
     public List<CardObject> deck;
     public List<GameObject> hand;
@@ -44,6 +42,14 @@ public class PlayerController : MonoBehaviour
         {
             handSize = hand.Count;
             shiftHand(cardSpeed / 4);
+        }
+
+        if (deck.Count == 0)
+        {
+            gameObject.GetComponent<Image>().enabled = false;
+        } else
+        {
+            gameObject.GetComponent<Image>().enabled = true;
         }
     }
 

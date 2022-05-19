@@ -28,7 +28,8 @@ public class EndPrompt : MonoBehaviour
             if (levelName == "none") {
                 gameObject.SetActive(false);
             } else {
-                SceneManager.LoadScene(levelName);
+                LevelManager.loadNewLevel(levelName);
+                LevelManager.saveGame();
             }
         }
         pressed = true;

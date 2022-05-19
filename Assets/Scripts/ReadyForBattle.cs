@@ -65,6 +65,7 @@ public class ReadyForBattle : MonoBehaviour, IPointerEnterHandler, IPointerExitH
                 LoadingController.LOGGER.LogLevelAction(51, "{ Player readied for battle }");
                 LoadingController.LOGGER.LogActionWithNoLevel(51, "{ Player readied for battle }");
             }
+            Conditions.actionsPerLevel++;
 
             gameObject.GetComponent<Animator>().SetBool("isPushed", true);
             gameController.player_ready_for_battle = true;

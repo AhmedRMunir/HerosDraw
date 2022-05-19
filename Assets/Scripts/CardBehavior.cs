@@ -157,6 +157,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     {
         if ((!gameController.player_has_summoned || (gameController.player_has_summoned && gameController.enemy_ready_for_battle)) && summoned == false && gameController.current_turn == GameController.turn.PLAYER && gameController.player_can_play && isEnemy == false && deck.mana >= cost)
         {
+            Conditions.actionsPerLevel++;
             exitHover();
             /*if (gameController.enemy_ready_for_battle == false )
             {
@@ -186,6 +187,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         } else if (summoned == true && isEnemy == false && gameController.current_turn == GameController.turn.PLAYER && hasUseableAbility) {
             if (Conditions.collectingData)
                 LoadingController.LOGGER.LogActionWithNoLevel(52, "{ Player activated: " + cardAbility + " }");
+            Conditions.actionsPerLevel++;
             ability.activeAbility(cardAbility, abilityParams.ToArray());
         }
         

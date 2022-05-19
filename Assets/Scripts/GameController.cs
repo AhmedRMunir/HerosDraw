@@ -432,8 +432,10 @@ public class GameController : MonoBehaviour
         
         bool playerWin = enemy.health <= 0;
         if (Conditions.collectingData)
-            LoadingController.LOGGER.LogLevelEnd("{ Player Won: " + playerWin + ", Number of battles: " + battleNum + " }");
+            LoadingController.LOGGER.LogLevelEnd("{ Player Won: " + playerWin + ", Number of battles: " + battleNum  + ", Actions taken: " + Conditions.actionsPerLevel + " }");
 
+        Conditions.levelsCompleted++;
+        Conditions.actionsPerLevel = 0;
         List<string> promptList = new List<string>();
 
         if (playerWin) {

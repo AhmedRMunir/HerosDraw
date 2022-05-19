@@ -185,7 +185,7 @@ public class Tutorial_1_Controller : GameController
                 // That way we can wait on the player to summon a card before we display more dialog
                 yield return new WaitUntil(() => dialogPrompt.pressed);
                 dialogPrompt.pressed = false;
-                Destroy(arrow);
+                arrow.SetActive(false);
                 player_lanes.transform.GetChild(0).gameObject.SetActive(false);
                 player_lanes.transform.GetChild(1).gameObject.SetActive(false);
                 player_lanes.transform.GetChild(3).gameObject.SetActive(false);
@@ -195,10 +195,30 @@ public class Tutorial_1_Controller : GameController
                 yield return new WaitUntil(() => player_has_summoned);
 
                 // READY FOR BATTLE EXPLANATION
+                ready_Button.GetComponent<ReadyForBattle>().enabled = true;
                 promptList.Add("Congratulations! You have summoned your first Pawn!");
+                dialogPrompt.Setup(promptList);
+                yield return new WaitUntil(() => dialogPrompt.pressed);
+                dialogPrompt.pressed = false;
+
                 promptList.Add("However, you are now out of Mana and can no longer play additional cards.");
+                dialogPrompt.Setup(promptList);
+                yield return new WaitUntil(() => dialogPrompt.pressed);
+                dialogPrompt.pressed = false;
+
+                arrow.SetActive(true);
+                arrow.transform.position = ready_Button.transform.position;
+                arrow.transform.localScale = new Vector2(1, 1);
                 promptList.Add("When you are out of cards to play, your next move will be to ready for battle.");
+                dialogPrompt.Setup(promptList);
+                yield return new WaitUntil(() => dialogPrompt.pressed);
+                dialogPrompt.pressed = false;
+
                 promptList.Add("When a player readies for battle, they can no longer play any more cards.");
+                dialogPrompt.Setup(promptList);
+                yield return new WaitUntil(() => dialogPrompt.pressed);
+                dialogPrompt.pressed = false;
+                Destroy(arrow);
 
                 // BATTLE EXPLANATION
                 promptList.Add("Once both players are ready for battle, the battle will commence and all Pawns will fight the opposing lane.");
@@ -206,8 +226,7 @@ public class Tutorial_1_Controller : GameController
                 dialogPrompt.Setup(promptList);
                 // Enable the Ready for Battle Button
                 yield return new WaitUntil(() => dialogPrompt.pressed);
-                dialogPrompt.pressed = false;;
-                ready_Button.GetComponent<ReadyForBattle>().enabled = true;
+                dialogPrompt.pressed = false;
                 player.hand[0].GetComponent<CardBehavior>().summoned = false;
                 break;
             case 2:
@@ -227,6 +246,7 @@ public class Tutorial_1_Controller : GameController
                     
                     promptList.Add("The opponent went first last time, so now you will take the first turn.");
                     yield return new WaitUntil(() => dialogPrompt.pressed);
+                    arrow2.SetActive(false);
                     dialogPrompt.pressed = false;
                     promptList.Add("Start by summoning the weaker Pawn to bait the opponent.");
 
@@ -241,18 +261,20 @@ public class Tutorial_1_Controller : GameController
                     // Highlight the 0th index card and wait for player to play it before continuing
                     yield return new WaitUntil(() => dialogPrompt.pressed);
                     dialogPrompt.pressed = false;
-                    Destroy(arrow2);
 
                     yield return new WaitUntil(() => player_has_summoned);
                     passTurn.enabled = true;
                     player.hand[0].GetComponent<CardBehavior>().summoned = false;
 
                     // PASSING THE TURN
+                    arrow2.SetActive(true);
+                    arrow2.transform.position = passTurnSpinner.transform.position;
                     promptList.Add("You may only summon one pawn before passing the turn to your opponent");
                     dialogPrompt.Setup(promptList);
                     // Highlight the Pass Turn button
                     yield return new WaitUntil(() => dialogPrompt.pressed);
                     dialogPrompt.pressed = false;
+                    Destroy(arrow2);
                     
                 } else if (turnNum == 2) {
                     // CONTINUATION

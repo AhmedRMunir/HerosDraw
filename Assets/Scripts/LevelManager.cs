@@ -20,6 +20,7 @@ public static class LevelManager
         PlayerPrefs.SetInt("LevelsCompleted", Conditions.levelsCompleted);
         //PlayerPrefs.SetInt("CurrentLevelID", currentLevelID);
         PlayerPrefs.SetString("CurrentLevelName", currentLevelName);
+        PlayerPrefs.SetString("ClearedLevels", string.Join("/n", clearedLevels));
     }
 
     public static void loadGame()
@@ -27,6 +28,11 @@ public static class LevelManager
         Conditions.levelsCompleted = PlayerPrefs.GetInt("LevelsCompleted");
         //currentLevelID = PlayerPrefs.GetInt("CurrentLevelID");
         currentLevelName = PlayerPrefs.GetString("CurrentLevelName");
-        Debug.Log(Conditions.levelsCompleted + " " + currentLevelName);
+        string[] clearedLevelsData = PlayerPrefs.GetString("ClearedLevels").Split("/n");
+        for (int i = 0; i < clearedLevelsData.Length; i++)
+        {
+            clearedLevels.Add(int.Parse(clearedLevelsData[i]));
+        }
+        Debug.Log(Conditions.levelsCompleted + " " + currentLevelName + "clearedLevels");
     }
 }

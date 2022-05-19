@@ -443,6 +443,7 @@ public class GameController : MonoBehaviour
         List<string> promptList = new List<string>();
 
         if (playerWin) {
+            LevelManager.clearedLevels.Add(levelID);
             promptList.Add("YOU WIN :)");
         } else {
             promptList.Add("YOU LOSE :)");

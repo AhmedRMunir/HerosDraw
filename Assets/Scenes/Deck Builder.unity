@@ -1936,6 +1936,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc23e486b03d95c48adcd2126c3446ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  displayPrefab: {fileID: 0}
   deck_min: 20
   deck_max: 40
 --- !u!1 &1228618359
@@ -2774,9 +2775,9 @@ MonoBehaviour:
   m_Vertical: 1
   m_MovementType: 1
   m_Elasticity: 0.1
-  m_Inertia: 1
+  m_Inertia: 0
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 20
   m_Viewport: {fileID: 1135960743}
   m_HorizontalScrollbar: {fileID: 811177426}
   m_VerticalScrollbar: {fileID: 1602264209}
@@ -2884,9 +2885,9 @@ MonoBehaviour:
   m_Vertical: 1
   m_MovementType: 1
   m_Elasticity: 0.1
-  m_Inertia: 1
+  m_Inertia: 0
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 20
   m_Viewport: {fileID: 100868766}
   m_HorizontalScrollbar: {fileID: 989083519}
   m_VerticalScrollbar: {fileID: 1238317797}

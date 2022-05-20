@@ -46,7 +46,7 @@ public class DeckBuilder : MonoBehaviour
             if (deck_collection.ContainsKey(card.name)) {
                 deck_collection[card.name].num++;
             } else {
-                deck_collection.Add(card.name, new info(card, card_type.Regular, 1));
+                deck_collection.Add(card.name, new info(card, card.type, 1));
             }
         }
     }

@@ -32,5 +32,47 @@ public class DeckDisplayCard : MonoBehaviour
     }
 
     public void onClick() {
+        if (inDeck) {
+            int amount = db.deck_collection[cardName].num;
+            CardObject cardObject = db.deck_collection[cardName].card;
+            DeckBuilder.card_type cardType = db.deck_collection[cardName].type;
+
+            if (amount > 0) {
+                // reduce count in deck, increase count in collection
+                db.deck_collection[cardName].num--;
+            } else {
+                // remove entry from deck
+                db.deck_collection.Remove(cardName);
+            }
+
+            if (db.card_collection.ContainsKey(cardName)) {
+                // collection already has this card, increase count
+                db.card_collection[cardName].num++;
+            } else {
+                // collection does not have this card, make a new entry
+                db.card_collection.Add(cardName, new DeckBuilder.info(cardObject, cardType, 1));
+            }
+
+        } else {
+            int amount = db.card_collection[cardName].num;
+            CardObject cardObject = db.card_collection[cardName].card;
+            DeckBuilder.card_type cardType = db.card_collection[cardName].type;
+
+            if (amount > 0) {
+                // reduce count in collection
+                db.card_collection[cardName].num--;
+            } else {
+                // remove entry from deck
+                db.card_collection.Remove(cardName);
+            }
+
+            if (db.deck_collection.ContainsKey(cardName)) {
+                // deck already has this card, increase count
+                db.deck_collection[cardName].num++;
+            } else {
+                // deck does not have this card, make a new entry
+                db.deck_collection.Add(cardName, new DeckBuilder.info(cardObject, cardType, 1));
+            }
+        }
     } 
 }

@@ -15,7 +15,10 @@ public class TransitionManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-                
+        if (Conditions.collectingData)
+        {
+            LoadingController.LOGGER.LogActionWithNoLevel(55, "{ Player stats: levels completed: " + Conditions.levelsCompleted + ", wins: " + Conditions.wins + ", losses: " + Conditions.losses + " }");
+        }  
     }
 
     // Update is called once per frame

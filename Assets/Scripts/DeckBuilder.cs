@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class DeckBuilder : MonoBehaviour
 {
-    public class info {
+    /*public class info {
         public CardObject card;
         public card_type type;
         public int num;
@@ -18,10 +18,10 @@ public class DeckBuilder : MonoBehaviour
     }
 
     // a hashtable for the player's current deck
-    public Dictionary<string, info> deck_collection;
+    public Dictionary<string, info> deck_collection = new Dictionary<string, info>();
 
     // a hashtable for the player's complete collection of cards
-    public Dictionary<string, info> card_collection;
+    public Dictionary<string, info> card_collection = new Dictionary<string, info>();
 
     public GameObject displayPrefab;
 
@@ -31,7 +31,7 @@ public class DeckBuilder : MonoBehaviour
         Regular = 5,
         Rare = 3,
         Champion = 1
-    }
+    }*/
 
     // min size of the deck; can't go lower
     public int deck_min = 20;
@@ -43,10 +43,10 @@ public class DeckBuilder : MonoBehaviour
     void Start()
     {
         foreach (CardObject card in Conditions.deck) {
-            if (deck_collection.ContainsKey(card.name)) {
-                deck_collection[card.name].num++;
+            if (Conditions.deck_collection.ContainsKey(card.name)) {
+                Conditions.deck_collection[card.name].num++;
             } else {
-                deck_collection.Add(card.name, new info(card, card_type.Regular, 1));
+                Conditions.deck_collection.Add(card.name, new Conditions.info(card, Conditions.card_type.Regular, 1));
             }
         }
     }
@@ -70,23 +70,25 @@ public class DeckBuilder : MonoBehaviour
     {
         string deckString = "";
         string collectionString = "";
-        foreach (KeyValuePair<string, info> cardInfo in deck_collection)
+        foreach (KeyValuePair<string, Conditions.info> cardInfo in Conditions.deck_collection)
         {
             string cardName = cardInfo.Key;
             int quantity = cardInfo.Value.num;
             // card_type cannot be properly saved and loaded, will need to be replaced.
-            card_type type = cardInfo.Value.type;
+            int type = (int)cardInfo.Value.type;
             // Each card entry will be its name and how many are in the deck.
             deckString += (cardName + ":" + type + ":" + quantity + "\n");
         }
-        foreach (KeyValuePair<string, info> cardInfo in card_collection)
+        foreach (KeyValuePair<string, Conditions.info> cardInfo in Conditions.card_collection)
         {
             string cardName = cardInfo.Key;
             int cardQuantity = cardInfo.Value.num;
-            card_type type = cardInfo.Value.type;
+            int type = (int)cardInfo.Value.type;
             // Each card entry will be its name and how many are in the collection.
             collectionString += (cardName + ":" + type + ":" + cardQuantity + "\n");
         }
+        Debug.Log("Deck save string: " + deckString);
+        Debug.Log("Collection save string: " + collectionString);
         PlayerPrefs.SetString("PlayerDeck", deckString);
         PlayerPrefs.SetString("PlayerCollection", collectionString);
     }
@@ -103,7 +105,7 @@ public class DeckBuilder : MonoBehaviour
             int cardQuantity = int.Parse(cardValues[2]);
             CardObject card = Resources.Load<CardObject>("Cards/" + cardName);
             // Replace card type with a string probably.
-            deck_collection.Add(cardName, new info(card, card_type.Regular, cardQuantity));
+            Conditions.deck_collection.Add(cardName, new Conditions.info(card, Conditions.card_type.Regular, cardQuantity));
         }
 
         string collectionString = PlayerPrefs.GetString("PlayerCollection");
@@ -116,13 +118,13 @@ public class DeckBuilder : MonoBehaviour
             int cardQuantity = int.Parse(cardValues[2]);
             CardObject card = Resources.Load<CardObject>("Cards/" + cardName);
             // Replace card type with a string probably.
-            card_collection.Add(cardName, new info(card, card_type.Regular, cardQuantity));
+            Conditions.card_collection.Add(cardName, new Conditions.info(card, Conditions.card_type.Regular, cardQuantity));
         }
 
         // Import deck_collection into the static deck variable.
-        foreach (KeyValuePair<string, info> cardInfo in deck_collection)
+        foreach (KeyValuePair<string, Conditions.info> cardInfo in Conditions.deck_collection)
         {
-            info currentInfo = cardInfo.Value;
+            Conditions.info currentInfo = cardInfo.Value;
             for (int i = 0; i < currentInfo.num; i++)
             {
                 Conditions.deck.Add(currentInfo.card);

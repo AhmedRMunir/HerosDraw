@@ -1138,6 +1138,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1103513284}
     m_Modifications:
+    - target: {fileID: 8265639055070815217, guid: 7c754788b0965094e86d13bc33c65b00, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8265639055150095211, guid: 7c754788b0965094e86d13bc33c65b00, type: 3}
       propertyPath: levelName
       value: Transition Screen

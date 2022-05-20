@@ -19,10 +19,10 @@ public class DeckBuilder : MonoBehaviour
     }
 
     // a hashtable for the player's current deck
-    public Dictionary<string, info> deck_collection;
+    public Dictionary<string, info> deck_collection = new Dictionary<string, info>();
 
     // a hashtable for the player's complete collection of cards
-    public Dictionary<string, info> card_collection;
+    public Dictionary<string, info> card_collection = new Dictionary<string, info>();
 
     public GameObject displayPrefab;
 
@@ -37,16 +37,50 @@ public class DeckBuilder : MonoBehaviour
     public Text deckSizeText;
     public Canvas canvas;
 
+    public List<CardObject> testDeck;
+
     // Start is called before the first frame update
     void Start()
     {
-        foreach (CardObject card in Conditions.deck) {
+        // foreach (CardObject card in Conditions.deck) {
+        //     if (deck_collection.ContainsKey(card.name)) {
+        //         deck_collection[card.name].num++;
+        //     } else {
+        //         deck_collection.Add(card.name, new info(card, card.type, 1));
+        //     }
+        // }
+
+        foreach (CardObject card in testDeck) {
             if (deck_collection.ContainsKey(card.name)) {
                 deck_collection[card.name].num++;
             } else {
                 deck_collection.Add(card.name, new info(card, card.type, 1));
             }
         }
+
+        int i = 0;
+        foreach (KeyValuePair<string, info> cardInfo in deck_collection) {
+            GameObject displayedCard = displayDeckCard(cardInfo);
+            displayedCard.transform.SetParent(deckWindow.transform);
+            float cardHeight = displayedCard.GetComponent<RectTransform>().sizeDelta.y;
+            Debug.Log(cardHeight);
+            Vector2 position = new Vector2(0, (- 0.5f * cardHeight) - (i * cardHeight));
+            Debug.Log(position);
+            displayedCard.GetComponent<RectTransform>().anchoredPosition = position;
+            i++;
+        }
+
+        foreach (KeyValuePair<string, info> cardInfo in card_collection) {
+            GameObject displayedCard = displayCollectionCard(cardInfo);
+            displayedCard.transform.SetParent(collectionWindow.transform);
+            float cardHeight = displayedCard.GetComponent<RectTransform>().sizeDelta.y;
+            Debug.Log(cardHeight);
+            Vector2 position = new Vector2(0, (- 0.5f * cardHeight) - (i * cardHeight));
+            Debug.Log(position);
+            displayedCard.GetComponent<RectTransform>().anchoredPosition = position;
+            i++;
+        }
+
     }
 
     // Update is called once per frame
@@ -55,7 +89,7 @@ public class DeckBuilder : MonoBehaviour
         
     }
 
-    public void displayDeckCard(KeyValuePair<string, info> cardInfo) {
+    public GameObject displayDeckCard(KeyValuePair<string, info> cardInfo) {
         GameObject displayedCard = Instantiate(displayPrefab, canvas.transform);
         DeckDisplayCard displayInfo = displayedCard.GetComponent<DeckDisplayCard>();
         displayInfo.cardName = cardInfo.Key;
@@ -66,9 +100,12 @@ public class DeckBuilder : MonoBehaviour
         displayInfo.type = cardInfo.Value.card.type;
         displayInfo.inDeck = true;
         displayInfo.num = cardInfo.Value.num;
+        displayInfo.card = cardInfo.Value.card;
+
+        return displayedCard;
     }
 
-    public void displayCollectionCard(KeyValuePair<string, info> cardInfo) {
+    public GameObject displayCollectionCard(KeyValuePair<string, info> cardInfo) {
         GameObject displayedCard = Instantiate(displayPrefab, canvas.transform);
         DeckDisplayCard displayInfo = displayedCard.GetComponent<DeckDisplayCard>();
         displayInfo.cardName = cardInfo.Key;
@@ -79,6 +116,8 @@ public class DeckBuilder : MonoBehaviour
         displayInfo.type = cardInfo.Value.card.type;
         displayInfo.inDeck = false;
         displayInfo.num = cardInfo.Value.num;
+        displayInfo.card = cardInfo.Value.card;
+        return displayedCard;
     }
 
     public void goToDeckBuilder() {

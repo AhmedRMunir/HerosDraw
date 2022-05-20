@@ -40,4 +40,81 @@ public static class Conditions
     public static int RARE = 3;
     public static int CHAMPION = 1;
 
+    // Save deck collection and card collection. PlayerPrefs can only save strings, bools, and ints, so we need to convert the deck/collecton data into a string we can parse in loading.
+    public static void saveCards()
+    {
+        string deckString = "";
+        string collectionString = "";
+        foreach (KeyValuePair<string, info> cardInfo in deck_collection)
+        {
+            string cardName = cardInfo.Key;
+            int quantity = cardInfo.Value.num;
+            // card_type cannot be properly saved and loaded, will need to be replaced.
+            int type = cardInfo.Value.type;
+            // Each card entry will be its name and how many are in the deck.
+            deckString += (cardName + ":" + type + ":" + quantity + "\n");
+        }
+        foreach (KeyValuePair<string, info> cardInfo in card_collection)
+        {
+            string cardName = cardInfo.Key;
+            int cardQuantity = cardInfo.Value.num;
+            int type = cardInfo.Value.type;
+            // Each card entry will be its name and how many are in the collection.
+            collectionString += (cardName + ":" + type + ":" + cardQuantity + "\n");
+        }
+        Debug.Log("Deck save string: " + deckString);
+        Debug.Log("Collection save string: " + collectionString);
+        PlayerPrefs.SetString("PlayerDeck", deckString);
+        PlayerPrefs.SetString("PlayerCollection", collectionString);
+    }
+
+    public static void loadCards()
+    {
+        string deckString = PlayerPrefs.GetString("PlayerDeck");
+        string[] cardData = deckString.Split("\n");
+        Debug.Log(cardData[0]);
+        foreach (string cardInfo in cardData)
+        {
+            string[] cardValues = cardInfo.Split(":");
+            if (cardValues.Length > 1)
+            {
+                Debug.Log(cardValues[0]);
+                Debug.Log(cardValues[1]);
+                Debug.Log(cardValues[2]);
+                string cardName = cardValues[0];
+                string type = cardValues[1];
+                int cardQuantity = int.Parse(cardValues[2]);
+                CardObject card = Resources.Load<CardObject>("Cards/" + cardName);
+                // Replace card type with a string probably.
+                deck_collection.Add(cardName, new info(card, REGULAR, cardQuantity));
+            }
+        }
+
+        string collectionString = PlayerPrefs.GetString("PlayerCollection");
+        cardData = collectionString.Split("\n");
+        foreach (string cardInfo in cardData)
+        {
+            string[] cardValues = cardInfo.Split(":");
+            if (cardValues.Length > 1)
+            {
+                string cardName = cardValues[0];
+                string type = cardValues[1];
+                int cardQuantity = int.Parse(cardValues[2]);
+                CardObject card = Resources.Load<CardObject>("Cards/" + cardName);
+                // Replace card type with a string probably.
+                card_collection.Add(cardName, new info(card, REGULAR, cardQuantity));
+            }
+        }
+
+        // Import deck_collection into the static deck variable.
+        foreach (KeyValuePair<string, info> cardInfo in deck_collection)
+        {
+            info currentInfo = cardInfo.Value;
+            for (int i = 0; i < currentInfo.num; i++)
+            {
+                deck.Add(currentInfo.card);
+            }
+        }
+        Debug.Log(deck);
+    }
 }

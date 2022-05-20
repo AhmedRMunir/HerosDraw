@@ -1697,6 +1697,7 @@ MonoBehaviour:
   collectionWindow: {fileID: 0}
   deckSizeText: {fileID: 0}
   canvas: {fileID: 0}
+  testDeck: []
 --- !u!1 &1228618359
 GameObject:
   m_ObjectHideFlags: 0
@@ -1896,7 +1897,12 @@ MonoBehaviour:
   deckWindow: {fileID: 1328365550}
   collectionWindow: {fileID: 1228618359}
   deckSizeText: {fileID: 861175578}
-  canvas: {fileID: 0}
+  canvas: {fileID: 2024606117}
+  testDeck:
+  - {fileID: 11400000, guid: e2ab8a7e63b0e2c459340b5676a6282f, type: 2}
+  - {fileID: 11400000, guid: 5544904aa00a44195b5403361f1c68d8, type: 2}
+  - {fileID: 11400000, guid: 9f3c8d2c911547c49b392db11cec5464, type: 2}
+  - {fileID: 11400000, guid: 9f3c8d2c911547c49b392db11cec5464, type: 2}
 --- !u!4 &1248076206
 Transform:
   m_ObjectHideFlags: 0

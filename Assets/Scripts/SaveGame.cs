@@ -22,6 +22,6 @@ public class SaveGame : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         LevelManager.saveGame();
-        deckBuilder.saveCards();
+        Conditions.saveCards();
     }
 }

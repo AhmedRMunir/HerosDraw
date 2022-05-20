@@ -10,6 +10,7 @@ public class TitleScreen : MonoBehaviour
     void Start()
     {
         LevelManager.loadGame();
+        Conditions.loadCards();
     }
 
     // Update is called once per frame

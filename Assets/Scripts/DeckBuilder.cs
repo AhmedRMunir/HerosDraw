@@ -24,13 +24,16 @@ public class DeckBuilder : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        foreach (CardObject card in Conditions.deck) {
+        Conditions.deck = new List<CardObject>(testDeck); // remove when done testing
+
+        /* 
+        foreach (CardObject card in Conditions.deck) { 
             if (Conditions.deck_collection.ContainsKey(card.name)) {
                 Conditions.deck_collection[card.name].num++;
             } else {
                 Conditions.deck_collection.Add(card.name, new Conditions.info(card, Conditions.REGULAR, 1));
             }
-        }
+        }*/
 
         int i = 0;
         foreach (KeyValuePair<string, Conditions.info> cardInfo in Conditions.deck_collection) {
@@ -102,70 +105,4 @@ public class DeckBuilder : MonoBehaviour
         SceneManager.LoadScene("Transition Screen");
     }
 
-    // Save deck collection and card collection. PlayerPrefs can only save strings, bools, and ints, so we need to convert the deck/collecton data into a string we can parse in loading.
-    public void saveCards()
-    {
-        string deckString = "";
-        string collectionString = "";
-        foreach (KeyValuePair<string, Conditions.info> cardInfo in Conditions.deck_collection)
-        {
-            string cardName = cardInfo.Key;
-            int quantity = cardInfo.Value.num;
-            // card_type cannot be properly saved and loaded, will need to be replaced.
-            int type = cardInfo.Value.type;
-            // Each card entry will be its name and how many are in the deck.
-            deckString += (cardName + ":" + type + ":" + quantity + "\n");
-        }
-        foreach (KeyValuePair<string, Conditions.info> cardInfo in Conditions.card_collection)
-        {
-            string cardName = cardInfo.Key;
-            int cardQuantity = cardInfo.Value.num;
-            int type = cardInfo.Value.type;
-            // Each card entry will be its name and how many are in the collection.
-            collectionString += (cardName + ":" + type + ":" + cardQuantity + "\n");
-        }
-        Debug.Log("Deck save string: " + deckString);
-        Debug.Log("Collection save string: " + collectionString);
-        PlayerPrefs.SetString("PlayerDeck", deckString);
-        PlayerPrefs.SetString("PlayerCollection", collectionString);
-    }
-
-    public void loadCards()
-    {
-        string deckString = PlayerPrefs.GetString("PlayerDeck");
-        string[] cardData = deckString.Split("\n");
-        foreach (string cardInfo in cardData)
-        {
-            string[] cardValues = cardInfo.Split(":");
-            string cardName = cardValues[0];
-            string type = cardValues[1];
-            int cardQuantity = int.Parse(cardValues[2]);
-            CardObject card = Resources.Load<CardObject>("Cards/" + cardName);
-            // Replace card type with a string probably.
-            Conditions.deck_collection.Add(cardName, new Conditions.info(card, Conditions.REGULAR, cardQuantity));
-        }
-
-        string collectionString = PlayerPrefs.GetString("PlayerCollection");
-        cardData = collectionString.Split("\n");
-        foreach (string cardInfo in cardData)
-        {
-            string[] cardValues = cardInfo.Split(":");
-            string cardName = cardValues[0];
-            string type = cardValues[1];
-            int cardQuantity = int.Parse(cardValues[2]);
-            CardObject card = Resources.Load<CardObject>("Cards/" + cardName);
-            // Replace card type with a string probably.
-            Conditions.card_collection.Add(cardName, new Conditions.info(card, Conditions.REGULAR, cardQuantity));
-        }
-
-        // Import deck_collection into the static deck variable.
-        foreach (KeyValuePair<string, Conditions.info> cardInfo in Conditions.deck_collection)
-        {
-            Conditions.info currentInfo = cardInfo.Value;
-            for (int i = 0; i < currentInfo.num; i++)
-            {
-                Conditions.deck.Add(currentInfo.card);
-            }
-        }
-    }
 }

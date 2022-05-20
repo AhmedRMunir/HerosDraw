@@ -504,7 +504,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 698984344}
-        m_TargetAssemblyTypeName: DeckBuilder, Assembly-CSharp
+        m_TargetAssemblyTypeName: GoToDeckBuilder, Assembly-CSharp
         m_MethodName: goToDeckBuilder
         m_Mode: 1
         m_Arguments:
@@ -562,17 +562,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 698984339}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc23e486b03d95c48adcd2126c3446ad, type: 3}
+  m_Script: {fileID: 11500000, guid: ef951d0987f83a94fb21f78c244b67c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayPrefab: {fileID: 0}
-  deck_min: 20
-  deck_max: 40
-  deckWindow: {fileID: 0}
-  collectionWindow: {fileID: 0}
-  deckSizeText: {fileID: 0}
-  canvas: {fileID: 1017727561}
-  testDeck: []
 --- !u!1 &928240198
 GameObject:
   m_ObjectHideFlags: 0
@@ -797,7 +789,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 975556974}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59477ca50760fec4da29869e8f76d71e, type: 3}
+  m_Script: {fileID: 11500000, guid: bc314b152250c7346876b76208dbc0ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1017727558
@@ -923,7 +915,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1033523172
 RectTransform:
   m_ObjectHideFlags: 0
@@ -954,10 +946,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1033523171}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1175235f2d1cb43d3b20106c8ebc2934, type: 3}
+  m_Script: {fileID: 11500000, guid: 46be8dc83c12db5499ea77867a38bd95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deckBuilder: {fileID: 698984344}
+  deckBuilder: {fileID: 0}
 --- !u!114 &1033523174
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1127,7 +1119,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1450612556}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7706f3e17aee364fbd89d037e109598, type: 3}
+  m_Script: {fileID: 11500000, guid: ca456507669e32f449273937e4b92488, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   levelCompleted: {fileID: 1308236581}

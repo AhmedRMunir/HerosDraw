@@ -26,6 +26,15 @@ public class EnemyDeckController : PlayerController
             handSize = hand.Count;
             shiftHand(cardSpeed / 4);
         }
+
+        if (deck.Count == 0)
+        {
+            gameObject.GetComponent<Image>().enabled = false;
+        }
+        else
+        {
+            gameObject.GetComponent<Image>().enabled = true;
+        }
     }
 
     public override void shiftCard(RectTransform rt, int i, float cardSpeed)

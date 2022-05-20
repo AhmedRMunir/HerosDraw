@@ -18,6 +18,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public CardObject cardIdentity;
     public Text nameText;
     public Image art;
+    public Image cardBG;
     public Text descriptionText;
     public Text costValue;
     public Text healthValue;
@@ -29,10 +30,12 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public string cardAbility;
     public List<int> abilityParams;
     public bool hasUseableAbility;
+    public string cardType;
 
     private int attackPoints;
     private int healthPoints;
     private int cost;
+    private int faction;
 
     public bool isEnemy;
     public GameObject spawnLocation;
@@ -77,21 +80,40 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         attackValue.text = "" + attackPoints;
         healthValue.text = "" + healthPoints;
         cardAbility = cardIdentity.cardAbility;
+        cardType = cardIdentity.cardType;
         abilityParams = new List<int>(cardIdentity.abilityParams);
         ability = GameObject.FindGameObjectWithTag("Ability").GetComponent<CardAbility>();
         hasUseableAbility = false;
 
-        // Update faction icon based on value of faction string
+        // Update faction icon based on value of faction string, faction ids: 0 = knight, 1 = mage, 2 = vampire
         if (cardIdentity.faction == "Knight")
         {
+            faction = 0;
             factionIcon.sprite = Resources.Load<Sprite>("Sprites/Knight");
         } else if (cardIdentity.faction == "Mage")
         {
+            faction = 1;
             factionIcon.sprite = Resources.Load<Sprite>("Sprites/Mage");
         } else if (cardIdentity.faction == "Vampire") {
+            faction = 2;
             factionIcon.sprite = Resources.Load<Sprite>("Sprites/Vampire");
         } else // Maybe if we wanna have factionless cards
         {
+        }
+
+        // Special graphics for hero and spell cards
+        if (cardType == "Hero")
+        {
+            cardBG.sprite = Resources.Load<Sprite>("Sprites/HeroCard");
+        } else if (cardType == "Spell")
+        {
+
+        } 
+
+        if (nameText.text.Length > 10
+            )
+        {
+            nameText.fontSize = 13;
         }
 
     }
@@ -115,7 +137,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         } else if ((!gameController.player_has_summoned || (gameController.player_has_summoned && gameController.enemy_ready_for_battle)) && gameController.player_can_play && gameController.current_turn == GameController.turn.PLAYER && !summoned)
         {
             highlight.SetActive(true);
-        } else if (summoned && hasUseableAbility && cardAbility != "" && gameController.current_turn == GameController.turn.PLAYER)
+        } else if (summoned && hasUseableAbility && cardAbility != "" && gameController.current_turn == GameController.turn.PLAYER && !gameController.player_ready_for_battle)
         {
             highlight.SetActive(true);
         } else
@@ -157,6 +179,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     {
         if ((!gameController.player_has_summoned || (gameController.player_has_summoned && gameController.enemy_ready_for_battle)) && summoned == false && gameController.current_turn == GameController.turn.PLAYER && gameController.player_can_play && isEnemy == false && deck.mana >= cost)
         {
+            Conditions.actionsPerLevel++;
             exitHover();
             /*if (gameController.enemy_ready_for_battle == false )
             {
@@ -183,9 +206,10 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
                     indicatePlayableLane(child);
                 }
             }
-        } else if (summoned == true && isEnemy == false && gameController.current_turn == GameController.turn.PLAYER && hasUseableAbility) {
+        } else if (summoned == true && isEnemy == false && gameController.current_turn == GameController.turn.PLAYER && hasUseableAbility && !gameController.player_ready_for_battle) {
             if (Conditions.collectingData)
                 LoadingController.LOGGER.LogActionWithNoLevel(52, "{ Player activated: " + cardAbility + " }");
+            Conditions.actionsPerLevel++;
             ability.activeAbility(cardAbility, abilityParams.ToArray());
         }
         
@@ -208,33 +232,75 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         container.SetParent(spawn);
         Sequence activateCard = DOTween.Sequence();
         activateCard
-            .AppendCallback(() => {
+            .AppendCallback(() =>
+            {
                 deck.hand.Remove(gameObject);
-                if (isEnemy) {
-                    gameController.field[0,laneIndex] = gameObject;
+                if (isEnemy)
+                {
+                    gameController.field[0, laneIndex] = gameObject;
                     if (!cardAbility.Equals(""))
                     {
                         abilityParams[2] = 0;
                         abilityParams[3] = laneIndex;
-                    } 
-                } else {
+                    }
+                }
+                else
+                {
                     gameController.player_has_summoned = true;
-                    
-                    gameController.field[1,laneIndex] = gameObject;
+
+                    gameController.field[1, laneIndex] = gameObject;
                     if (!cardAbility.Equals(""))
                     {
                         abilityParams[2] = 1;
                         abilityParams[3] = laneIndex;
                     }
                 }
-                
+
                 //gameController.player_summoned_card[laneIndex] = cardIdentity;
                 removeIndicators();
             })
-            .Append(cardTran.DOAnchorPos(new Vector2(ogPosition.x, ogPosition.y), upDuration))
-            .Join(container.DOAnchorPos(new Vector2(0, 0), upDuration))
-            .Join(container.DOScale(1f, upDuration))
-            .Append(playerHandholder.DOAnchorPos(new Vector2(0, 0), upDuration))
+            .Pause();
+
+        if (cardType == "Hero") // Special animation for playing a hero card, shakes all cards on the field.
+        {
+            int rowIndex = 0;
+            if (!isEnemy)
+            {
+                rowIndex = 1;
+            }
+            activateCard.Append(cardTran.DOAnchorPos(new Vector2(ogPosition.x, ogPosition.y), upDuration))
+                .Join(container.DOAnchorPos(new Vector2(0, 0), upDuration))
+                .Append(container.DOScale(1.5f, upDuration * 2))
+                .Append(container.DOScale(1f, upDuration / 2)).SetEase(Ease.Linear)
+                .AppendCallback(() =>
+                {
+                    for (int i = 0; i < gameController.player_lanes.transform.childCount; i++)
+                    {
+                        if (i != laneIndex || rowIndex != 1)
+                        {
+                            Transform lane = gameController.player_lanes.transform.GetChild(i);
+                            float shake = Random.Range(0.1f,0.5f);
+                            activateCard.Append(lane.DOPunchScale(new Vector3(shake, shake, shake), 0.5f, 25, 0)).SetEase(Ease.OutQuad);
+                        }
+                    }
+                    for (int i = 0; i < gameController.enemy_lanes.transform.childCount; i++)
+                    {
+                        if (i != laneIndex || rowIndex != 0)
+                        {
+                            Transform lane = gameController.enemy_lanes.transform.GetChild(i);
+                            float shake = Random.Range(0.1f,0.5f);
+                            activateCard.Append(lane.DOPunchScale(new Vector3(shake, shake, shake), 0.5f, 25, 0)).SetEase(Ease.OutQuad);
+                        }
+                    }
+                });
+
+        } else
+        {
+            activateCard.Append(cardTran.DOAnchorPos(new Vector2(ogPosition.x, ogPosition.y), upDuration))
+                .Join(container.DOAnchorPos(new Vector2(0, 0), upDuration))
+                .Join(container.DOScale(1f, upDuration));
+        }
+        activateCard.Append(playerHandholder.DOAnchorPos(new Vector2(0, 0), upDuration))
             .AppendCallback(() => {
                 if (cardIdentity.hasPassiveAbility)
                 {
@@ -242,6 +308,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
                 }
             })
             .Play();
+
 
         //gameController.player_can_play = true;
         gameController.player_can_pass = true;
@@ -294,5 +361,9 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     public int getCost() {
         return cost;
+    }
+    public int getFaction()
+    {
+        return faction;
     }
 }

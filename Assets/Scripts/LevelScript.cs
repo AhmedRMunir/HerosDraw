@@ -31,6 +31,8 @@ public class LevelScript : MonoBehaviour
             movePlayer.Append(playerPiece.transform.DOMove(transform.position, 0.5f))
                 .AppendCallback(() =>
                 {
+                    LevelManager.currentLevelID = levelID;
+                    LevelManager.currentLevelName = levelName;
                     //SceneManager.LoadScene(levelName);
                 });
         }

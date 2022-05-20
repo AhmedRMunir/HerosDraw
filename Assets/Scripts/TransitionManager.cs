@@ -23,7 +23,7 @@ public class TransitionManager : MonoBehaviour
     {
         wins.text = "Wins: " + Conditions.wins;
         losses.text = "Losses: " + Conditions.losses;
-        levelCompleted.text = "Level Completed: " + Conditions.levelCompleted;
+        levelCompleted.text = "Level Completed: " + Conditions.levelsCompleted;
     }
     
 }

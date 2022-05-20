@@ -22,6 +22,7 @@ public class CancelButton : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        Conditions.actionsPerLevel++;
         selectedCard.undo();
         selectedCard.gameController.player_is_summoning = false;
         Destroy(gameObject);

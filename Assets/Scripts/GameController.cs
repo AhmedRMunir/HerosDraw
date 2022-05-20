@@ -74,7 +74,8 @@ public class GameController : MonoBehaviour
 
         // Get levelID from level manager
         field = new GameObject[2, Conditions.maxLanes];
-        Conditions.levelCompleted++;
+        // Load player deck
+        //player.deck = new List<CardObject>(Conditions.deck);
         StartCoroutine("gameStart");
     }
 
@@ -210,6 +211,10 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!playerHasPlayable())
+        {
+            player_can_pass = false;
+        }
     }
 
     public void updateHealth(PlayerController player, int change) {
@@ -242,19 +247,17 @@ public class GameController : MonoBehaviour
             else if (player_card == null && enemy_card != null)
             {
                 attackAvatar(enemy_card, player, player_Avatar, 100, battleAnim);
-                battleAnimTime += 1.1f;
             }
             else if (player_card != null && enemy_card == null)
             {
                 attackAvatar(player_card, enemy, enemy_Avatar, -100, battleAnim);
-                battleAnimTime += 1.1f;
             }
             else
             {
                 attackPawns(player_card, enemy_card, battleAnim);
-                battleAnimTime += 1.4f;
             }
-            
+            battleAnimTime += 1.3f;
+
         }
 
         yield return new WaitForSeconds(battleAnimTime);
@@ -290,12 +293,14 @@ public class GameController : MonoBehaviour
 
     public void attackAvatar(GameObject pawn, PlayerController target, GameObject targetAvatar, int animationParam, Sequence battleAnim) {
         Transform pawnTran = pawn.transform.GetChild(0).GetChild(7).gameObject.transform;
-        battleAnim.Append(pawnTran.DOMove(new Vector2(pawnTran.position.x, pawnTran.position.y + animationParam), 0.25f))
-              .Join(pawnTran.DOScale(1.5f, 0.25f))
+        battleAnim.Append(pawnTran.DOMove(new Vector2(pawnTran.position.x, pawnTran.position.y + animationParam), 0.1f))
+              .Join(pawnTran.DOScale(1.5f, 0.1f))
               .Append(pawnTran.DOMove(targetAvatar.transform.position, 0.25f))
               .AppendCallback(() => { updateHealth(target, -pawn.GetComponent<CardBehavior>().getAttack()); })
               .Append(pawnTran.DOMove(new Vector2(pawnTran.position.x, pawnTran.position.y), 0.4f))
-              .Join(pawnTran.DOScale(1f, 0.4f));
+              .Join(targetAvatar.transform.DOPunchScale(new Vector3(1.5f, 1.5f, 1.5f), 0.5f, 10, 1))
+              .Join(pawnTran.DOScale(1f, 0.4f))
+              .Append(targetAvatar.transform.DOScale(1f, 0.2f));
     }
 
     public void attackPawns(GameObject player_card, GameObject enemy_card, Sequence battleAnim) {
@@ -303,10 +308,10 @@ public class GameController : MonoBehaviour
         Transform enemyHP = enemy_card.transform.GetChild(0).GetChild(6).gameObject.transform;
         Transform playerTran = player_card.transform.GetChild(0).GetChild(7).gameObject.transform;
         Transform playerHP = player_card.transform.GetChild(0).GetChild(6).gameObject.transform;
-        battleAnim.Append(enemyTran.DOMove(new Vector2(enemyTran.position.x, enemyTran.position.y + 100), 0.25f))
-            .Join(playerTran.DOMove(new Vector2(playerTran.position.x, playerTran.position.y - 100), 0.25f))
-            .Join(enemyTran.DOScale(1.5f, 0.25f))
-            .Join(enemyHP.DOScale(1.5f, 0.25f))
+        battleAnim.Append(enemyTran.DOMove(new Vector2(enemyTran.position.x, enemyTran.position.y + 100), 0.1f))
+            .Join(playerTran.DOMove(new Vector2(playerTran.position.x, playerTran.position.y - 100), 0.1f))
+            .Join(enemyTran.DOScale(1.5f, 0.1f))
+            .Join(enemyHP.DOScale(1.5f, 0.1f))
             .Join(playerTran.DOScale(1.5f, 0.1f))
             .Join(playerHP.DOScale(1.5f, 0.1f))
             .Append(enemyTran.DOMove(playerHP.transform.position, 0.25f))
@@ -432,11 +437,14 @@ public class GameController : MonoBehaviour
         
         bool playerWin = enemy.health <= 0;
         if (Conditions.collectingData)
-            LoadingController.LOGGER.LogLevelEnd("{ Player Won: " + playerWin + ", Number of battles: " + battleNum + " }");
+            LoadingController.LOGGER.LogLevelEnd("{ Player Won: " + playerWin + ", Number of battles: " + battleNum  + ", Actions taken: " + Conditions.actionsPerLevel + " }");
 
+        Conditions.levelsCompleted++;
+        Conditions.actionsPerLevel = 0;
         List<string> promptList = new List<string>();
 
         if (playerWin) {
+            LevelManager.clearedLevels.Add(levelID);
             Conditions.wins++;
             promptList.Add("YOU WIN :)");
         } else {

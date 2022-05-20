@@ -73,4 +73,32 @@ public class CardAbility : MonoBehaviour
         
         yield return new WaitForEndOfFrame();
     }
+
+    /* values:  idx 0 - faction id (0 = knight, 1 = mage, 2 = vampire)
+                idx 1 - attack/health updates
+                idx 2 - field row; 0 if enemy, 1 if player
+                idx 3 - lane index
+    */
+    public IEnumerator solidarity(int[] values)
+    {
+        yield return new WaitForEndOfFrame();
+        Debug.Log(values[2]);
+        int boost = 0;
+        GameObject card = gm.field[values[2], values[3]];
+        for (int i = 0; i < gm.field.GetLength(1); i++)
+        {
+            if (i == values[3])
+            {
+                continue;
+            }
+            GameObject currCard = gm.field[values[2], i];
+            if (currCard != null)
+            {
+                if (currCard.GetComponent<CardBehavior>().getFaction() == values[0])
+                    boost += values[1];
+            }
+        }
+        card.GetComponent<CardBehavior>().updateStats(boost, boost);
+        yield return new WaitForEndOfFrame();
+    }
 }

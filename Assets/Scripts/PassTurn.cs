@@ -62,9 +62,10 @@ public class PassTurn : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             if (Conditions.collectingData)
             {
                 LoadingController.LOGGER.LogLevelAction(50, "{ Player passed turn }");
-                LoadingController.LOGGER.LogActionWithNoLevel(50, "{ Player passed turn }");
+                LoadingController.LOGGER.LogActionWithNoLevel(50, "{ Player passed turn }");    
             }
-            
+            Conditions.actionsPerLevel++;
+
 
             gameController.player_can_play = false;
 

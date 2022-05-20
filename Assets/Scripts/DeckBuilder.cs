@@ -63,7 +63,7 @@ public class DeckBuilder : MonoBehaviour
         
     }
 
-    public GameObject displayDeckCard(KeyValuePair<string, info> cardInfo) {
+    public GameObject displayDeckCard(KeyValuePair<string, Conditions.info> cardInfo) {
         GameObject displayedCard = Instantiate(displayPrefab, canvas.transform);
         DeckDisplayCard displayInfo = displayedCard.GetComponent<DeckDisplayCard>();
         displayInfo.cardName = cardInfo.Key;
@@ -79,7 +79,7 @@ public class DeckBuilder : MonoBehaviour
         return displayedCard;
     }
 
-    public GameObject displayCollectionCard(KeyValuePair<string, info> cardInfo) {
+    public GameObject displayCollectionCard(KeyValuePair<string, Conditions.info> cardInfo) {
         GameObject displayedCard = Instantiate(displayPrefab, canvas.transform);
         DeckDisplayCard displayInfo = displayedCard.GetComponent<DeckDisplayCard>();
         displayInfo.cardName = cardInfo.Key;

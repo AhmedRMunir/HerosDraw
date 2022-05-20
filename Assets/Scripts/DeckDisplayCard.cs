@@ -56,14 +56,6 @@ public class DeckDisplayCard : MonoBehaviour
             }
 
         } else {
-            int amount = Conditions.card_collection[cardName].num;
-            CardObject cardObject = Conditions.card_collection[cardName].card;
-            int cardType = Conditions.card_collection[cardName].type;
-                Conditions.card_collection.Add(cardName, new Conditions.info(card, type, 1));
-                
-            }
-
-        } else {
             //int amount = db.card_collection[cardName].num;
             //CardObject cardObject = db.card_collection[cardName].card;
             //int cardType = db.card_collection[cardName].type;

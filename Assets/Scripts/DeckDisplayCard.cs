@@ -15,6 +15,7 @@ public class DeckDisplayCard : MonoBehaviour
     public int type;
     public bool inDeck;
     public int num;
+    public CardObject card;
     
     public Text displayText;
 
@@ -22,24 +23,25 @@ public class DeckDisplayCard : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        displayText.text = cardName + " x" + num;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        displayText.text = cardName + " x" + num;
     }
 
     public void onClick() {
         if (inDeck) {
-            int amount = Conditions.deck_collection[cardName].num;
-            CardObject cardObject = Conditions.deck_collection[cardName].card;
-            int cardType = Conditions.deck_collection[cardName].type;
+            //int amount = db.deck_collection[cardName].num;
+            //CardObject cardObject = db.deck_collection[cardName].card;
+            //int cardType = db.deck_collection[cardName].type;
 
-            if (amount > 0) {
+            if (num > 0) {
                 // reduce count in deck, increase count in collection
                 Conditions.deck_collection[cardName].num--;
+                num--;
             } else {
                 // remove entry from deck
                 Conditions.deck_collection.Remove(cardName);
@@ -50,17 +52,18 @@ public class DeckDisplayCard : MonoBehaviour
                 Conditions.card_collection[cardName].num++;
             } else {
                 // collection does not have this card, make a new entry
-                Conditions.card_collection.Add(cardName, new Conditions.info(cardObject, cardType, 1));
+                Conditions.card_collection.Add(cardName, new Conditions.info(card, type, 1));
             }
 
         } else {
-            int amount = Conditions.card_collection[cardName].num;
-            CardObject cardObject = Conditions.card_collection[cardName].card;
-            int cardType = Conditions.card_collection[cardName].type;
+            //int amount = db.card_collection[cardName].num;
+            //CardObject cardObject = db.card_collection[cardName].card;
+            //int cardType = db.card_collection[cardName].type;
 
-            if (amount > 0) {
+            if (num > 0) {
                 // reduce count in collection
                 Conditions.card_collection[cardName].num--;
+                num--;
             } else {
                 // remove entry from deck
                 Conditions.card_collection.Remove(cardName);
@@ -71,7 +74,7 @@ public class DeckDisplayCard : MonoBehaviour
                 Conditions.deck_collection[cardName].num++;
             } else {
                 // deck does not have this card, make a new entry
-                Conditions.deck_collection.Add(cardName, new Conditions.info(cardObject, cardType, 1));
+                Conditions.deck_collection.Add(cardName, new Conditions.info(card, type, 1));
             }
         }
     } 

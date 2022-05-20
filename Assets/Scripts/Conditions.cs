@@ -18,10 +18,10 @@ public static class Conditions
     public class info
     {
         public CardObject card;
-        public card_type type;
+        public int type;
         public int num;
 
-        public info(CardObject card, card_type type, int num)
+        public info(CardObject card, int type, int num)
         {
             this.card = card;
             this.type = type;
@@ -36,11 +36,8 @@ public static class Conditions
     public static Dictionary<string, info> card_collection = new Dictionary<string, info>();
 
     // different card types and their corresponding max limit in the deck
-    public enum card_type
-    {
-        Regular = 5,
-        Rare = 3,
-        Champion = 1
-    }
+    public static int REGULAR = 5;
+    public static int RARE = 3;
+    public static int CHAMPION = 1;
 
 }

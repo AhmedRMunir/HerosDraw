@@ -23,4 +23,5 @@ public class CardObject : ScriptableObject
     public bool hasPassiveAbility;
     public List<int> activeAbilityCost;
     
+    public int type;
 }

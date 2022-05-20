@@ -15,4 +15,8 @@ public static class Conditions
     public static int levelsCompleted = 0;
     public static List<CardObject> deck = new List<CardObject>();
 
+    public static int REGULAR = 5;
+    public static int RARE = 3;
+    public static int CHAMPION = 1;
+
 }

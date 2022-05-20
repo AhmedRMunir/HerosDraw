@@ -1,22 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DeckDisplayCard : MonoBehaviour
 {
     public DeckBuilder db;
     public string cardName;
-    public Sprite art;
     public string description;
     public int cost;
     public int attack;
     public int health;
     public string faction;
-    public GameObject cardAbility; // We'll probably have to write prefabs with the card ability and instantiate them on activation
-    public DeckBuilder.card_type type;
+    public int type;
     public bool inDeck;
     public int num;
-    // Other potential stats
+    
+    public Text displayText;
 
 
     // Start is called before the first frame update
@@ -35,7 +35,7 @@ public class DeckDisplayCard : MonoBehaviour
         if (inDeck) {
             int amount = db.deck_collection[cardName].num;
             CardObject cardObject = db.deck_collection[cardName].card;
-            DeckBuilder.card_type cardType = db.deck_collection[cardName].type;
+            int cardType = db.deck_collection[cardName].type;
 
             if (amount > 0) {
                 // reduce count in deck, increase count in collection
@@ -56,7 +56,7 @@ public class DeckDisplayCard : MonoBehaviour
         } else {
             int amount = db.card_collection[cardName].num;
             CardObject cardObject = db.card_collection[cardName].card;
-            DeckBuilder.card_type cardType = db.card_collection[cardName].type;
+            int cardType = db.card_collection[cardName].type;
 
             if (amount > 0) {
                 // reduce count in collection

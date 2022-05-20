@@ -1,16 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class DeckBuilder : MonoBehaviour
 {
     public class info {
         public CardObject card;
-        public card_type type;
+        public int type;
         public int num;
 
-        public info(CardObject card, card_type type, int num) {
+        public info(CardObject card, int type, int num) {
             this.card = card;
             this.type = type;
             this.num = num;
@@ -25,19 +26,16 @@ public class DeckBuilder : MonoBehaviour
 
     public GameObject displayPrefab;
 
-
-    // different card types and their corresponding max limit in the deck
-    public enum card_type {
-        Regular = 5,
-        Rare = 3,
-        Champion = 1
-    }
-
     // min size of the deck; can't go lower
     public int deck_min = 20;
 
     // max size of the deck; can't go higher
     public int deck_max = 40;
+
+    public GameObject deckWindow;
+    public GameObject collectionWindow;
+    public Text deckSizeText;
+    public Canvas canvas;
 
     // Start is called before the first frame update
     void Start()
@@ -46,7 +44,7 @@ public class DeckBuilder : MonoBehaviour
             if (deck_collection.ContainsKey(card.name)) {
                 deck_collection[card.name].num++;
             } else {
-                deck_collection.Add(card.name, new info(card, card_type.Regular, 1));
+                deck_collection.Add(card.name, new info(card, card.type, 1));
             }
         }
     }
@@ -55,6 +53,32 @@ public class DeckBuilder : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void displayDeckCard(KeyValuePair<string, info> cardInfo) {
+        GameObject displayedCard = Instantiate(displayPrefab, canvas.transform);
+        DeckDisplayCard displayInfo = displayedCard.GetComponent<DeckDisplayCard>();
+        displayInfo.cardName = cardInfo.Key;
+        displayInfo.cost = cardInfo.Value.card.cost;
+        displayInfo.attack = cardInfo.Value.card.attack;
+        displayInfo.health = cardInfo.Value.card.health;
+        displayInfo.description = cardInfo.Value.card.description;
+        displayInfo.type = cardInfo.Value.card.type;
+        displayInfo.inDeck = true;
+        displayInfo.num = cardInfo.Value.num;
+    }
+
+    public void displayCollectionCard(KeyValuePair<string, info> cardInfo) {
+        GameObject displayedCard = Instantiate(displayPrefab, canvas.transform);
+        DeckDisplayCard displayInfo = displayedCard.GetComponent<DeckDisplayCard>();
+        displayInfo.cardName = cardInfo.Key;
+        displayInfo.cost = cardInfo.Value.card.cost;
+        displayInfo.attack = cardInfo.Value.card.attack;
+        displayInfo.health = cardInfo.Value.card.health;
+        displayInfo.description = cardInfo.Value.card.description;
+        displayInfo.type = cardInfo.Value.card.type;
+        displayInfo.inDeck = false;
+        displayInfo.num = cardInfo.Value.num;
     }
 
     public void goToDeckBuilder() {
@@ -75,7 +99,7 @@ public class DeckBuilder : MonoBehaviour
             string cardName = cardInfo.Key;
             int quantity = cardInfo.Value.num;
             // card_type cannot be properly saved and loaded, will need to be replaced.
-            card_type type = cardInfo.Value.type;
+            int type = cardInfo.Value.type;
             // Each card entry will be its name and how many are in the deck.
             deckString += (cardName + ":" + type + ":" + quantity + "\n");
         }
@@ -83,7 +107,7 @@ public class DeckBuilder : MonoBehaviour
         {
             string cardName = cardInfo.Key;
             int cardQuantity = cardInfo.Value.num;
-            card_type type = cardInfo.Value.type;
+            int type = cardInfo.Value.type;
             // Each card entry will be its name and how many are in the collection.
             collectionString += (cardName + ":" + type + ":" + cardQuantity + "\n");
         }
@@ -103,7 +127,7 @@ public class DeckBuilder : MonoBehaviour
             int cardQuantity = int.Parse(cardValues[2]);
             CardObject card = Resources.Load<CardObject>("Cards/" + cardName);
             // Replace card type with a string probably.
-            deck_collection.Add(cardName, new info(card, card_type.Regular, cardQuantity));
+            deck_collection.Add(cardName, new info(card, card.type, cardQuantity));
         }
 
         string collectionString = PlayerPrefs.GetString("PlayerCollection");
@@ -116,7 +140,7 @@ public class DeckBuilder : MonoBehaviour
             int cardQuantity = int.Parse(cardValues[2]);
             CardObject card = Resources.Load<CardObject>("Cards/" + cardName);
             // Replace card type with a string probably.
-            card_collection.Add(cardName, new info(card, card_type.Regular, cardQuantity));
+            card_collection.Add(cardName, new info(card, card.type, cardQuantity));
         }
 
         // Import deck_collection into the static deck variable.

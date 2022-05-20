@@ -22,10 +22,6 @@ public class CardObject : ScriptableObject
     public bool hasActiveAbility;
     public bool hasPassiveAbility;
     public List<int> activeAbilityCost;
-<<<<<<< HEAD
-
-    public DeckBuilder.card_type type;
-=======
     
->>>>>>> main
+    public int type;
 }

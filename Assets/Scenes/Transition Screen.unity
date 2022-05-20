@@ -571,7 +571,8 @@ MonoBehaviour:
   deckWindow: {fileID: 0}
   collectionWindow: {fileID: 0}
   deckSizeText: {fileID: 0}
-  canvas: {fileID: 0}
+  canvas: {fileID: 1017727561}
+  testDeck: []
 --- !u!1 &928240198
 GameObject:
   m_ObjectHideFlags: 0

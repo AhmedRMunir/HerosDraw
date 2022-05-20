@@ -31,6 +31,12 @@ public static class LevelManager
         }
     }
 
+    public static void loadNewLevel(string levelName)
+    {
+        currentLevelName = levelName;
+        SceneManager.LoadScene(levelName);
+    }
+
     public static void saveGame()
     {
         PlayerPrefs.SetInt("LevelsCompleted", Conditions.levelsCompleted);

@@ -13,6 +13,6 @@ public static class Conditions
     public static int losses = 0;
     // Levels Completed
     public static int levelsCompleted = 0;
-    public static List<CardObject> deck;
+    public static List<CardObject> deck = new List<CardObject>();
 
 }

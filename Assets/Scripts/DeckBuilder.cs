@@ -26,7 +26,7 @@ public class DeckBuilder : MonoBehaviour
             if (Conditions.deck_collection.ContainsKey(card.name)) {
                 Conditions.deck_collection[card.name].num++;
             } else {
-                Conditions.deck_collection.Add(card.name, new Conditions.info(card, Conditions.REGULAR 1));
+                Conditions.deck_collection.Add(card.name, new Conditions.info(card, Conditions.REGULAR, 1));
             }
         }
     }
@@ -37,7 +37,7 @@ public class DeckBuilder : MonoBehaviour
         
     }
 
-    public void displayDeckCard(KeyValuePair<string, info> cardInfo) {
+    public void displayDeckCard(KeyValuePair<string, Conditions.info> cardInfo) {
         GameObject displayedCard = Instantiate(displayPrefab, canvas.transform);
         DeckDisplayCard displayInfo = displayedCard.GetComponent<DeckDisplayCard>();
         displayInfo.cardName = cardInfo.Key;
@@ -50,7 +50,7 @@ public class DeckBuilder : MonoBehaviour
         displayInfo.num = cardInfo.Value.num;
     }
 
-    public void displayCollectionCard(KeyValuePair<string, info> cardInfo) {
+    public void displayCollectionCard(KeyValuePair<string, Conditions.info> cardInfo) {
         GameObject displayedCard = Instantiate(displayPrefab, canvas.transform);
         DeckDisplayCard displayInfo = displayedCard.GetComponent<DeckDisplayCard>();
         displayInfo.cardName = cardInfo.Key;
@@ -111,7 +111,7 @@ public class DeckBuilder : MonoBehaviour
             int cardQuantity = int.Parse(cardValues[2]);
             CardObject card = Resources.Load<CardObject>("Cards/" + cardName);
             // Replace card type with a string probably.
-            Conditions.deck_collection.Add(cardName, new Conditions.info(card, Conditions.card_type.Regular, cardQuantity));
+            Conditions.deck_collection.Add(cardName, new Conditions.info(card, Conditions.REGULAR, cardQuantity));
         }
 
         string collectionString = PlayerPrefs.GetString("PlayerCollection");
@@ -124,7 +124,7 @@ public class DeckBuilder : MonoBehaviour
             int cardQuantity = int.Parse(cardValues[2]);
             CardObject card = Resources.Load<CardObject>("Cards/" + cardName);
             // Replace card type with a string probably.
-            Conditions.card_collection.Add(cardName, new Conditions.info(card, Conditions.card_type.Regular, cardQuantity));
+            Conditions.card_collection.Add(cardName, new Conditions.info(card, Conditions.REGULAR, cardQuantity));
         }
 
         // Import deck_collection into the static deck variable.

@@ -133,7 +133,7 @@ public class DeckCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             Conditions.card_collection[cardIdentity.cardName].num++;
         } else
         {
-            Conditions.card_collection.Add(cardIdentity.cardName, new Conditions.info(cardIdentity, Conditions.card_type.Regular, 1));
+            Conditions.card_collection.Add(cardIdentity.cardName, new Conditions.info(cardIdentity, Conditions.REGULAR, 1));
         }
     }
 }

@@ -134,6 +134,7 @@ public class DeckBuilder : MonoBehaviour
         if (deck_size <= deck_max) {
             Conditions.saveCards();
             SceneManager.LoadScene("Transition Screen");
+            Conditions.CollectionToDeck(Conditions.deck_collection);
         }
     }
 

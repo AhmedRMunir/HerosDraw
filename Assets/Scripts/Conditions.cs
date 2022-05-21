@@ -113,6 +113,7 @@ public static class Conditions
 
     public static void CollectionToDeck(Dictionary<string, info> collection)
     {
+        deck = new List<CardObject>();
         foreach (KeyValuePair<string, info> cardInfo in collection)
         {
             info currentInfo = cardInfo.Value;

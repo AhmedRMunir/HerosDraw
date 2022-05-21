@@ -123,17 +123,31 @@ public static class Conditions
         }
     }
 
-    public static void DeckToCollection(Dictionary<string, info> collection)
+    // If not deck collection (is card collection), quanities should be 0 since the deck will be all in the deck collection
+    public static void DeckToCollection(Dictionary<string, info> collection, bool isDeckCollection)
     {
         foreach (CardObject card in deck)
         {
             if (collection.ContainsKey(card.name))
             {
-                collection[card.name].num++;
+                if (isDeckCollection)
+                {
+                    collection[card.name].num++;
+                } else
+                {
+                    collection[card.name].num = 0;
+                }
+                
             }
             else
             {
-                collection.Add(card.name, new info(card, REGULAR, 1));
+                if (isDeckCollection)
+                {
+                    collection.Add(card.name, new info(card, REGULAR, 1));
+                } else
+                {
+                    collection.Add(card.name, new info(card, REGULAR, 0));
+                }
             }
         }
         

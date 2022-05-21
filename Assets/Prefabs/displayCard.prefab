@@ -215,6 +215,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 4927359683996568197}
+        m_TargetAssemblyTypeName: DeckDisplayCard, Assembly-CSharp
+        m_MethodName: onClickUpdateNum
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &4927359683996568197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -228,6 +240,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   db: {fileID: 0}
+  image: {fileID: 3697612579113119526}
   cardName: 
   description: 
   cost: 0
@@ -237,4 +250,5 @@ MonoBehaviour:
   type: 0
   inDeck: 0
   num: 0
+  card: {fileID: 0}
   displayText: {fileID: 7442931849043264613}

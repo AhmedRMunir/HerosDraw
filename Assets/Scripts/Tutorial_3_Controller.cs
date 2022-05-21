@@ -20,8 +20,10 @@ public class Tutorial_3_Controller : GameController
         List<CardObject> deckList = deckObject.GetComponent<DeckList>().deck;
         Conditions.deck = new List<CardObject>(deckList);
         player.deck = new List<CardObject>(deckList);
-        Conditions.DeckToCollection(Conditions.deck_collection);
-        Conditions.DeckToCollection(Conditions.card_collection);
+        Conditions.deck_collection = new Dictionary<string, Conditions.info>();
+        Conditions.card_collection = new Dictionary<string, Conditions.info>();
+        Conditions.DeckToCollection(Conditions.deck_collection, true);
+        Conditions.DeckToCollection(Conditions.card_collection, false);
         Conditions.saveCards();
 
         List<string> promptList = new List<string>();

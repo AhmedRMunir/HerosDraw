@@ -19,6 +19,10 @@ public class DeckBuilder : MonoBehaviour
     public Text deckSizeText;
     public Canvas canvas;
 
+    public Dictionary<string, DeckDisplayCard> deckDisplay;
+
+    public Dictionary<string, DeckDisplayCard> collectionDisplay;
+
     public List<CardObject> testDeck;
 
     // Start is called before the first frame update
@@ -43,8 +47,8 @@ public class DeckBuilder : MonoBehaviour
             }
         }
 
-        renderDisplay(Conditions.deck_collection, deckWindow);
-        renderDisplay(Conditions.card_collection, collectionWindow);
+        renderDisplay(Conditions.deck_collection, deckWindow, true);
+        renderDisplay(Conditions.card_collection, collectionWindow, false);
 
     }
 
@@ -53,10 +57,10 @@ public class DeckBuilder : MonoBehaviour
     {
     }
 
-    public void renderDisplay(Dictionary<string, Conditions.info> dict, GameObject window) {
+    public void renderDisplay(Dictionary<string, Conditions.info> dict, GameObject window, bool inDeck) {
         int i = 0;
         foreach (KeyValuePair<string, Conditions.info> cardInfo in dict) {
-            GameObject displayedCard = displayDeckCard(cardInfo);
+            GameObject displayedCard = displayCard(cardInfo, inDeck);
             displayedCard.transform.SetParent(window.transform);
             float cardHeight = displayedCard.GetComponent<RectTransform>().sizeDelta.y;
             Vector2 position = new Vector2(0, (- 0.5f * cardHeight) - (i * cardHeight));
@@ -65,7 +69,7 @@ public class DeckBuilder : MonoBehaviour
         }
     }
 
-    public GameObject displayDeckCard(KeyValuePair<string, Conditions.info> cardInfo) {
+    public GameObject displayCard(KeyValuePair<string, Conditions.info> cardInfo, bool inDeck) {
         GameObject displayedCard = Instantiate(displayPrefab, canvas.transform);
         DeckDisplayCard displayInfo = displayedCard.GetComponent<DeckDisplayCard>();
         displayInfo.cardName = cardInfo.Key;
@@ -74,25 +78,10 @@ public class DeckBuilder : MonoBehaviour
         displayInfo.health = cardInfo.Value.card.health;
         displayInfo.description = cardInfo.Value.card.description;
         displayInfo.type = cardInfo.Value.card.type;
-        displayInfo.inDeck = true;
+        displayInfo.inDeck = inDeck;
         displayInfo.num = cardInfo.Value.num;
         displayInfo.card = cardInfo.Value.card;
 
-        return displayedCard;
-    }
-
-    public GameObject displayCollectionCard(KeyValuePair<string, Conditions.info> cardInfo) {
-        GameObject displayedCard = Instantiate(displayPrefab, canvas.transform);
-        DeckDisplayCard displayInfo = displayedCard.GetComponent<DeckDisplayCard>();
-        displayInfo.cardName = cardInfo.Key;
-        displayInfo.cost = cardInfo.Value.card.cost;
-        displayInfo.attack = cardInfo.Value.card.attack;
-        displayInfo.health = cardInfo.Value.card.health;
-        displayInfo.description = cardInfo.Value.card.description;
-        displayInfo.type = cardInfo.Value.card.type;
-        displayInfo.inDeck = false;
-        displayInfo.num = cardInfo.Value.num;
-        displayInfo.card = cardInfo.Value.card;
         return displayedCard;
     }
 

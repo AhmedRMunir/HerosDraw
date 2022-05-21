@@ -129,6 +129,7 @@ public class DeckBuilder : MonoBehaviour
 
     public void goToTransitionScreen() {
         Conditions.saveCards();
+        Conditions.CollectionToDeck(Conditions.deck_collection);
         SceneManager.LoadScene("Transition Screen");
     }
 

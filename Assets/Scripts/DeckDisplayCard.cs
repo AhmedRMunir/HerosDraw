@@ -19,6 +19,7 @@ public class DeckDisplayCard : MonoBehaviour
     public CardObject card;
     
     public Text displayText;
+    public Text infoText;
 
     public Image image;
 
@@ -35,6 +36,12 @@ public class DeckDisplayCard : MonoBehaviour
         {
             type = Conditions.REGULAR;
         }
+        cardName = card.cardName;
+        description = card.description;
+        cost = card.cost;
+        attack = card.attack;
+        health = card.health;
+        faction = card.faction;
     }
 
     // Update is called once per frame
@@ -62,6 +69,8 @@ public class DeckDisplayCard : MonoBehaviour
                 image.color = Color.white;
             }
         }
+        infoText.text = "cost: " + cost + ", attack: " + attack + ", health: " + health + ", faction: " + faction + "\n";
+        infoText.text += description;
     }
 
     public void onClick() {

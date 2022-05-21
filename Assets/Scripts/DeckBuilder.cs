@@ -31,7 +31,7 @@ public class DeckBuilder : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        /*
+        
         // comment below when done testing
         Conditions.deck = new List<CardObject>(testDeck); 
         Conditions.deck_collection = new Dictionary<string, Conditions.info>();
@@ -61,7 +61,7 @@ public class DeckBuilder : MonoBehaviour
             }
         }
         // comment above when done testing
-        */
+        
 
         deckDisplayLength = Conditions.deck_collection.Count;
         collectionDisplayLength = Conditions.card_collection.Count;
@@ -89,7 +89,12 @@ public class DeckBuilder : MonoBehaviour
             renderDisplay(Conditions.card_collection, collectionWindow, false);
         }
 
-        deckSizeText.text = "Current Deck: " + deck_size + "/" + deck_min;
+        deckSizeText.text = "Current Deck: " + deck_size + "/" + deck_max;
+        if (deck_size > deck_max) {
+            deckSizeText.color = Color.red;
+        } else {
+            deckSizeText.color = Color.white;
+        }
     }
 
     private void clearCards(GameObject window)
@@ -126,8 +131,10 @@ public class DeckBuilder : MonoBehaviour
     }
 
     public void goToTransitionScreen() {
-        Conditions.saveCards();
-        SceneManager.LoadScene("Transition Screen");
+        if (deck_size <= deck_max) {
+            Conditions.saveCards();
+            SceneManager.LoadScene("Transition Screen");
+        }
     }
 
 }

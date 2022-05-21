@@ -93,7 +93,7 @@ public class DeckDisplayCard : MonoBehaviour
                 Conditions.card_collection.Add(cardName, new Conditions.info(card, type, 1));
             }
 
-        } else if (!inDeck && numInCollection > 0 && numInDeck < type) {
+        } else if (!inDeck && numInCollection > 0 && numInDeck < type && db.deck_size < db.deck_max) {
 
             db.deck_size++;
             if (numInCollection > 0) {

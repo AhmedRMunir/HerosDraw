@@ -24,7 +24,7 @@ public class DeckBuilder : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        foreach (CardObject card in Conditions.deck) {
+        foreach (CardObject card in testDeck) {
             if (Conditions.deck_collection.ContainsKey(card.name)) {
                 Conditions.deck_collection[card.name].num++;
             } else {
@@ -32,35 +32,34 @@ public class DeckBuilder : MonoBehaviour
             }
         }
 
-        int i = 0;
-        foreach (KeyValuePair<string, Conditions.info> cardInfo in Conditions.deck_collection) {
-            GameObject displayedCard = displayDeckCard(cardInfo);
-            displayedCard.transform.SetParent(deckWindow.transform);
-            float cardHeight = displayedCard.GetComponent<RectTransform>().sizeDelta.y;
-            Debug.Log(cardHeight);
-            Vector2 position = new Vector2(0, (- 0.5f * cardHeight) - (i * cardHeight));
-            Debug.Log(position);
-            displayedCard.GetComponent<RectTransform>().anchoredPosition = position;
-            i++;
+        foreach (CardObject card in testDeck) {
+            if (Conditions.card_collection.ContainsKey(card.name)) {
+                Conditions.card_collection[card.name].num++;
+            } else {
+                Conditions.card_collection.Add(card.name, new Conditions.info(card, Conditions.REGULAR, 1));
+            }
         }
 
-        foreach (KeyValuePair<string, Conditions.info> cardInfo in Conditions.card_collection) {
-            GameObject displayedCard = displayCollectionCard(cardInfo);
-            displayedCard.transform.SetParent(collectionWindow.transform);
-            float cardHeight = displayedCard.GetComponent<RectTransform>().sizeDelta.y;
-            Debug.Log(cardHeight);
-            Vector2 position = new Vector2(0, (- 0.5f * cardHeight) - (i * cardHeight));
-            Debug.Log(position);
-            displayedCard.GetComponent<RectTransform>().anchoredPosition = position;
-            i++;
-        }
+        renderDisplay(Conditions.deck_collection, deckWindow);
+        renderDisplay(Conditions.card_collection, collectionWindow);
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+    }
+
+    public void renderDisplay(Dictionary<string, Conditions.info> dict, GameObject window) {
+        int i = 0;
+        foreach (KeyValuePair<string, Conditions.info> cardInfo in dict) {
+            GameObject displayedCard = displayDeckCard(cardInfo);
+            displayedCard.transform.SetParent(window.transform);
+            float cardHeight = displayedCard.GetComponent<RectTransform>().sizeDelta.y;
+            Vector2 position = new Vector2(0, (- 0.5f * cardHeight) - (i * cardHeight));
+            displayedCard.GetComponent<RectTransform>().anchoredPosition = position;
+            i++;
+        }
     }
 
     public GameObject displayDeckCard(KeyValuePair<string, Conditions.info> cardInfo) {

@@ -228,6 +228,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   db: {fileID: 0}
+  image: {fileID: 3697612579113119526}
   cardName: 
   description: 
   cost: 0
@@ -237,4 +238,5 @@ MonoBehaviour:
   type: 0
   inDeck: 0
   num: 0
+  card: {fileID: 0}
   displayText: {fileID: 7442931849043264613}

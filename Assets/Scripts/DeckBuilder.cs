@@ -14,6 +14,8 @@ public class DeckBuilder : MonoBehaviour
     // max size of the deck; can't go higher
     public int deck_max = 40;
 
+    public int deck_size;
+
     public GameObject deckWindow;
     public GameObject collectionWindow;
     public Text deckSizeText;
@@ -30,15 +32,15 @@ public class DeckBuilder : MonoBehaviour
     void Start()
     {
         // remove when done testing
-        /*Conditions.deck = new List<CardObject>(testDeck); 
-        Conditions.deck_collection = new Dictionary<string, Conditions.info>();*/
+        Conditions.deck = new List<CardObject>(testDeck); 
+        Conditions.deck_collection = new Dictionary<string, Conditions.info>();
 
-        /*
+        
         foreach (CardObject card in Conditions.deck) { 
             if (Conditions.deck_collection.ContainsKey(card.name)) {
                 Conditions.deck_collection[card.name].num++;
             } else {
-                Conditions.deck_collection.Add(card.name, new Conditions.info(card, Conditions.REGULAR, 1));
+                Conditions.deck_collection.Add(card.name, new Conditions.info(card, card.type, 1));
             }
         }
 
@@ -46,11 +48,16 @@ public class DeckBuilder : MonoBehaviour
             if (Conditions.card_collection.ContainsKey(card.name)) {
                 Conditions.card_collection[card.name].num++;
             } else {
-                Conditions.card_collection.Add(card.name, new Conditions.info(card, Conditions.REGULAR, 1));
+                Conditions.card_collection.Add(card.name, new Conditions.info(card, card.type, 1));
             }
-        }*/
+        }
         deckDisplayLength = Conditions.deck_collection.Count;
         collectionDisplayLength = Conditions.card_collection.Count;
+
+        deck_size = 0;
+        foreach (KeyValuePair<string, Conditions.info> cardInfo in Conditions.deck_collection) {
+            deck_size += cardInfo.Value.num;
+        }
 
         renderDisplay(Conditions.deck_collection, deckWindow, true);
         renderDisplay(Conditions.card_collection, collectionWindow, false);
@@ -69,6 +76,8 @@ public class DeckBuilder : MonoBehaviour
             collectionDisplayLength = Conditions.card_collection.Count;
             renderDisplay(Conditions.card_collection, collectionWindow, false);
         }
+
+        deckSizeText.text = "Current Deck: " + deck_size + "/" + deck_max;
     }
 
     private void clearCards(GameObject window)
@@ -101,7 +110,6 @@ public class DeckBuilder : MonoBehaviour
         displayInfo.description = cardInfo.Value.card.description;
         displayInfo.type = cardInfo.Value.card.type;
         displayInfo.inDeck = inDeck;
-        displayInfo.num = cardInfo.Value.num;
         displayInfo.card = cardInfo.Value.card;
 
         return displayedCard;

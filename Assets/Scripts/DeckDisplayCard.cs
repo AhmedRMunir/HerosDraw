@@ -14,7 +14,8 @@ public class DeckDisplayCard : MonoBehaviour
     public string faction;
     public int type;
     public bool inDeck;
-    public int num;
+    public int numInDeck;
+    public int numInCollection;
     public CardObject card;
     
     public Text displayText;
@@ -26,44 +27,42 @@ public class DeckDisplayCard : MonoBehaviour
     void Start()
     {
         db = GameObject.Find("DeckBuilder").GetComponent<DeckBuilder>();
-        displayText.text = cardName + " x" + num;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (inDeck) {
-            if (Conditions.deck_collection.ContainsKey(cardName)) {
-                num = Conditions.deck_collection[cardName].num;
-            } else {
-                num = 0;
-            }
+        if (Conditions.deck_collection.ContainsKey(cardName)) {
+            numInDeck = Conditions.deck_collection[cardName].num;
         } else {
-            if (Conditions.card_collection.ContainsKey(cardName)) {
-                num = Conditions.card_collection[cardName].num;
-            } else {
-                num = 0;
-            }
+            numInDeck = 0;
         }
-        displayText.text = cardName + " x" + num;
 
-        if (num == 0) {
-            image.color = Color.gray;
+        if (Conditions.card_collection.ContainsKey(cardName)) {
+            numInCollection = Conditions.card_collection[cardName].num;
         } else {
-            image.color = Color.white;
+            numInCollection = 0;
+        }
+
+        if (inDeck) {
+            displayText.text = cardName + " x" + numInDeck;
+        } else {
+            displayText.text = cardName + " x" + numInCollection;
+            if (numInDeck == type) {
+                image.color = Color.gray;
+            } else {
+                image.color = Color.white;
+            }
         }
     }
 
     public void onClick() {
-        if (inDeck && num > 0) {
-            //int amount = db.deck_collection[cardName].num;
-            //CardObject cardObject = db.deck_collection[cardName].card;
-            //int cardType = db.deck_collection[cardName].type;
+        if (inDeck && numInDeck > 0) {
 
-            if (num > 1) {
+            db.deck_size--;
+            if (numInDeck > 1) {
                 // reduce count in deck, increase count in collection
                 Conditions.deck_collection[cardName].num--;
-                //num--;
             } else {
                 // remove entry from deck
                 Conditions.deck_collection.Remove(cardName);
@@ -77,16 +76,16 @@ public class DeckDisplayCard : MonoBehaviour
                 Conditions.card_collection.Add(cardName, new Conditions.info(card, type, 1));
             }
 
-        } else if (!inDeck && num > 0) {
-            //int amount = db.card_collection[cardName].num;
-            //CardObject cardObject = db.card_collection[cardName].card;
-            //int cardType = db.card_collection[cardName].type;
+        } else if (!inDeck && numInCollection > 0 && numInDeck < type) {
 
-            if (num > 0) {
+            db.deck_size++;
+            if (numInCollection > 1) {
                 // reduce count in collection
                 Conditions.card_collection[cardName].num--;
-                //num--;
-            } 
+            } else {
+                // remove entry from collection
+                Conditions.card_collection.Remove(cardName);
+            }
 
             if (Conditions.deck_collection.ContainsKey(cardName)) {
                 // deck already has this card, increase count

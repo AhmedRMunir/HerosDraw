@@ -31,26 +31,35 @@ public class DeckBuilder : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // remove when done testing
+        /*// remove when done testing
         Conditions.deck = new List<CardObject>(testDeck); 
         Conditions.deck_collection = new Dictionary<string, Conditions.info>();
+        Conditions.card_collection = new Dictionary<string, Conditions.info>();
 
-        
         foreach (CardObject card in Conditions.deck) { 
             if (Conditions.deck_collection.ContainsKey(card.name)) {
                 Conditions.deck_collection[card.name].num++;
             } else {
-                Conditions.deck_collection.Add(card.name, new Conditions.info(card, card.type, 1));
+                int type = Conditions.REGULAR;
+                if (card.cardType == "Hero")
+                {
+                    type = Conditions.REGULAR;
+                }
+                Conditions.deck_collection.Add(card.name, new Conditions.info(card, type, 1));
             }
         }
 
         foreach (CardObject card in testDeck) {
-            if (Conditions.card_collection.ContainsKey(card.name)) {
-                Conditions.card_collection[card.name].num++;
-            } else {
-                Conditions.card_collection.Add(card.name, new Conditions.info(card, card.type, 1));
+            if (!Conditions.card_collection.ContainsKey(card.name)) {
+                int type = Conditions.REGULAR;
+                if (card.cardType == "Hero")
+                {
+                    type = Conditions.REGULAR;
+                }
+                Conditions.card_collection.Add(card.name, new Conditions.info(card, type, 0));
             }
-        }
+        }*/
+
         deckDisplayLength = Conditions.deck_collection.Count;
         collectionDisplayLength = Conditions.card_collection.Count;
 
@@ -77,7 +86,7 @@ public class DeckBuilder : MonoBehaviour
             renderDisplay(Conditions.card_collection, collectionWindow, false);
         }
 
-        deckSizeText.text = "Current Deck: " + deck_size + "/" + deck_max;
+        deckSizeText.text = "Current Deck: " + deck_size + "/" + deck_min;
     }
 
     private void clearCards(GameObject window)
@@ -108,7 +117,6 @@ public class DeckBuilder : MonoBehaviour
         displayInfo.attack = cardInfo.Value.card.attack;
         displayInfo.health = cardInfo.Value.card.health;
         displayInfo.description = cardInfo.Value.card.description;
-        displayInfo.type = cardInfo.Value.card.type;
         displayInfo.inDeck = inDeck;
         displayInfo.card = cardInfo.Value.card;
 

@@ -1544,6 +1544,7 @@ MonoBehaviour:
   displayPrefab: {fileID: 3697612579113119547, guid: 5b36df89c34790a43995b652666d80d8, type: 3}
   deck_min: 20
   deck_max: 40
+  deck_size: 0
   deckWindow: {fileID: 1328365550}
   collectionWindow: {fileID: 1228618359}
   deckSizeText: {fileID: 861175578}
@@ -1560,6 +1561,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 073f488abe1ce6f4d81597ed53c3d5d7, type: 2}
   - {fileID: 11400000, guid: 073f488abe1ce6f4d81597ed53c3d5d7, type: 2}
   - {fileID: 11400000, guid: e2ab8a7e63b0e2c459340b5676a6282f, type: 2}
+  - {fileID: 11400000, guid: 9f3c8d2c911547c49b392db11cec5464, type: 2}
+  - {fileID: 11400000, guid: 9f3c8d2c911547c49b392db11cec5464, type: 2}
+  - {fileID: 11400000, guid: 9f3c8d2c911547c49b392db11cec5464, type: 2}
 --- !u!4 &1248076206
 Transform:
   m_ObjectHideFlags: 0

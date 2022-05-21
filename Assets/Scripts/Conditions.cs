@@ -82,11 +82,11 @@ public static class Conditions
                 Debug.Log(cardValues[1]);
                 Debug.Log(cardValues[2]);
                 string cardName = cardValues[0];
-                string type = cardValues[1];
+                int type = int.Parse(cardValues[1]);
                 int cardQuantity = int.Parse(cardValues[2]);
                 CardObject card = Resources.Load<CardObject>("Cards/" + cardName);
                 // Replace card type with a string probably.
-                deck_collection.Add(cardName, new info(card, REGULAR, cardQuantity));
+                deck_collection.Add(cardName, new info(card, type, cardQuantity));
             }
         }
 
@@ -98,11 +98,11 @@ public static class Conditions
             if (cardValues.Length > 1)
             {
                 string cardName = cardValues[0];
-                string type = cardValues[1];
+                int type = int.Parse(cardValues[1]);
                 int cardQuantity = int.Parse(cardValues[2]);
                 CardObject card = Resources.Load<CardObject>("Cards/" + cardName);
                 // Replace card type with a string probably.
-                card_collection.Add(cardName, new info(card, REGULAR, cardQuantity));
+                card_collection.Add(cardName, new info(card, type, cardQuantity));
             }
         }
 
@@ -141,12 +141,17 @@ public static class Conditions
             }
             else
             {
+                int type = REGULAR;
+                if (card.cardType == "Hero")
+                {
+                    type = CHAMPION;
+                }
                 if (isDeckCollection)
                 {
-                    collection.Add(card.name, new info(card, REGULAR, 1));
+                    collection.Add(card.name, new info(card, type, 1));
                 } else
                 {
-                    collection.Add(card.name, new info(card, REGULAR, 0));
+                    collection.Add(card.name, new info(card, type, 0));
                 }
             }
         }

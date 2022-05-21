@@ -51,7 +51,7 @@ public static class LevelManager
     {
         Conditions.levelsCompleted = PlayerPrefs.GetInt("LevelsCompleted");
         Conditions.wins = PlayerPrefs.GetInt("Wins");
-        Conditions.wins = PlayerPrefs.GetInt("Losses");
+        Conditions.losses = PlayerPrefs.GetInt("Losses");
         //currentLevelID = PlayerPrefs.GetInt("CurrentLevelID");
         currentLevelName = PlayerPrefs.GetString("CurrentLevelName");
         string[] clearedLevelsData = PlayerPrefs.GetString("ClearedLevels").Split("/n");

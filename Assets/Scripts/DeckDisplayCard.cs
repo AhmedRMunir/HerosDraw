@@ -27,6 +27,14 @@ public class DeckDisplayCard : MonoBehaviour
     void Start()
     {
         db = GameObject.Find("DeckBuilder").GetComponent<DeckBuilder>();
+        if (card.cardType == "Hero")
+        {
+            type = Conditions.CHAMPION;
+        }
+        else
+        {
+            type = Conditions.REGULAR;
+        }
     }
 
     // Update is called once per frame
@@ -48,7 +56,7 @@ public class DeckDisplayCard : MonoBehaviour
             displayText.text = cardName + " x" + numInDeck;
         } else {
             displayText.text = cardName + " x" + numInCollection;
-            if (numInDeck == type) {
+            if (numInDeck == type || numInCollection == 0) {
                 image.color = Color.gray;
             } else {
                 image.color = Color.white;
@@ -79,13 +87,10 @@ public class DeckDisplayCard : MonoBehaviour
         } else if (!inDeck && numInCollection > 0 && numInDeck < type) {
 
             db.deck_size++;
-            if (numInCollection > 1) {
+            if (numInCollection > 0) {
                 // reduce count in collection
                 Conditions.card_collection[cardName].num--;
-            } else {
-                // remove entry from collection
-                Conditions.card_collection.Remove(cardName);
-            }
+            } 
 
             if (Conditions.deck_collection.ContainsKey(cardName)) {
                 // deck already has this card, increase count

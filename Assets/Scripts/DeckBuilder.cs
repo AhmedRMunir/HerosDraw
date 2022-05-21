@@ -26,14 +26,14 @@ public class DeckBuilder : MonoBehaviour
     {
         Conditions.deck = new List<CardObject>(testDeck); // remove when done testing
 
-        /* 
+        
         foreach (CardObject card in Conditions.deck) { 
             if (Conditions.deck_collection.ContainsKey(card.name)) {
                 Conditions.deck_collection[card.name].num++;
             } else {
                 Conditions.deck_collection.Add(card.name, new Conditions.info(card, Conditions.REGULAR, 1));
             }
-        }*/
+        }
 
         foreach (CardObject card in testDeck) {
             if (Conditions.card_collection.ContainsKey(card.name)) {

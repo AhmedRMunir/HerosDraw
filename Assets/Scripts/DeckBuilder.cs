@@ -24,9 +24,9 @@ public class DeckBuilder : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Conditions.deck = new List<CardObject>(testDeck); // remove when done testing
+        /*Conditions.deck = new List<CardObject>(testDeck); // remove when done testing
+        Conditions.deck_collection = new Dictionary<string, Conditions.info>();
 
-        /* 
         foreach (CardObject card in Conditions.deck) { 
             if (Conditions.deck_collection.ContainsKey(card.name)) {
                 Conditions.deck_collection[card.name].num++;
@@ -102,6 +102,7 @@ public class DeckBuilder : MonoBehaviour
     }
 
     public void goToTransitionScreen() {
+        Conditions.saveCards();
         SceneManager.LoadScene("Transition Screen");
     }
 

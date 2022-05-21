@@ -18,7 +18,8 @@ public class TransitionManager : MonoBehaviour
         if (Conditions.collectingData)
         {
             LoadingController.LOGGER.LogActionWithNoLevel(55, "{ Player stats: levels completed: " + Conditions.levelsCompleted + ", wins: " + Conditions.wins + ", losses: " + Conditions.losses + " }");
-        }  
+        }
+        Conditions.saveCards();
     }
 
     // Update is called once per frame

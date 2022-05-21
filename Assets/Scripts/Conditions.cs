@@ -107,7 +107,13 @@ public static class Conditions
         }
 
         // Import deck_collection into the static deck variable.
-        foreach (KeyValuePair<string, info> cardInfo in deck_collection)
+        CollectionToDeck(deck_collection);
+        Debug.Log(deck);
+    }
+
+    public static void CollectionToDeck(Dictionary<string, info> collection)
+    {
+        foreach (KeyValuePair<string, info> cardInfo in collection)
         {
             info currentInfo = cardInfo.Value;
             for (int i = 0; i < currentInfo.num; i++)
@@ -115,6 +121,21 @@ public static class Conditions
                 deck.Add(currentInfo.card);
             }
         }
-        Debug.Log(deck);
+    }
+
+    public static void DeckToCollection(Dictionary<string, info> collection)
+    {
+        foreach (CardObject card in deck)
+        {
+            if (collection.ContainsKey(card.name))
+            {
+                collection[card.name].num++;
+            }
+            else
+            {
+                collection.Add(card.name, new info(card, REGULAR, 1));
+            }
+        }
+        
     }
 }

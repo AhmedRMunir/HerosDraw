@@ -75,7 +75,7 @@ public class GameController : MonoBehaviour
         // Get levelID from level manager
         field = new GameObject[2, Conditions.maxLanes];
         // Load player deck
-        if (levelID > 2)
+        if (levelID > 3)
             player.deck = new List<CardObject>(Conditions.deck);
         StartCoroutine("gameStart");
     }

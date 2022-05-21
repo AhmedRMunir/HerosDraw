@@ -5,7 +5,6 @@ using UnityEngine.EventSystems;
 
 public class SaveGame : MonoBehaviour, IPointerClickHandler
 {
-    public DeckBuilder deckBuilder;
 
     // Start is called before the first frame update
     void Start()
@@ -21,7 +20,8 @@ public class SaveGame : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        LevelManager.saveGame();
-        Conditions.saveCards();
+        //LevelManager.saveGame();
+        //Conditions.saveCards();
+        LevelManager.loadNewLevel("Title Screen");
     }
 }

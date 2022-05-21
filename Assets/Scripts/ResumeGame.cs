@@ -30,7 +30,21 @@ public class ResumeGame : MonoBehaviour, IPointerClickHandler
         sceneTransition.Append(fadeBG.DOFade(1f, 1f))
             .AppendCallback(() =>
             {
-                LevelManager.loadNewLevel("Transition Screen");
+                switch (Conditions.levelsCompleted)
+                {
+                    case 0:
+                        SceneManager.LoadScene("Tutorial-1");
+                        break;
+                    case 1:
+                        SceneManager.LoadScene("Tutorial-2");
+                        break;
+                    case 2:
+                        SceneManager.LoadScene("Tutorial-3");
+                        break;
+                    default:
+                        SceneManager.LoadScene("Transition Screen");
+                        break;
+                }
             });
         
         //SceneManager.LoadScene("Tutorial-1");

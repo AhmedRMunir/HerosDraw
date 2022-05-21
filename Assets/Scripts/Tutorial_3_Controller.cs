@@ -13,8 +13,17 @@ using DG.Tweening;
 public class Tutorial_3_Controller : GameController
 {
 
+    public GameObject deckObject;
+
     public override IEnumerator gameStart()
     {
+        List<CardObject> deckList = deckObject.GetComponent<DeckList>().deck;
+        Conditions.deck = new List<CardObject>(deckList);
+        player.deck = new List<CardObject>(deckList);
+        Conditions.DeckToCollection(Conditions.deck_collection);
+        Conditions.DeckToCollection(Conditions.card_collection);
+        Conditions.saveCards();
+
         List<string> promptList = new List<string>();
         promptList.Add("You've come so far. I'm proud of you :')\nTime for a proper Battle!");
         promptList.Add("Win this battle to win your very first Hero card!");

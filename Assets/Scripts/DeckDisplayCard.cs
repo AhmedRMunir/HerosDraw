@@ -69,7 +69,7 @@ public class DeckDisplayCard : MonoBehaviour
                 image.color = Color.white;
             }
         }
-        infoText.text = "cost: " + cost + ", attack: " + attack + ", health: " + health + ", faction: " + faction + "\n";
+        infoText.text = "Cost: " + cost + ", Attack: " + attack + ", Health: " + health + ", Faction: " + faction + "\n";
         infoText.text += description;
     }
 

@@ -28,6 +28,8 @@ public class DeckBuilder : MonoBehaviour
 
     public List<CardObject> testDeck;
 
+    public EndPrompt warningPrompt;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -126,9 +128,17 @@ public class DeckBuilder : MonoBehaviour
     }
 
     public void goToTransitionScreen() {
-        Conditions.saveCards();
-        Conditions.CollectionToDeck(Conditions.deck_collection);
-        SceneManager.LoadScene("Transition Screen");
+        if (deck_size < deck_min)
+        {
+            List<string> promptList = new List<string>();
+            promptList.Add("Your deck must have at least " + deck_min + " cards.");
+            warningPrompt.Setup(promptList);
+        } else
+        {
+            Conditions.saveCards();
+            Conditions.CollectionToDeck(Conditions.deck_collection);
+            SceneManager.LoadScene("Transition Screen");
+        }
     }
 
 }

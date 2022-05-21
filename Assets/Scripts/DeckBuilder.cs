@@ -33,8 +33,9 @@ public class DeckBuilder : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        /*
+        
         // comment below when done testing
+        /*
         Conditions.deck = new List<CardObject>(testDeck); 
         Conditions.deck_collection = new Dictionary<string, Conditions.info>();
         Conditions.card_collection = new Dictionary<string, Conditions.info>();
@@ -61,9 +62,9 @@ public class DeckBuilder : MonoBehaviour
                 }
                 Conditions.card_collection.Add(card.name, new Conditions.info(card, type, 0));
             }
-        }
+        }*/
         // comment above when done testing
-        */
+        
 
         deckDisplayLength = Conditions.deck_collection.Count;
         collectionDisplayLength = Conditions.card_collection.Count;
@@ -91,7 +92,12 @@ public class DeckBuilder : MonoBehaviour
             renderDisplay(Conditions.card_collection, collectionWindow, false);
         }
 
-        deckSizeText.text = "Current Deck: " + deck_size + "/" + deck_min;
+        deckSizeText.text = "Current Deck: " + deck_size + "/" + deck_max;
+        if (deck_size > deck_max) {
+            deckSizeText.color = Color.red;
+        } else {
+            deckSizeText.color = Color.white;
+        }
     }
 
     private void clearCards(GameObject window)
@@ -133,7 +139,12 @@ public class DeckBuilder : MonoBehaviour
             List<string> promptList = new List<string>();
             promptList.Add("Your deck must have at least " + deck_min + " cards.");
             warningPrompt.Setup(promptList);
-        } else
+        } else if (deck_size > deck_max) {
+            List<string> promptList = new List<string>();
+            promptList.Add("Your deck must have no more than " + deck_max + " cards.");
+            warningPrompt.Setup(promptList);
+        } 
+        else
         {
             Conditions.saveCards();
             Conditions.CollectionToDeck(Conditions.deck_collection);

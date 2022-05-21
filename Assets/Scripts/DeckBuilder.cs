@@ -31,7 +31,8 @@ public class DeckBuilder : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        /*// remove when done testing
+        /*
+        // comment below when done testing
         Conditions.deck = new List<CardObject>(testDeck); 
         Conditions.deck_collection = new Dictionary<string, Conditions.info>();
         Conditions.card_collection = new Dictionary<string, Conditions.info>();
@@ -58,7 +59,9 @@ public class DeckBuilder : MonoBehaviour
                 }
                 Conditions.card_collection.Add(card.name, new Conditions.info(card, type, 0));
             }
-        }*/
+        }
+        // comment above when done testing
+        */
 
         deckDisplayLength = Conditions.deck_collection.Count;
         collectionDisplayLength = Conditions.card_collection.Count;
@@ -112,11 +115,6 @@ public class DeckBuilder : MonoBehaviour
     public GameObject displayCard(KeyValuePair<string, Conditions.info> cardInfo, bool inDeck) {
         GameObject displayedCard = Instantiate(displayPrefab, canvas.transform);
         DeckDisplayCard displayInfo = displayedCard.GetComponent<DeckDisplayCard>();
-        displayInfo.cardName = cardInfo.Key;
-        displayInfo.cost = cardInfo.Value.card.cost;
-        displayInfo.attack = cardInfo.Value.card.attack;
-        displayInfo.health = cardInfo.Value.card.health;
-        displayInfo.description = cardInfo.Value.card.description;
         displayInfo.inDeck = inDeck;
         displayInfo.card = cardInfo.Value.card;
 

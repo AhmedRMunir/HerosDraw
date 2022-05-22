@@ -15,6 +15,17 @@ public static class Conditions
     public static int levelsCompleted = 0;
     public static List<CardObject> deck = new List<CardObject>();
 
+    public static List<string> enemyDeck = new List<string> {
+        "1C-0A-1H",
+        "1C-1A-1H",
+        "1C-1A-2H",
+        "Captain",
+        "Champion",
+        "Knight",
+        "Shaman",
+        "Squire",
+        "Wizard"};
+
     public class info
     {
         public CardObject card;

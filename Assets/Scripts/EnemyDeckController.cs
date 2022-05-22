@@ -15,7 +15,20 @@ public class EnemyDeckController : PlayerController
     void Start()
     {
         cardWidth = completeCard.GetComponent<RectTransform>().sizeDelta.x * completeCard.GetComponent<RectTransform>().localScale.x;
+        initEnemyDeck();
+    }
 
+    private void initEnemyDeck() {
+
+        // Clear current deck
+        deck = new List<CardObject>();   
+
+        int deckCount = UnityEngine.Random.Range(15, 20);
+        int allCardsCount = Conditions.enemyDeck.Count;
+        for (int i = 0; i < deckCount; i++) {
+            int newCardNum = UnityEngine.Random.Range(0, allCardsCount);
+            deck.Add(Resources.Load<CardObject>("Cards/" + Conditions.enemyDeck[newCardNum]));
+        }
     }
 
     // Update is called once per frame

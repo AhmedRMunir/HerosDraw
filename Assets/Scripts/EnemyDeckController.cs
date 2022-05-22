@@ -15,7 +15,9 @@ public class EnemyDeckController : PlayerController
     void Start()
     {
         cardWidth = completeCard.GetComponent<RectTransform>().sizeDelta.x * completeCard.GetComponent<RectTransform>().localScale.x;
-        initEnemyDeck();
+        if (Conditions.levelsCompleted >= 3) {
+            initEnemyDeck();
+        }
     }
 
     private void initEnemyDeck() {

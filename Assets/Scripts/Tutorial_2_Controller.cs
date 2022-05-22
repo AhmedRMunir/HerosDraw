@@ -181,6 +181,10 @@ public class Tutorial_2_Controller : GameController
         }
     }
 
+    public override void enemy_play_card() {
+        enemy_play_card_block_strongest_on_field();
+    }
+
     // public override void enemy_play_card() {
     //     Debug.Log(battleNum + ", " + turnNum);
     //     switch(battleNum) {

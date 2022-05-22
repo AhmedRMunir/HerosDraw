@@ -551,8 +551,23 @@ public class GameController : MonoBehaviour
     
 
     public virtual void enemy_play_card() {
-        // enemy_play_card_first_open_lane();
-        enemy_play_card_block_strongest_on_field();
+        
+        int nextMove = UnityEngine.Random.Range(0,3);
+
+        switch (nextMove) {
+            case 0:
+                enemy_play_card_first_block_lane();
+                break;
+            case 1:
+                enemy_play_card_first_block_lane();
+                break;
+            case 2:
+                enemy_play_card_block_strongest_on_field();
+                break;
+            default:
+                enemy_play_card_first_open_lane();
+                break;
+        }
     }
 
 

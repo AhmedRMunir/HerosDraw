@@ -109,6 +109,8 @@ public class DeckBuilder : MonoBehaviour
     }
     public void renderDisplay(Dictionary<string, Conditions.info> dict, GameObject window, bool inDeck) {
         clearCards(window);
+        deckWindow.GetComponent<RectTransform>().sizeDelta = new Vector2(0, deckDisplayLength * displayPrefab.GetComponent<RectTransform>().sizeDelta.y);
+        collectionWindow.GetComponent<RectTransform>().sizeDelta = new Vector2(0, collectionDisplayLength * displayPrefab.GetComponent<RectTransform>().sizeDelta.y);
         int i = 0;
         foreach (KeyValuePair<string, Conditions.info> cardInfo in dict) {
             GameObject displayedCard = displayCard(cardInfo, inDeck);

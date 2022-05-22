@@ -1097,7 +1097,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2e4dd95071ee4f4db7290f5c6271a13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 10
+  health: 1
   mana: 10
   maxMana: 10
   deck:
@@ -1912,6 +1912,8 @@ MonoBehaviour:
   EndPrompt: {fileID: 1252788001}
   dialogPrompt: {fileID: 1974860318}
   ManaRegenOverlay: {fileID: 1769227806286872275, guid: 880eb63c30a944004abaa6966bff89fb, type: 3}
+  obtainableCard: {fileID: 8725599466063141245, guid: 1d5009972779640679ee8d269b742deb, type: 3}
+  obtainCardText: {fileID: 3157040703367908497, guid: adfda019862330b4a846fed8082ba7d1, type: 3}
   current_turn: 1
   next_player: 0
   deckObject: {fileID: 3765499820009271856, guid: c72ef0ba5ae33d04cb72ecde9459120b, type: 3}

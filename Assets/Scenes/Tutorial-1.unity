@@ -456,6 +456,8 @@ MonoBehaviour:
   EndPrompt: {fileID: 691965148}
   dialogPrompt: {fileID: 1440235099}
   ManaRegenOverlay: {fileID: 1769227806286872275, guid: 880eb63c30a944004abaa6966bff89fb, type: 3}
+  obtainableCard: {fileID: 8725599466063141245, guid: 1d5009972779640679ee8d269b742deb, type: 3}
+  obtainCardText: {fileID: 3157040703367908497, guid: adfda019862330b4a846fed8082ba7d1, type: 3}
   current_turn: 1
   next_player: 0
   indicatorArrow: {fileID: 983455087857258273, guid: f3fd2d8969dfbbe4b83acb350b581bb5, type: 3}

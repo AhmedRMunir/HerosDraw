@@ -53,6 +53,9 @@ public class GameController : MonoBehaviour
 
     public GameObject ManaRegenOverlay;
 
+    public GameObject obtainableCard;
+    public GameObject obtainCardText;
+
     public enum turn {
         PLAYER, ENEMY
     }
@@ -60,7 +63,7 @@ public class GameController : MonoBehaviour
     public turn current_turn;
     public turn next_player;
 
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -74,9 +77,22 @@ public class GameController : MonoBehaviour
 
         // Get levelID from level manager
         field = new GameObject[2, Conditions.maxLanes];
-        // Load player deck
-        if (levelID > 3)
+        // Levels past tutorial
+        if (levelID > 3) {
+            // Randomize player who goes first
+            int startPlayer = Random.Range(0, 2);
+            if (startPlayer == 0) // Player start
+            {
+                current_turn = turn.PLAYER;
+                next_player = turn.ENEMY;
+            } else // Enemy start
+            {
+                current_turn = turn.ENEMY;
+                next_player = turn.PLAYER;
+            }
+            // Load player deck
             player.deck = new List<CardObject>(Conditions.deck);
+        }
         StartCoroutine("gameStart");
     }
 
@@ -443,10 +459,33 @@ public class GameController : MonoBehaviour
         Conditions.levelsCompleted++;
         Conditions.actionsPerLevel = 0;
         List<string> promptList = new List<string>();
+        List<string> dialogPromptList = new List<string>();
 
         if (playerWin) {
             LevelManager.clearedLevels.Add(levelID);
             Conditions.wins++;
+            List<CardObject> cards = new List<CardObject>();
+            if (levelID == 3)
+            {
+                dialogPromptList.Add("Congratulations! You are now ready for Hero's Draw.");
+                dialogPromptList.Add("As promised, here is your first Hero card!");
+                dialogPromptList.Add("You may only have 1 of each Hero card in your deck, so build wisely.");
+                dialogPrompt.Setup(dialogPromptList);
+                cards.Add(Resources.Load<CardObject>("Cards/Arthur, King of Legend"));
+                StartCoroutine(obtainCard(cards));
+            } else if (levelID > 3)
+            {
+                dialogPromptList.Add("YOU WIN :)");
+                dialogPrompt.Setup(dialogPromptList);
+                for (int i = 0; i < 3; i++)
+                {
+                    int cardDBIndex = Random.Range(0, CardDatabase.cardList.Count);
+                    Debug.Log("Random card: " + CardDatabase.cardList[cardDBIndex]);
+                    cards.Add(Resources.Load<CardObject>("Cards/" + CardDatabase.cardList[cardDBIndex]));
+                }
+                StartCoroutine(obtainCard(cards));
+            }
+            
             promptList.Add("YOU WIN :)");
         } else {
             Conditions.losses++;
@@ -456,6 +495,27 @@ public class GameController : MonoBehaviour
         
         StopAllCoroutines();
         yield return new WaitForSeconds(1f);
+    }
+
+    public IEnumerator obtainCard(List<CardObject> cards)
+    {
+        Instantiate(obtainCardText, EndPrompt.transform);
+        int i = 0;
+        if (cards.Count == 1)
+        {
+            i = 1;
+        }
+        foreach (CardObject card in cards)
+        {
+            GameObject newCard = Instantiate(obtainableCard, EndPrompt.transform);
+            newCard.GetComponent<ObtainableCard>().cardIdentity = card;     
+            float scale = newCard.GetComponent<RectTransform>().localScale.x;
+            float cardWidth = newCard.GetComponent<RectTransform>().sizeDelta.x * scale * 1.1f;
+            newCard.GetComponent<RectTransform>().anchoredPosition = new Vector2(-cardWidth + i * cardWidth, 0);
+            newCard.GetComponent<RectTransform>().DORotate(new Vector3(1, 1, 1), 2f);
+            i++;
+        }
+        yield return new WaitForEndOfFrame();
     }
 
     // Return a list of the indices of open lanes

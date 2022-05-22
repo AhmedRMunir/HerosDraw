@@ -13,7 +13,11 @@ public static class CardDatabase
         "Knight",
         "Shaman",
         "Squire",
-        "Wizard"
+        "Wizard",
+        "Dragon Whelp",
+        "Dragon",
+        "Enchanted Library",
+        "Barricade"
     };
 
     public static List<string> heroList = new List<string>
@@ -26,7 +30,8 @@ public static class CardDatabase
         "Captain",
         "Champion",
         "Knight",
-        "Squire"
+        "Squire",
+        "Barricade"
     };
 
 

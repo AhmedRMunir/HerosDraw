@@ -724,7 +724,7 @@ public class GameController : MonoBehaviour
         if (player.maxMana < Conditions.maxTotalMana)
         {
             player.maxMana++;
-            player.mana = player.maxMana;
         }
+        player.mana = player.maxMana;
     }
 }

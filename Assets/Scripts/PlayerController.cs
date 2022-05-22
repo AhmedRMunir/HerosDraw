@@ -27,17 +27,26 @@ public class PlayerController : MonoBehaviour
     private float cardWidth;
 
     private int lowestCardMana;
+    private float oldCardGap;
 
     // Start is called before the first frame update
     void Start()
     {
-        cardWidth = completeCard.GetComponent<RectTransform>().sizeDelta.x * completeCard.GetComponent<RectTransform>().localScale.x; 
-
+        cardWidth = completeCard.GetComponent<RectTransform>().sizeDelta.x * completeCard.GetComponent<RectTransform>().localScale.x;
+        oldCardGap = cardGap;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (hand.Count > 7)
+        {
+            cardGap = oldCardGap * 2;
+        }
+        else
+        {
+            cardGap = oldCardGap;
+        }
         if (handSize != hand.Count)
         {
             handSize = hand.Count;
@@ -51,6 +60,7 @@ public class PlayerController : MonoBehaviour
         {
             gameObject.GetComponent<Image>().enabled = true;
         }
+        
     }
 
     public void shuffle()

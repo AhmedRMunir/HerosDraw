@@ -15,9 +15,9 @@ MonoBehaviour:
   cardName: Arthur, King of Legend
   art: {fileID: 21300000, guid: 10c6420d34d04bd428e0767422beb496, type: 3}
   description: 'On summon: Solidarity(+1/+1) for each other ally knight.'
-  cost: 0
-  attack: 5
-  health: 5
+  cost: 5
+  attack: 4
+  health: 4
   faction: Knight
   cardType: Hero
   cardAbility: solidarity

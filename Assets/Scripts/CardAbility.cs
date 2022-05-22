@@ -101,4 +101,48 @@ public class CardAbility : MonoBehaviour
         card.GetComponent<CardBehavior>().updateStats(boost, boost);
         yield return new WaitForEndOfFrame();
     }
+
+    /* values:  idx 0 - cards to draw
+                idx 1 - 
+                idx 2 - field row; 0 if enemy, 1 if player
+                idx 3 - lane index // unused
+    */
+    public IEnumerator draw(int[] values)
+    {
+        yield return new WaitForEndOfFrame();
+        for (int i = 0; i < values[0]; i++)
+        {
+            if (values[2] == 0) // Enemy draw
+            {
+                gm.enemy.drawCard();
+            } else // Player draw
+            {
+                gm.player.drawCard();
+            }
+        }
+        yield return new WaitForEndOfFrame();
+    }
+
+    /* values:  idx 0 - cards to draw
+                idx 1 - mana cost
+                idx 2 - field row; 0 if enemy, 1 if player
+                idx 3 - lane index // unused
+    */
+    public IEnumerator drawActive(int[] values)
+    {
+        yield return new WaitForEndOfFrame();
+        gm.player.mana -= values[1];
+        for (int i = 0; i < values[0]; i++)
+        {
+            if (values[2] == 0) // Enemy draw
+            {
+                gm.enemy.drawCard();
+            }
+            else // Player draw
+            {
+                gm.player.drawCard();
+            }
+        }
+        yield return new WaitForEndOfFrame();
+    }
 }

@@ -63,6 +63,8 @@ public class ObtainableCard : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             factionIcon.sprite = Resources.Load<Sprite>("Sprites/Vampire");
         } else // Maybe if we wanna have factionless cards
         {
+            faction = -1;
+            factionIcon.enabled = false;
         }
 
         // Special graphics for hero and spell cards

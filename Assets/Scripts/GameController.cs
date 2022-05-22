@@ -375,7 +375,7 @@ public class GameController : MonoBehaviour
             yield return new WaitForSeconds(0.75f);
         
         current_turn = turn.ENEMY;
-        if (num_enemy_summoned_card == enemy_lanes.transform.childCount || enemy.hand.Count == 0 || enemy_ready_for_battle) {
+        if (num_enemy_summoned_card == enemy_lanes.transform.childCount || enemy.hand.Count == 0 || enemy_ready_for_battle || enemy.mana == 0) {
             // the field is full or the hand is empty
             enemy_has_summoned = true;
 

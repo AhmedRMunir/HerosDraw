@@ -6,12 +6,29 @@ public static class CardDatabase
 {
     public static List<string> cardList = new List<string>
     {
-        "Arthur, King of Legend",
+        "Apprentice",
+        "Magician",
         "Captain",
         "Champion",
         "Knight",
-        "Squire",
         "Shaman",
+        "Squire",
         "Wizard"
     };
+
+    public static List<string> heroList = new List<string>
+    {
+        "Arthur, King of Legend"
+    };
+
+    public static List<string> knightList = new List<string>
+    {
+        "Captain",
+        "Champion",
+        "Knight",
+        "Squire"
+    };
+
+
+
 }

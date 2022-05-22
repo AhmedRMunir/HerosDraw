@@ -33,7 +33,7 @@ public class DeckBuilder : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
         // comment below when done testing
         /*
         Conditions.deck = new List<CardObject>(testDeck); 
@@ -64,7 +64,8 @@ public class DeckBuilder : MonoBehaviour
             }
         }*/
         // comment above when done testing
-        
+        if (Conditions.collectingData)
+            StartCoroutine(LoadingController.LOGGER.LogLevelStart(-5, "{ User entered deckbuilder }"));
 
         deckDisplayLength = Conditions.deck_collection.Count;
         collectionDisplayLength = Conditions.card_collection.Count;
@@ -148,6 +149,8 @@ public class DeckBuilder : MonoBehaviour
         } 
         else
         {
+            if (Conditions.collectingData)
+                LoadingController.LOGGER.LogLevelEnd("{ Player exited deckbuilder }");
             Conditions.saveCards();
             Conditions.CollectionToDeck(Conditions.deck_collection);
             SceneManager.LoadScene("Transition Screen");

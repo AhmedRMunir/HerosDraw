@@ -631,7 +631,7 @@ MonoBehaviour:
   mana: 1
   maxMana: 1
   deck:
-  - {fileID: 11400000, guid: 676da32835f1e8f4e901856a5852f793, type: 2}
+  - {fileID: 11400000, guid: 2d86ef327a5b44eef9aca24f802ebc57, type: 2}
   - {fileID: 11400000, guid: 9f3c8d2c911547c49b392db11cec5464, type: 2}
   - {fileID: 11400000, guid: 5544904aa00a44195b5403361f1c68d8, type: 2}
   hand: []
@@ -2627,7 +2627,7 @@ MonoBehaviour:
   mana: 1
   maxMana: 1
   deck:
-  - {fileID: 11400000, guid: 676da32835f1e8f4e901856a5852f793, type: 2}
+  - {fileID: 11400000, guid: 2d86ef327a5b44eef9aca24f802ebc57, type: 2}
   - {fileID: 11400000, guid: 9f3c8d2c911547c49b392db11cec5464, type: 2}
   - {fileID: 11400000, guid: 9f3c8d2c911547c49b392db11cec5464, type: 2}
   - {fileID: 11400000, guid: 073f488abe1ce6f4d81597ed53c3d5d7, type: 2}

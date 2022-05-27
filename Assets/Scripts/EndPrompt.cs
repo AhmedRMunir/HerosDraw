@@ -24,9 +24,10 @@ public class EndPrompt : MonoBehaviour
     public void ContinueButton() {
 
         if (promptList.Count > 0) {
+            Conditions.actionsPerLevel++;
             if (Conditions.collectingData)
             {
-                LoadingController.LOGGER.LogLevelAction(60, "{ Last prompt pressed: " + promptList[0] + " }");
+                LoadingController.LOGGER.LogLevelAction(60, "{ Last prompt pressed: " + promptList[0] + ", Actions taken: " + Conditions.actionsPerLevel + " }");
             }
             promptText.text = promptList[0];
             promptList.Remove(promptList[0]);
@@ -34,6 +35,7 @@ public class EndPrompt : MonoBehaviour
             if (levelName == "none") {
                 gameObject.SetActive(false);
             } else {
+                Conditions.actionsPerLevel = 0;
                 GameObject fade = Instantiate(fadeToBlack, transform.parent);
                 Image fadeBG = fade.GetComponent<Image>();
                 Sequence sceneTransition = DOTween.Sequence();

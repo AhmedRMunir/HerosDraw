@@ -458,7 +458,7 @@ public class GameController : MonoBehaviour
             LoadingController.LOGGER.LogLevelEnd("{ Player Won: " + playerWin + ", Number of battles: " + battleNum  + ", Actions taken: " + Conditions.actionsPerLevel + " }");
 
         Conditions.levelsCompleted++;
-        Conditions.actionsPerLevel = 0;
+        //Conditions.actionsPerLevel = 0;
         List<string> promptList = new List<string>();
         List<string> dialogPromptList = new List<string>();
 

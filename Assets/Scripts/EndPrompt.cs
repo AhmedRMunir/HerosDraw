@@ -24,6 +24,10 @@ public class EndPrompt : MonoBehaviour
     public void ContinueButton() {
 
         if (promptList.Count > 0) {
+            if (Conditions.collectingData)
+            {
+                LoadingController.LOGGER.LogLevelAction(60, "{ Last prompt pressed: " + promptList[0] + " }");
+            }
             promptText.text = promptList[0];
             promptList.Remove(promptList[0]);
         } else {

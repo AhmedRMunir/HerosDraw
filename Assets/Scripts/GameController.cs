@@ -81,6 +81,7 @@ public class GameController : MonoBehaviour
         if (levelID > 3) {
             // Randomize player who goes first
             int startPlayer = Random.Range(0, 2);
+            levelID = Conditions.levelsCompleted + 1;
             if (startPlayer == 0) // Player start
             {
                 current_turn = turn.PLAYER;
@@ -99,7 +100,7 @@ public class GameController : MonoBehaviour
     public virtual IEnumerator gameStart()
     {
         if (Conditions.collectingData)
-            StartCoroutine(LoadingController.LOGGER.LogLevelStart(levelID, "{ User entered battle }"));
+            StartCoroutine(LoadingController.LOGGER.LogLevelStart(levelID, "{ User entered battle" + levelID + " }"));
 
         player.maxMana = 1;
         player.mana = 1;
@@ -465,6 +466,10 @@ public class GameController : MonoBehaviour
             LevelManager.clearedLevels.Add(levelID);
             Conditions.wins++;
             List<CardObject> cards = new List<CardObject>();
+            if (Conditions.collectingData)
+            {
+                LoadingController.LOGGER.LogActionWithNoLevel(55, "{ Player stats: levels completed: " + Conditions.levelsCompleted + ", wins: " + Conditions.wins + ", losses: " + Conditions.losses + " }");
+            }
             if (levelID == 3)
             {
                 dialogPromptList.Add("Congratulations! You are now ready for Hero's Draw.");

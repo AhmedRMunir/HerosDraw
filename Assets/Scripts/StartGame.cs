@@ -24,7 +24,7 @@ public class StartGame : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        GameObject fade = Instantiate(fadeToBlack, transform.parent);
+        GameObject fade = Instantiate(fadeToBlack, transform.parent.parent);
         Image fadeBG = fade.GetComponent<Image>();
         Sequence sceneTransition = DOTween.Sequence();
         sceneTransition.Append(fadeBG.DOFade(1f, 1f))

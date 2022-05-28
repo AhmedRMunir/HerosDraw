@@ -463,7 +463,7 @@ MonoBehaviour:
   indicatorArrow: {fileID: 983455087857258273, guid: f3fd2d8969dfbbe4b83acb350b581bb5, type: 3}
   summonZone: {fileID: 1905622764}
   completeCard: {fileID: 8725599466063141245, guid: c17454e7db0b04d678f044b4bc4dfc54, type: 3}
-  exampleCardIdentity: {fileID: 11400000, guid: c5d946fe1ff50ea45aacdc74adf21eaf, type: 2}
+  exampleCardIdentity: {fileID: 11400000, guid: 073f488abe1ce6f4d81597ed53c3d5d7, type: 2}
   passTurn: {fileID: 1030023601}
 --- !u!1 &345183080
 GameObject:

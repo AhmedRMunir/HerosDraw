@@ -1907,7 +1907,7 @@ MonoBehaviour:
   enemy_ready_for_battle: 0
   enemy_has_summoned: 0
   enemy_Avatar: {fileID: 1363922467}
-  handStartSize: 4
+  handStartSize: 5
   turnNum: 1
   battleNum: 1
   slideSpeed: 0.3

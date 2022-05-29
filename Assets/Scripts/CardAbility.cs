@@ -120,6 +120,10 @@ public class CardAbility : MonoBehaviour
                 gm.player.drawCard();
             }
         }
+        if (values[2] == 1)
+        {
+            gm.player_can_pass = gm.playerHasPlayable(); 
+        }
         yield return new WaitForEndOfFrame();
     }
 
@@ -142,6 +146,10 @@ public class CardAbility : MonoBehaviour
             {
                 gm.player.drawCard();
             }
+        }
+        if (values[2] == 1)
+        {
+            gm.player_can_pass = gm.playerHasPlayable();
         }
         yield return new WaitForEndOfFrame();
     }

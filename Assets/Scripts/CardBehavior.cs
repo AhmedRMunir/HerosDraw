@@ -47,6 +47,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public GameController gameController;
 
     private CardAbility ability;
+    public bool abilityUsed;
 
     // Start is called before the first frame update
     void Start()
@@ -84,6 +85,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         abilityParams = new List<int>(cardIdentity.abilityParams);
         ability = GameObject.FindGameObjectWithTag("Ability").GetComponent<CardAbility>();
         hasUseableAbility = false;
+        abilityUsed = false;
 
         // Update faction icon based on value of faction string, faction ids: 0 = knight, 1 = mage, 2 = vampire
         if (cardIdentity.faction == "Knight")
@@ -124,7 +126,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     void Update()
     {
         if (cardIdentity.hasActiveAbility) {
-            if (cardIdentity.activeAbilityCost[0] < gameController.player.health && cardIdentity.activeAbilityCost[1] <= gameController.player.mana) {
+            if (cardIdentity.activeAbilityCost[0] < gameController.player.health && cardIdentity.activeAbilityCost[1] <= gameController.player.mana && !abilityUsed) {
                 hasUseableAbility = true;
             } else {
                 hasUseableAbility = false;
@@ -208,10 +210,11 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
                     indicatePlayableLane(child);
                 }
             }
-        } else if (summoned == true && isEnemy == false && gameController.current_turn == GameController.turn.PLAYER && hasUseableAbility && !gameController.player_ready_for_battle) {
+        } else if (summoned == true && isEnemy == false && gameController.current_turn == GameController.turn.PLAYER && hasUseableAbility && !gameController.player_ready_for_battle && !abilityUsed) {
             if (Conditions.collectingData)
                 LoadingController.LOGGER.LogActionWithNoLevel(52, "{ Player activated: " + cardAbility + " }");
             Conditions.actionsPerLevel++;
+            abilityUsed = true;
             ability.activeAbility(cardAbility, abilityParams.ToArray());
         }
         

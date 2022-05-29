@@ -50,11 +50,11 @@ public class Tutorial_1_Controller : GameController
 
         List<string> promptList = new List<string>();
         promptList.Add("Welcome to Hero's Draw.");
-        promptList.Add("Your goal is to become the Card Hero, but first let's run you through how battles work.");
+        //promptList.Add("Your goal is to become the Card Hero, but first let's run you through how battles work.");
         dialogPrompt.Setup(promptList);
 
-        yield return new WaitUntil(() => dialogPrompt.pressed);
-        dialogPrompt.pressed = false;
+        /*yield return new WaitUntil(() => dialogPrompt.pressed);
+        dialogPrompt.pressed = false;*/
         yield return new WaitUntil(() => dialogPrompt.pressed);
         dialogPrompt.pressed = false;
 
@@ -152,13 +152,13 @@ public class Tutorial_1_Controller : GameController
                 yield return new WaitUntil(() => dialogPrompt.pressed);
                 dialogPrompt.pressed = false;
 
-                // CARD Ability
+                /*// CARD Ability
                 promptList.Add("This is the Pawn's Ability Section.\nIt can be a passive, active, or nothing.");
                 dialogPrompt.Setup(promptList);
                 // TODO: Highlight Card Ability
                 arrow.transform.position = exampleCard.GetComponent<CardBehavior>().descriptionText.transform.position;
                 yield return new WaitUntil(() => dialogPrompt.pressed);
-                dialogPrompt.pressed = false;
+                dialogPrompt.pressed = false;*/
                 Destroy(exampleCard);
 
                 // LANES
@@ -166,11 +166,7 @@ public class Tutorial_1_Controller : GameController
                 arrow.transform.position = player_lanes.transform.GetChild(0).transform.position;
                 arrow.transform.eulerAngles = new Vector3(0, 0, 0);
                 arrow.transform.localScale = new Vector2(-1, 1);
-                promptList.Add("There are 5 summoning Lanes where you will summon your pawns.");
-                dialogPrompt.Setup(promptList);
-                yield return new WaitUntil(() => dialogPrompt.pressed);
-                dialogPrompt.pressed = false;
-                promptList.Add("Once you click a Pawn you want to summon, it shows you where you can summon the card.");
+                promptList.Add("There are 5 summoning Lanes where you can summon your pawns.");
                 dialogPrompt.Setup(promptList);
                 yield return new WaitUntil(() => dialogPrompt.pressed);
                 dialogPrompt.pressed = false;
@@ -209,19 +205,19 @@ public class Tutorial_1_Controller : GameController
                 arrow.SetActive(true);
                 arrow.transform.position = ready_Button.transform.position;
                 arrow.transform.localScale = new Vector2(1, 1);
-                promptList.Add("When you are out of cards to play, your next move will be to ready for battle.");
+                promptList.Add("When you are out of cards to play, your next move will be to ready for Battle.");
                 dialogPrompt.Setup(promptList);
                 yield return new WaitUntil(() => dialogPrompt.pressed);
                 dialogPrompt.pressed = false;
 
-                promptList.Add("When a player readies for battle, they can no longer play any more cards.");
+                promptList.Add("When a player readies for Battle, they can no longer play any more cards.");
                 dialogPrompt.Setup(promptList);
                 yield return new WaitUntil(() => dialogPrompt.pressed);
                 dialogPrompt.pressed = false;
                 Destroy(arrow);
 
                 // BATTLE EXPLANATION
-                promptList.Add("Once both players are ready for battle, the battle will commence and all Pawns will fight the opposing lane.");
+                promptList.Add("Once both players are ready for Battle, the Battle will commence and all Pawns will fight the opposing lane.");
                 promptList.Add("However, if a card is unopposed, it will attack the player directly, depleting their health.");
                 dialogPrompt.Setup(promptList);
                 // Enable the Ready for Battle Button
@@ -233,7 +229,7 @@ public class Tutorial_1_Controller : GameController
                 if (turnNum == 1) {
                     // GOING FIRST STRATEGY
 
-                    promptList.Add("After each battle, the player who makes the first move alternates.");
+                    promptList.Add("After each Battle, the player who makes the first move alternates.");
                     yield return new WaitUntil(() => dialogPrompt.pressed);
                     dialogPrompt.pressed = false;
                     promptList.Add("Also, notice that your max Mana increases by 1 and replenishes every Battle.");
@@ -278,7 +274,7 @@ public class Tutorial_1_Controller : GameController
                     
                 } else if (turnNum == 2) {
                     // CONTINUATION
-                    promptList.Add("Now play your other card and then go to Battle!");
+                    promptList.Add("Now play your other card and go to Battle!");
                     dialogPrompt.Setup(promptList);
                     yield return new WaitUntil(() => dialogPrompt.pressed);
                     dialogPrompt.pressed = false;
@@ -290,8 +286,7 @@ public class Tutorial_1_Controller : GameController
             case 3:
                 // DRAW CARD WITH PASSIVE
                 promptList.Add("You drew a Pawn with a Passive Ability. Passives typically apply when the Pawn is summoned.");
-                promptList.Add("Passive abilities can quickly turn the tide of battle. The one you drew will strengthen your other Pawns.");
-                promptList.Add("With it, defeat your opponent!");
+                promptList.Add("Passive abilities can quickly turn the tide of battle. With it, defeat your opponent!");
                 dialogPrompt.Setup(promptList);
                 yield return new WaitUntil(() => dialogPrompt.pressed);
                 dialogPrompt.pressed = false;

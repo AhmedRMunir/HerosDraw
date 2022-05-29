@@ -181,7 +181,7 @@ public class GameController : MonoBehaviour
             player_can_pass = false;
         }
 
-        List<GameObject> playableCards = get_playable_cards(1);
+        //List<GameObject> playableCards = get_playable_cards(1);
         if (!playerHasPlayable())
         {
             player_can_pass = false;
@@ -274,7 +274,7 @@ public class GameController : MonoBehaviour
             {
                 attackPawns(player_card, enemy_card, battleAnim);
             }
-            battleAnimTime += 1.3f;
+            battleAnimTime += 1f;
 
         }
 
@@ -315,9 +315,9 @@ public class GameController : MonoBehaviour
               .Join(pawnTran.DOScale(1.5f, 0.1f))
               .Append(pawnTran.DOMove(targetAvatar.transform.position, 0.25f))
               .AppendCallback(() => { updateHealth(target, -pawn.GetComponent<CardBehavior>().getAttack()); })
-              .Append(pawnTran.DOMove(new Vector2(pawnTran.position.x, pawnTran.position.y), 0.4f))
-              .Join(targetAvatar.transform.DOPunchScale(new Vector3(1.5f, 1.5f, 1.5f), 0.5f, 10, 1))
-              .Join(pawnTran.DOScale(1f, 0.4f))
+              .Append(pawnTran.DOMove(new Vector2(pawnTran.position.x, pawnTran.position.y), 0.3f))
+              .Join(targetAvatar.transform.DOPunchScale(new Vector3(1.5f, 1.5f, 1.5f), 0.3f, 10, 1))
+              .Join(pawnTran.DOScale(1f, 0.3f))
               .Append(targetAvatar.transform.DOScale(1f, 0.2f));
     }
 
@@ -339,12 +339,12 @@ public class GameController : MonoBehaviour
                 player_card.GetComponent<CardBehavior>().updateStats(0, -enemy_card.GetComponent<CardBehavior>().getAttack());
                 enemy_card.GetComponent<CardBehavior>().updateStats(0, -player_card.GetComponent<CardBehavior>().getAttack());
             })
-            .Join(enemyHP.DOPunchScale(new Vector3(1.5f, 1.5f, 1.5f), 0.5f, 10, 1))
-            .Join(playerHP.DOPunchScale(new Vector3(1.5f, 1.5f, 1.5f), 0.5f, 10, 1))
-            .Join(enemyTran.DOMove(new Vector2(enemyTran.position.x, enemyTran.position.y), 0.4f))
-            .Join(playerTran.DOMove(new Vector2(playerTran.position.x, playerTran.position.y), 0.4f))
-            .Join(enemyTran.DOScale(1f, 0.4f))
-            .Join(playerTran.DOScale(1f, 0.4f))
+            .Join(enemyHP.DOPunchScale(new Vector3(1.5f, 1.5f, 1.5f), 0.3f, 10, 1))
+            .Join(playerHP.DOPunchScale(new Vector3(1.5f, 1.5f, 1.5f), 0.3f, 10, 1))
+            .Join(enemyTran.DOMove(new Vector2(enemyTran.position.x, enemyTran.position.y), 0.3f))
+            .Join(playerTran.DOMove(new Vector2(playerTran.position.x, playerTran.position.y), 0.3f))
+            .Join(enemyTran.DOScale(1f, 0.3f))
+            .Join(playerTran.DOScale(1f, 0.3f))
             .Append(enemyHP.DOScale(1f, 0.2f))
             .Join(playerHP.DOScale(1f, 0.2f));
     }
@@ -432,6 +432,20 @@ public class GameController : MonoBehaviour
         player_free_pass = true;
         player_can_pass = true;
 
+        // Reset actives
+        foreach (Transform lane in player_lanes.transform)
+        {
+            if (!lane.gameObject.activeInHierarchy)
+            {
+                continue;
+            }
+            if (lane.childCount > 0)
+            {
+                GameObject card = lane.GetChild(0).gameObject;
+                card.GetComponent<CardBehavior>().abilityUsed = false;
+            }
+
+        }
 
         yield return new WaitForSeconds(0.5f);
 
@@ -475,15 +489,22 @@ public class GameController : MonoBehaviour
                 dialogPromptList.Add("Congratulations! You are now ready for Hero's Draw.");
                 dialogPromptList.Add("As promised, here is your first Hero card!");
                 dialogPromptList.Add("You may only have 1 of each Hero card in your deck, so build wisely.");
+                dialogPromptList.Add("You can obtain a new Hero card every 5 wins, so do your best!");
                 dialogPrompt.Setup(dialogPromptList);
                 cards.Add(Resources.Load<CardObject>("Cards/Arthur, King of Legend"));
                 obtainCard(cards);
+                Conditions.wins = 0; // We only care about wins after the tutorial levels.
             } else if (levelID > 3)
             {
-                List<CardObject> obtainableCards = findObtainableCards("regular");
+                string cardType = "BASIC";
+                if (Conditions.wins % 5 == 0)
+                {
+                    cardType = "HERO";
+                }
+                List<CardObject> obtainableCards = findObtainableCards(cardType);
                 if (obtainableCards.Count == 0)
                 {
-                    dialogPromptList.Add("All cards have been obtained.");
+                    dialogPromptList.Add("All "+ cardType + " cards have been obtained.");
                 } else
                 {
                     dialogPromptList.Add("YOU WIN :)");
@@ -521,7 +542,7 @@ public class GameController : MonoBehaviour
     {
         List<CardObject> obtainableCards = new List<CardObject>();
         List<string> cardList;
-        if (cardType == "hero")
+        if (cardType == "HERO")
         {
             cardList = new List<string>(CardDatabase.heroList);
         } else

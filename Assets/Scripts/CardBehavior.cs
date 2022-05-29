@@ -368,4 +368,8 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     {
         return faction;
     }
+
+    public string getName() {
+        return nameText.text;
+    }
 }

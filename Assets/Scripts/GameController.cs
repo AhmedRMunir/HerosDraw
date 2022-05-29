@@ -486,7 +486,13 @@ public class GameController : MonoBehaviour
                 {
                     int cardDBIndex = Random.Range(0, CardDatabase.cardList.Count);
                     Debug.Log("Random card: " + CardDatabase.cardList[cardDBIndex]);
-                    cards.Add(Resources.Load<CardObject>("Cards/" + CardDatabase.cardList[cardDBIndex]));
+                    CardObject chosenCard = Resources.Load<CardObject>("Cards/" + CardDatabase.cardList[cardDBIndex]);
+                    while(cards.Contains(chosenCard))
+                    {
+                        cardDBIndex = Random.Range(0, CardDatabase.cardList.Count);
+                        chosenCard = Resources.Load<CardObject>("Cards/" + CardDatabase.cardList[cardDBIndex]);
+                    }
+                    cards.Add(chosenCard);
                 }
                 StartCoroutine(obtainCard(cards));
             }
@@ -517,7 +523,7 @@ public class GameController : MonoBehaviour
             float scale = newCard.GetComponent<RectTransform>().localScale.x;
             float cardWidth = newCard.GetComponent<RectTransform>().sizeDelta.x * scale * 1.1f;
             newCard.GetComponent<RectTransform>().anchoredPosition = new Vector2(-cardWidth + i * cardWidth, 0);
-            newCard.GetComponent<RectTransform>().DORotate(new Vector3(1, 1, 1), 2f);
+            newCard.GetComponent<RectTransform>().DORotate(new Vector3(0, 0, 0), 2f);
             i++;
         }
         yield return new WaitForEndOfFrame();

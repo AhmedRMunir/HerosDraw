@@ -54,6 +54,28 @@ public class CardAbility : MonoBehaviour
         yield return new WaitForEndOfFrame();
     }
 
+    /* values:  idx 0 - attack updates
+                idx 1 - health updates
+                idx 2 - field row; 0 if enemy, 1 if player
+                idx 3 - lane index
+                idx 4 - faction id (0 = knight, 1 = mage, 2 = vampire)
+    */
+    public IEnumerator reinforceOther(int[] values)
+    {
+        yield return new WaitForEndOfFrame();
+        Debug.Log(values[2]);
+        for (int i = 0; i < gm.field.GetLength(1); i++)
+        {
+            GameObject card = gm.field[values[2], i];
+            if (card != null && i != values[3] && card.GetComponent<CardBehavior>().getFaction() == values[4])
+            {
+                Debug.Log(card.GetComponent<CardBehavior>().nameText.text);
+                card.GetComponent<CardBehavior>().updateStats(values[0], values[1]);
+            }
+        }
+        yield return new WaitForEndOfFrame();
+    }
+
     /* values:  idx 0 - health updates
                 idx 1 - mana cost
                 idx 2 - field row; 0 if enemy, 1 if player
@@ -150,6 +172,59 @@ public class CardAbility : MonoBehaviour
         if (values[2] == 1)
         {
             gm.player_can_pass = gm.playerHasPlayable();
+        }
+        yield return new WaitForEndOfFrame();
+    }
+
+    /* values:  idx 0 
+                idx 1 
+                idx 2 - field row; 0 if enemy, 1 if player
+                idx 3 - lane index
+    */
+    public IEnumerator pierce(int[] values)
+    {
+        yield return new WaitForEndOfFrame();
+        GameObject card = gm.field[values[2], values[3]];
+        int enemyRow = Mathf.Abs(values[2] - 1);
+        if (gm.field[enemyRow, values[3]] != null)
+        {
+            GameObject enemyCard = gm.field[enemyRow, values[3]];
+            int playerAttack = card.GetComponent<CardBehavior>().getAttack();
+            Debug.Log(playerAttack);
+            int enemyHealth = enemyCard.GetComponent<CardBehavior>().getHealth();
+            Debug.Log(enemyHealth);
+            if (playerAttack > enemyHealth)
+            {
+                int damage = playerAttack - enemyHealth;
+                if (values[2] == 0) // enemy card ability
+                {
+                    gm.updateHealth(gm.player, -damage);
+                } else // player card ability
+                {
+                    gm.updateHealth(gm.enemy, -damage);
+                }
+            }
+        }
+        yield return new WaitForEndOfFrame();
+    }
+
+    /* values:  idx 0 
+                idx 1 
+                idx 2 - field row; 0 if enemy, 1 if player
+                idx 3 - lane index
+    */
+    public IEnumerator lifesteal(int[] values)
+    {
+        yield return new WaitForEndOfFrame();
+        GameObject card = gm.field[values[2], values[3]];
+        int attack = card.GetComponent<CardBehavior>().getAttack();
+        if (values[2] == 0) // enemy card ability
+        {
+            gm.updateHealth(gm.enemy, attack);
+        }
+        else // player card ability
+        {
+            gm.updateHealth(gm.player, attack);
         }
         yield return new WaitForEndOfFrame();
     }

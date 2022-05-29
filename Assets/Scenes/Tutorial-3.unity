@@ -1113,8 +1113,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e54f0d3c690a14ffc8d2f9947128a7c2, type: 2}
   - {fileID: 11400000, guid: e54f0d3c690a14ffc8d2f9947128a7c2, type: 2}
   - {fileID: 11400000, guid: e54f0d3c690a14ffc8d2f9947128a7c2, type: 2}
-  - {fileID: 11400000, guid: bdf139d18ac83544b95463e821c9958a, type: 2}
-  - {fileID: 11400000, guid: bdf139d18ac83544b95463e821c9958a, type: 2}
+  - {fileID: 11400000, guid: de9ffa6e428f0ec4fa54862e3d0d5b27, type: 2}
+  - {fileID: 11400000, guid: de9ffa6e428f0ec4fa54862e3d0d5b27, type: 2}
+  - {fileID: 11400000, guid: de9ffa6e428f0ec4fa54862e3d0d5b27, type: 2}
   hand: []
   discardPile: []
   completeCard: {fileID: 8725599466063141245, guid: c17454e7db0b04d678f044b4bc4dfc54, type: 3}
@@ -1918,6 +1919,7 @@ MonoBehaviour:
   ManaRegenOverlay: {fileID: 1769227806286872275, guid: 880eb63c30a944004abaa6966bff89fb, type: 3}
   obtainableCard: {fileID: 8725599466063141245, guid: 1d5009972779640679ee8d269b742deb, type: 3}
   obtainCardText: {fileID: 3157040703367908497, guid: adfda019862330b4a846fed8082ba7d1, type: 3}
+  ability: {fileID: 0}
   current_turn: 1
   next_player: 0
   deckObject: {fileID: 3765499820009271856, guid: c72ef0ba5ae33d04cb72ecde9459120b, type: 3}

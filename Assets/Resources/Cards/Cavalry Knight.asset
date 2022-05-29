@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dae911b8a3f77fc48acac94448328ce0, type: 3}
-  m_Name: Captain
+  m_Name: Cavalry Knight
   m_EditorClassIdentifier: 
-  cardName: Captain
-  art: {fileID: 21300000, guid: 9ca398848f995a046800f4ffe1ce532f, type: 3}
-  description: 'On summon: (+1/+0) other ally Knights.'
-  cost: 3
-  attack: 2
-  health: 2
+  cardName: Cavalry Knight
+  art: {fileID: 0}
+  description: 'On attack: Deal excess damage to enemy player.'
+  cost: 0
+  attack: 5
+  health: 1
   faction: Knight
   cardType: 
-  cardAbility: reinforceOther
-  abilityParams: 0100000000000000000000000000000000000000
+  cardAbility: pierce
+  abilityParams: 00000000000000000000000000000000
   hasActiveAbility: 0
-  hasPassiveAbility: 1
-  hasBattleAbility: 0
+  hasPassiveAbility: 0
+  hasBattleAbility: 1
   activeAbilityCost: 

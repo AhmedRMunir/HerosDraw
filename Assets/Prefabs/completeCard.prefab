@@ -998,6 +998,7 @@ MonoBehaviour:
   playerHandholder: {fileID: 0}
   cancelButton: {fileID: 2817569646096620774, guid: 6741731b3d52a439dbe3a55ac256549b, type: 3}
   gameController: {fileID: 0}
+  abilityUsed: 0
 --- !u!1 &8909905145639098532
 GameObject:
   m_ObjectHideFlags: 0
@@ -1077,7 +1078,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Description of ability
+  m_Text: Ability description
 --- !u!1 &9213993124960134234
 GameObject:
   m_ObjectHideFlags: 0

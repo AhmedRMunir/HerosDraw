@@ -41,6 +41,8 @@ public class Tutorial_2_Controller : GameController
         player.health = 2;
         enemy.health = 2;
 
+        ability = GameObject.FindGameObjectWithTag("Ability").GetComponent<CardAbility>();
+
         yield return new WaitForSeconds(0.5f);
 
 

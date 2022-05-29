@@ -56,6 +56,8 @@ public class GameController : MonoBehaviour
     public GameObject obtainableCard;
     public GameObject obtainCardText;
 
+    public CardAbility ability;
+
     public enum turn {
         PLAYER, ENEMY
     }
@@ -77,6 +79,7 @@ public class GameController : MonoBehaviour
 
         // Get levelID from level manager
         field = new GameObject[2, Conditions.maxLanes];
+        ability = GameObject.FindGameObjectWithTag("Ability").GetComponent<CardAbility>();
         // Levels past tutorial
         if (levelID > 3) {
             // Randomize player who goes first
@@ -311,10 +314,17 @@ public class GameController : MonoBehaviour
 
     public void attackAvatar(GameObject pawn, PlayerController target, GameObject targetAvatar, int animationParam, Sequence battleAnim) {
         Transform pawnTran = pawn.transform.GetChild(0).GetChild(7).gameObject.transform;
+        CardBehavior card = pawn.GetComponent<CardBehavior>();
         battleAnim.Append(pawnTran.DOMove(new Vector2(pawnTran.position.x, pawnTran.position.y + animationParam), 0.1f))
               .Join(pawnTran.DOScale(1.5f, 0.1f))
               .Append(pawnTran.DOMove(targetAvatar.transform.position, 0.25f))
-              .AppendCallback(() => { updateHealth(target, -pawn.GetComponent<CardBehavior>().getAttack()); })
+              .AppendCallback(() => { 
+                  updateHealth(target, -pawn.GetComponent<CardBehavior>().getAttack()); 
+                  if (card.cardIdentity.hasBattleAbility)
+                  {
+                      ability.passiveAbility(card.cardAbility, card.abilityParams.ToArray());
+                  }
+              })
               .Append(pawnTran.DOMove(new Vector2(pawnTran.position.x, pawnTran.position.y), 0.3f))
               .Join(targetAvatar.transform.DOPunchScale(new Vector3(1.5f, 1.5f, 1.5f), 0.3f, 10, 1))
               .Join(pawnTran.DOScale(1f, 0.3f))
@@ -326,6 +336,8 @@ public class GameController : MonoBehaviour
         Transform enemyHP = enemy_card.transform.GetChild(0).GetChild(6).gameObject.transform;
         Transform playerTran = player_card.transform.GetChild(0).GetChild(7).gameObject.transform;
         Transform playerHP = player_card.transform.GetChild(0).GetChild(6).gameObject.transform;
+        CardBehavior playerCardInfo = player_card.GetComponent<CardBehavior>();
+        CardBehavior enemyCardInfo = enemy_card.GetComponent<CardBehavior>();
         battleAnim.Append(enemyTran.DOMove(new Vector2(enemyTran.position.x, enemyTran.position.y + 100), 0.1f))
             .Join(playerTran.DOMove(new Vector2(playerTran.position.x, playerTran.position.y - 100), 0.1f))
             .Join(enemyTran.DOScale(1.5f, 0.1f))
@@ -334,6 +346,18 @@ public class GameController : MonoBehaviour
             .Join(playerHP.DOScale(1.5f, 0.1f))
             .Append(enemyTran.DOMove(playerHP.transform.position, 0.25f))
             .Join(playerTran.DOMove(enemyHP.transform.position, 0.25f))
+            .AppendCallback(() =>
+            {
+                if (playerCardInfo.cardIdentity.hasBattleAbility)
+                {
+                    ability.passiveAbility(playerCardInfo.cardAbility, playerCardInfo.abilityParams.ToArray());
+                }
+                if (enemyCardInfo.cardIdentity.hasBattleAbility)
+                {
+                    ability.passiveAbility(enemyCardInfo.cardAbility, enemyCardInfo.abilityParams.ToArray());
+                }
+            })
+            .Append(enemyTran.DOMove(playerHP.transform.position, 0.01f)) // Trivial wait for time statement to let abilities complete
             .AppendCallback(() =>
             {
                 player_card.GetComponent<CardBehavior>().updateStats(0, -enemy_card.GetComponent<CardBehavior>().getAttack());

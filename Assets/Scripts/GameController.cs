@@ -477,24 +477,33 @@ public class GameController : MonoBehaviour
                 dialogPromptList.Add("You may only have 1 of each Hero card in your deck, so build wisely.");
                 dialogPrompt.Setup(dialogPromptList);
                 cards.Add(Resources.Load<CardObject>("Cards/Arthur, King of Legend"));
-                StartCoroutine(obtainCard(cards));
+                obtainCard(cards);
             } else if (levelID > 3)
             {
-                dialogPromptList.Add("YOU WIN :)");
-                dialogPrompt.Setup(dialogPromptList);
-                for (int i = 0; i < 3; i++)
+                List<CardObject> obtainableCards = findObtainableCards("regular");
+                if (obtainableCards.Count == 0)
                 {
-                    int cardDBIndex = Random.Range(0, CardDatabase.cardList.Count);
-                    Debug.Log("Random card: " + CardDatabase.cardList[cardDBIndex]);
-                    CardObject chosenCard = Resources.Load<CardObject>("Cards/" + CardDatabase.cardList[cardDBIndex]);
+                    dialogPromptList.Add("All cards have been obtained.");
+                } else
+                {
+                    dialogPromptList.Add("YOU WIN :)");
+                }
+                dialogPrompt.Setup(dialogPromptList);
+                int numCardsToShow = Mathf.Min(3, obtainableCards.Count);
+                Debug.Log(numCardsToShow);
+                for (int i = 0; i < numCardsToShow; i++)
+                {
+                    int cardDBIndex = Random.Range(0, obtainableCards.Count);
+                    Debug.Log("Random card: " + obtainableCards[cardDBIndex]);
+                    CardObject chosenCard = obtainableCards[cardDBIndex];
                     while(cards.Contains(chosenCard))
                     {
-                        cardDBIndex = Random.Range(0, CardDatabase.cardList.Count);
-                        chosenCard = Resources.Load<CardObject>("Cards/" + CardDatabase.cardList[cardDBIndex]);
+                        cardDBIndex = Random.Range(0, obtainableCards.Count);
+                        chosenCard = obtainableCards[cardDBIndex];
                     }
                     cards.Add(chosenCard);
                 }
-                StartCoroutine(obtainCard(cards));
+                obtainCard(cards);
             }
             
             promptList.Add("YOU WIN :)");
@@ -508,8 +517,50 @@ public class GameController : MonoBehaviour
         yield return new WaitForSeconds(1f);
     }
 
-    public IEnumerator obtainCard(List<CardObject> cards)
+    public List<CardObject> findObtainableCards(string cardType)
     {
+        List<CardObject> obtainableCards = new List<CardObject>();
+        List<string> cardList;
+        if (cardType == "hero")
+        {
+            cardList = new List<string>(CardDatabase.heroList);
+        } else
+        {
+            cardList = new List<string>(CardDatabase.cardList);
+        }
+        for (int i = 0; i < cardList.Count; i++)
+        {
+            CardObject currCard = Resources.Load<CardObject>("Cards/" + cardList[i]);
+            int numOwned = 0;
+            Conditions.info collectionInfo;
+            if (Conditions.card_collection.TryGetValue(currCard.cardName, out collectionInfo))
+            {
+                int maxCardsAllowed = collectionInfo.type;
+                numOwned += collectionInfo.num;
+                Conditions.info deckInfo;
+                if (Conditions.deck_collection.TryGetValue(currCard.cardName, out deckInfo))
+                {
+                    numOwned += deckInfo.num;
+                }
+                if (numOwned < maxCardsAllowed)
+                {
+                    obtainableCards.Add(currCard);
+                }
+            } else
+            {
+                obtainableCards.Add(currCard);
+            }
+
+        }
+        return obtainableCards;
+    }
+
+    public void obtainCard(List<CardObject> cards)
+    {
+        if (cards.Count == 0)
+        {
+            return;
+        }
         Instantiate(obtainCardText, EndPrompt.transform);
         int i = 0;
         if (cards.Count == 1)
@@ -526,7 +577,6 @@ public class GameController : MonoBehaviour
             newCard.GetComponent<RectTransform>().DORotate(new Vector3(0, 0, 0), 2f);
             i++;
         }
-        yield return new WaitForEndOfFrame();
     }
 
     // Return a list of the indices of open lanes

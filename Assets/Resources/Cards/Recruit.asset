@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dae911b8a3f77fc48acac94448328ce0, type: 3}
-  m_Name: Cavalry Knight
+  m_Name: Recruit
   m_EditorClassIdentifier: 
-  cardName: Cavalry Knight
+  cardName: Recruit
   art: {fileID: 0}
-  description: 'On attack: Deal excess damage to enemy player.'
-  cost: 4
-  attack: 3
-  health: 3
+  description: 
+  cost: 0
+  attack: 0
+  health: 0
   faction: Knight
   cardType: 
-  cardAbility: pierce
-  abilityParams: 00000000000000000000000000000000
+  cardAbility: 
+  abilityParams: 
   hasActiveAbility: 0
   hasPassiveAbility: 0
-  hasBattleAbility: 1
+  hasBattleAbility: 0
   activeAbilityCost: 

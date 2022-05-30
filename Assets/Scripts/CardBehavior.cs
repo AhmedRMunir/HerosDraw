@@ -12,7 +12,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public float upDuration;
     public RectTransform container;
     private Vector2 ogPosition;
-    private PlayerController deck;
+    public PlayerController deck;
     public bool summoned;
 
     public CardObject cardIdentity;
@@ -43,7 +43,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public RectTransform playerHandholder;
     public GameObject cancelButton;
 
-    private RectTransform playedCardSlot;
+    public RectTransform playedCardSlot;
     public GameController gameController;
 
     private CardAbility ability;
@@ -189,27 +189,8 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             {
                 gameController.player_has_summoned = true;
             }*/
-
-            gameController.player_is_summoning = true;
-            // Attach to Canvas
-            GameObject cancel = Instantiate(cancelButton, gameObject.transform.parent.transform.parent.transform);
-            cancel.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -1080 / 2.5f);
-            cancel.GetComponent<CancelButton>().selectedCard = this;
-            playerHandholder.DOAnchorPos(new Vector2(0, -upAmount * 1.5f), upDuration);
-            Sequence enlarge = DOTween.Sequence();
-            enlarge.Append(container.DOAnchorPos(new Vector2(playedCardSlot.anchoredPosition.x, upAmount * 1.5f), upDuration))
-                .Join(container.DOScale(1.2f, upDuration))
-                .Play();
-            summoned = true;
-            //gameController.player_can_play = false;
-
-            foreach (RectTransform child in spawnLocation.transform)
-            {
-                if (child.childCount == 0)
-                {
-                    indicatePlayableLane(child);
-                }
-            }
+            enterSelection(true);
+            
         } else if (summoned == true && isEnemy == false && gameController.current_turn == GameController.turn.PLAYER && hasUseableAbility && !gameController.player_ready_for_battle && !abilityUsed) {
             if (Conditions.collectingData)
                 LoadingController.LOGGER.LogActionWithNoLevel(52, "{ Player activated: " + cardAbility + " }");
@@ -218,6 +199,33 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             ability.activeAbility(cardAbility, abilityParams.ToArray());
         }
         
+    }
+
+    public void enterSelection(bool spawnCancel)
+    {
+        gameController.player_is_summoning = true;
+        if (spawnCancel)
+        {
+            GameObject cancel = Instantiate(cancelButton, gameObject.transform.parent.transform.parent.transform);
+            cancel.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -1080 / 2.5f);
+            cancel.GetComponent<CancelButton>().selectedCard = this;
+        }
+        // Attach to Canvas
+        playerHandholder.DOAnchorPos(new Vector2(0, -upAmount * 1.5f), upDuration);
+        Sequence enlarge = DOTween.Sequence();
+        enlarge.Append(container.DOAnchorPos(new Vector2(playedCardSlot.anchoredPosition.x, upAmount * 1.5f), upDuration))
+            .Join(container.DOScale(1.2f, upDuration))
+            .Play();
+        summoned = true;
+        //gameController.player_can_play = false;
+
+        foreach (RectTransform child in spawnLocation.transform)
+        {
+            if (child.childCount == 0)
+            {
+                indicatePlayableLane(child);
+            }
+        }
     }
 
     public void indicatePlayableLane(RectTransform lane)
@@ -242,6 +250,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
                 deck.hand.Remove(gameObject);
                 if (isEnemy)
                 {
+                    gameController.num_enemy_summoned_card++;
                     gameController.field[0, laneIndex] = gameObject;
                     if (!cardAbility.Equals(""))
                     {
@@ -251,6 +260,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
                 }
                 else
                 {
+                    gameController.num_player_summoned_card++;
                     gameController.player_has_summoned = true;
 
                     gameController.field[1, laneIndex] = gameObject;

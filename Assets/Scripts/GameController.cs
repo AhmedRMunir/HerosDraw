@@ -357,7 +357,6 @@ public class GameController : MonoBehaviour
                     ability.passiveAbility(enemyCardInfo.cardAbility, enemyCardInfo.abilityParams.ToArray());
                 }
             })
-            .Append(enemyTran.DOMove(playerHP.transform.position, 0.01f)) // Trivial wait for time statement to let abilities complete
             .AppendCallback(() =>
             {
                 player_card.GetComponent<CardBehavior>().updateStats(0, -enemy_card.GetComponent<CardBehavior>().getAttack());
@@ -700,7 +699,7 @@ public class GameController : MonoBehaviour
     protected void summon_card(int player_num, int lane, GameObject card) {
         if (player_num == 0) {
             enemy.hand.Remove(card);
-            num_enemy_summoned_card++;
+            //num_enemy_summoned_card++;
             card.GetComponent<CardBehavior>()
                 .summonCard(enemy_lanes.transform.GetChild(lane).GetComponent<RectTransform>(), lane);
 

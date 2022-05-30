@@ -1097,7 +1097,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2e4dd95071ee4f4db7290f5c6271a13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 15
+  health: 20
   mana: 10
   maxMana: 10
   deck:
@@ -2004,6 +2004,7 @@ MonoBehaviour:
   ManaRegenOverlay: {fileID: 1769227806286872275, guid: 880eb63c30a944004abaa6966bff89fb, type: 3}
   obtainableCard: {fileID: 8725599466063141245, guid: 1d5009972779640679ee8d269b742deb, type: 3}
   obtainCardText: {fileID: 3157040703367908497, guid: adfda019862330b4a846fed8082ba7d1, type: 3}
+  ability: {fileID: 0}
   current_turn: 1
   next_player: 0
 --- !u!4 &1079057734
@@ -2604,7 +2605,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5b79783b00be994290489b1d9a2ed66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 15
+  health: 20
   mana: 10
   maxMana: 10
   deck:

@@ -239,7 +239,6 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     {
         cardback.SetActive(false);
         summoned = true;
-        gameController.player_is_summoning = false;
         deck.mana -= cost;
         
         container.SetParent(spawn);
@@ -317,6 +316,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         }
         activateCard.Append(playerHandholder.DOAnchorPos(new Vector2(0, 0), upDuration))
             .AppendCallback(() => {
+                gameController.player_is_summoning = false;
                 if (cardIdentity.hasPassiveAbility)
                 {
                     ability.passiveAbility(cardAbility, abilityParams.ToArray());

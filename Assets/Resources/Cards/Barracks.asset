@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dae911b8a3f77fc48acac94448328ce0, type: 3}
-  m_Name: Dragon
+  m_Name: Barracks
   m_EditorClassIdentifier: 
-  cardName: Dragon
-  art: {fileID: 21300000, guid: 938e460b1b603ae428759bdb638dbce0, type: 3}
-  description: 
-  cost: 7
-  attack: 6
-  health: 6
-  faction: Dragon
+  cardName: Barracks
+  art: {fileID: 21300000, guid: 0b7941a731be416408c343bcde5ae99d, type: 3}
+  description: 'Active (0): Summon a 1/1 recruit.'
+  cost: 4
+  attack: 0
+  health: 4
+  faction: Knight
   cardType: 
-  cardAbility: 
-  abilityParams: 
-  hasActiveAbility: 0
+  cardAbility: recruit
+  abilityParams: 0100000001000000000000000000000000000000
+  hasActiveAbility: 1
   hasPassiveAbility: 0
   hasBattleAbility: 0
-  activeAbilityCost: 
+  activeAbilityCost: 0000000000000000

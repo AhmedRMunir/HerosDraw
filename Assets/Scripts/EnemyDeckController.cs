@@ -26,10 +26,10 @@ public class EnemyDeckController : PlayerController
         deck = new List<CardObject>();   
 
         int deckCount = 20;
-        int allCardsCount = CardDatabase.cardList.Count;
+        int allCardsCount = CardDatabase.enemyPool.Count;
         for (int i = 0; i < deckCount; i++) {
             int newCardNum = UnityEngine.Random.Range(0, allCardsCount);
-            deck.Add(Resources.Load<CardObject>("Cards/" + CardDatabase.cardList[newCardNum]));
+            deck.Add(Resources.Load<CardObject>("Cards/" + CardDatabase.enemyPool[newCardNum]));
         }
     }
 

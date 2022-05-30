@@ -18,10 +18,11 @@ MonoBehaviour:
   cost: 2
   attack: 3
   health: 1
-  faction: 
+  faction: Dragon
   cardType: 
   cardAbility: 
   abilityParams: 
   hasActiveAbility: 0
   hasPassiveAbility: 0
+  hasBattleAbility: 0
   activeAbilityCost: 

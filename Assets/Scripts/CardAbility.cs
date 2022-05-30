@@ -253,7 +253,7 @@ public class CardAbility : MonoBehaviour
                 idx 1 - health of recruit
                 idx 2 - field row; 0 if enemy, 1 if player
                 idx 3 - lane index
-                idx 4 - faction id (0 = knight, 1 = mage, 2 = vampire)
+                idx 4 - faction id (0 = knight, 1 = mage, 2 = vampire, 10 = tiamat)
     */
     public IEnumerator army(int[] values)
     {
@@ -269,9 +269,30 @@ public class CardAbility : MonoBehaviour
             {
                 playerlanes = gm.player_lanes;
             }
-            
+
+            // Tiamat destroys your board and then summons heads
+            if (values[4] == 10)
+            {
+                for (int i = 0; i < gm.field.GetLength(1); i++)
+                {
+                    GameObject curr_card = gm.field[values[2], i];
+                    if (curr_card != null && values[2] == 1 && i != values[3])
+                    {
+                        gm.num_player_summoned_card--;
+                        Destroy(gm.field[1, i]);
+                    } else if (curr_card != null && values[2] == 0 && i != values[3])
+                    {
+                        gm.num_enemy_summoned_card--;
+                        Destroy(gm.field[0, i]);
+                    }
+
+                }
+            }
+            yield return new WaitForSeconds(0.5f);
+
             for (int i = 0; i < gm.field.GetLength(1); i++)
             {
+                
                 if (gm.field[values[2], i] == null)
                 {
                     GameObject cardCopy = Instantiate(card, GameObject.FindGameObjectWithTag("PlayerHand").transform);
@@ -281,6 +302,10 @@ public class CardAbility : MonoBehaviour
                         newCard.cardType = "";
                         newCard.cardBG.sprite = Resources.Load<Sprite>("Sprites/Card");
                         newCard.cardIdentity = Resources.Load<CardObject>("Cards/Recruit");
+                    } else if (values[4] == 10)
+                    {
+                        newCard.cardType = "";
+                        newCard.cardIdentity = Resources.Load<CardObject>("Cards/Head of Tiamat");
                     }
                     yield return new WaitForEndOfFrame();
                     newCard.updateStats(values[0], values[1]);
@@ -288,6 +313,59 @@ public class CardAbility : MonoBehaviour
                     newCard.summonCard(playerlanes.transform.GetChild(i).GetComponent<RectTransform>(), i);
                 }
             }
+        }
+
+        yield return new WaitForEndOfFrame();
+    }
+
+    /* values:  idx 0 
+                idx 1 
+                idx 2 - field row; 0 if enemy, 1 if player
+                idx 3 - lane index
+    */
+    public IEnumerator slifer(int[] values)
+    {
+        GameObject card = gm.field[values[2], values[3]];
+        CardBehavior cardInfo = card.GetComponent<CardBehavior>();
+        int cardsInHand = 0;
+        if (values[2] == 0) // Enemy card
+        {
+            cardsInHand = gm.enemy.hand.Count;
+        } else // Player card
+        {
+            cardsInHand = gm.player.hand.Count;
+        }
+
+        cardInfo.updateStats(cardsInHand, cardsInHand);
+
+        yield return new WaitForEndOfFrame();
+    }
+
+    /* Destroy all other cards on the board
+     * values:  idx 0 
+                idx 1 
+                idx 2 - field row; 0 if enemy, 1 if player
+                idx 3 - lane index
+    */
+    public IEnumerator extinction(int[] values)
+    {
+        yield return new WaitForSeconds(0.2f);
+        for (int i = 0; i < gm.field.GetLength(1); i++)
+        {
+        GameObject player_card = gm.field[1, i];
+        GameObject enemy_card = gm.field[0, i];
+            if (player_card != null && (values[2] != 1 || i != values[3]))
+            {
+                gm.num_player_summoned_card--;
+                Destroy(gm.field[1, i]);
+            }
+
+            if (enemy_card != null && (values[2] != 0 || i != values[3]))
+            {
+                gm.num_enemy_summoned_card--;
+                Destroy(gm.field[0, i]);
+            }
+            
         }
 
         yield return new WaitForEndOfFrame();

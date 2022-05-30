@@ -976,6 +976,7 @@ MonoBehaviour:
   upAmount: 0
   upDuration: 0.3
   container: {fileID: 8725599466063141244}
+  deck: {fileID: 0}
   summoned: 0
   cardIdentity: {fileID: 0}
   nameText: {fileID: 8725599464801722182}
@@ -997,6 +998,7 @@ MonoBehaviour:
   summonIndicator: {fileID: 2569273729455634803, guid: a3ab45d12ee754b96b4ad66ccda5a12e, type: 3}
   playerHandholder: {fileID: 0}
   cancelButton: {fileID: 2817569646096620774, guid: 6741731b3d52a439dbe3a55ac256549b, type: 3}
+  playedCardSlot: {fileID: 0}
   gameController: {fileID: 0}
   abilityUsed: 0
 --- !u!1 &8909905145639098532
@@ -1034,8 +1036,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -1.25, y: 100}
-  m_SizeDelta: {x: 200, y: 80}
+  m_AnchoredPosition: {x: 0, y: 100}
+  m_SizeDelta: {x: 210, y: 95}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1618848772006797171
 CanvasRenderer:

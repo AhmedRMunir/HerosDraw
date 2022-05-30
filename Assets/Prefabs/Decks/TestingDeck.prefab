@@ -45,13 +45,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deck:
-  - {fileID: 11400000, guid: de9ffa6e428f0ec4fa54862e3d0d5b27, type: 2}
-  - {fileID: 11400000, guid: de9ffa6e428f0ec4fa54862e3d0d5b27, type: 2}
   - {fileID: 11400000, guid: 7b01977885eab1b4e9cf6ca1f1931712, type: 2}
-  - {fileID: 11400000, guid: 7b01977885eab1b4e9cf6ca1f1931712, type: 2}
-  - {fileID: 11400000, guid: d4f4a7d9d7c1b2d45884e83a4ea5adc4, type: 2}
-  - {fileID: 11400000, guid: d4f4a7d9d7c1b2d45884e83a4ea5adc4, type: 2}
-  - {fileID: 11400000, guid: 7b01977885eab1b4e9cf6ca1f1931712, type: 2}
-  - {fileID: 11400000, guid: 7b01977885eab1b4e9cf6ca1f1931712, type: 2}
+  - {fileID: 11400000, guid: 7300bd4e044a2d7418e9fab6d43f5691, type: 2}
   - {fileID: 11400000, guid: 4050a02ba844db94a8db3e6afb34c72e, type: 2}
-  - {fileID: 11400000, guid: 4050a02ba844db94a8db3e6afb34c72e, type: 2}
+  - {fileID: 11400000, guid: 1862030180d4a9b4aaf895dc21d43649, type: 2}
+  - {fileID: 11400000, guid: de9ffa6e428f0ec4fa54862e3d0d5b27, type: 2}
+  - {fileID: 11400000, guid: a2f39b103829cb34d9e3e332ded6a409, type: 2}
+  - {fileID: 11400000, guid: 6fa826220b62c3d4aaa8385f20adcd53, type: 2}
+  - {fileID: 11400000, guid: 6fa826220b62c3d4aaa8385f20adcd53, type: 2}

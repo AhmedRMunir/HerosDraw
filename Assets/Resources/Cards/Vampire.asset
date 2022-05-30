@@ -15,8 +15,8 @@ MonoBehaviour:
   cardName: Vampire
   art: {fileID: 0}
   description: 'On attack: Restore damage equal to attack.'
-  cost: 0
-  attack: 2
+  cost: 2
+  attack: 1
   health: 2
   faction: Vampire
   cardType: 

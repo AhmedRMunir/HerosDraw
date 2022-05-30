@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Noah, the Chosen Survivor
   m_EditorClassIdentifier: 
   cardName: Noah, the Chosen Survivor
-  art: {fileID: 21300000, guid: 10c6420d34d04bd428e0767422beb496, type: 3}
+  art: {fileID: 21300000, guid: 511124a285b60214a81995f62422f3ff, type: 3}
   description: 'On summon: Destroy all other Pawns.'
   cost: 8
   attack: 1

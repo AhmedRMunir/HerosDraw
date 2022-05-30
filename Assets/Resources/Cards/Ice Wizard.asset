@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Ice Wizard
   m_EditorClassIdentifier: 
   cardName: Ice Wizard
-  art: {fileID: 0}
+  art: {fileID: 21300000, guid: 961e30fd6a3e22245affc5c269cc9f77, type: 3}
   description: 'Active (1): Restore 2 Mana to player.'
   cost: 3
   attack: 3

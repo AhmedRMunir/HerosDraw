@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Barracks
   m_EditorClassIdentifier: 
   cardName: Barracks
-  art: {fileID: 21300000, guid: 0b7941a731be416408c343bcde5ae99d, type: 3}
+  art: {fileID: 21300000, guid: 624ad6bbf9941f044ae7b98b12afd9cb, type: 3}
   description: 'Active (0): Summon a 1/1 Recruit.'
   cost: 4
   attack: 0

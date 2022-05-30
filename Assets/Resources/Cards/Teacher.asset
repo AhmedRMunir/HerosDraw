@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Teacher
   m_EditorClassIdentifier: 
   cardName: Teacher
-  art: {fileID: 0}
+  art: {fileID: 21300000, guid: 9b54917ce1f856940aa4b70609c73ce9, type: 3}
   description: 'Active (2): Summon a 0/1 Apprentice.'
   cost: 4
   attack: 1
@@ -21,7 +21,7 @@ MonoBehaviour:
   faction: Mage
   cardType: 
   cardAbility: recruit
-  abilityParams: 010000000000000000000000000000000500000002000000
+  abilityParams: 000000000000000000000000000000000500000002000000
   hasActiveAbility: 1
   hasPassiveAbility: 0
   hasBattleAbility: 0

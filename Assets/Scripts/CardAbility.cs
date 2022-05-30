@@ -241,7 +241,7 @@ public class CardAbility : MonoBehaviour
             if (values[4] == 0)
             {
                 newCard.cardIdentity = Resources.Load<CardObject>("Cards/Recruit");
-            } else if (values[4] == 5) // Seer
+            } else if (values[4] == 5) // Teacher
             {
                 newCard.cardIdentity = Resources.Load<CardObject>("Cards/Apprentice");
             }

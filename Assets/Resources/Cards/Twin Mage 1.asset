@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Twin Mage 1
   m_EditorClassIdentifier: 
   cardName: Twin Mage
-  art: {fileID: 0}
+  art: {fileID: 21300000, guid: c8343f917d963624186be859009a9731, type: 3}
   description: 'Passive: TwinBoost(+1/+1) for every Twin Mage'
   cost: 2
   attack: 1

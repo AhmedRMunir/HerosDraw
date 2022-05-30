@@ -1097,7 +1097,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2e4dd95071ee4f4db7290f5c6271a13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 20
+  health: 15
   mana: 10
   maxMana: 10
   deck:
@@ -1112,10 +1112,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e54f0d3c690a14ffc8d2f9947128a7c2, type: 2}
   - {fileID: 11400000, guid: e54f0d3c690a14ffc8d2f9947128a7c2, type: 2}
   - {fileID: 11400000, guid: e54f0d3c690a14ffc8d2f9947128a7c2, type: 2}
-  - {fileID: 11400000, guid: ada580bbf43cc244eb714cd3665cf203, type: 2}
-  - {fileID: 11400000, guid: ada580bbf43cc244eb714cd3665cf203, type: 2}
-  - {fileID: 11400000, guid: ada580bbf43cc244eb714cd3665cf203, type: 2}
-  - {fileID: 11400000, guid: ada580bbf43cc244eb714cd3665cf203, type: 2}
+  - {fileID: 11400000, guid: 9f3c8d2c911547c49b392db11cec5464, type: 2}
+  - {fileID: 11400000, guid: 9f3c8d2c911547c49b392db11cec5464, type: 2}
+  - {fileID: 11400000, guid: 9f3c8d2c911547c49b392db11cec5464, type: 2}
+  - {fileID: 11400000, guid: 9f3c8d2c911547c49b392db11cec5464, type: 2}
   hand: []
   discardPile: []
   completeCard: {fileID: 8725599466063141245, guid: c17454e7db0b04d678f044b4bc4dfc54, type: 3}
@@ -2510,7 +2510,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5b79783b00be994290489b1d9a2ed66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 20
+  health: 15
   mana: 10
   maxMana: 10
   deck: []

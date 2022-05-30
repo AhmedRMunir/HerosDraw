@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Vampire Lord
   m_EditorClassIdentifier: 
   cardName: Vampire Lord
-  art: {fileID: 0}
+  art: {fileID: 21300000, guid: 61b435fa95b547744846bf086f0ae849, type: 3}
   description: 'On attack: Restore damage equal to attack.'
   cost: 5
-  attack: 4
-  health: 5
+  attack: 3
+  health: 4
   faction: Vampire
   cardType: 
   cardAbility: lifesteal

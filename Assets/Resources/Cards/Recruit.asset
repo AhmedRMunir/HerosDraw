@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Recruit
   m_EditorClassIdentifier: 
   cardName: Recruit
-  art: {fileID: 0}
+  art: {fileID: 21300000, guid: bc6f40e8dddcadc43b64045f362db50c, type: 3}
   description: 
   cost: 0
   attack: 0

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Cavalry Knight
   m_EditorClassIdentifier: 
   cardName: Cavalry Knight
-  art: {fileID: 0}
+  art: {fileID: 21300000, guid: d39e875815a6b944786cfbe7f3627808, type: 3}
   description: 'On attack: Deal excess damage to enemy player.'
   cost: 4
   attack: 3

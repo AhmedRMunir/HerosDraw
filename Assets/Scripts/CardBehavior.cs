@@ -99,7 +99,13 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         } else if (cardIdentity.faction == "Vampire") {
             faction = 2;
             factionIcon.sprite = Resources.Load<Sprite>("Sprites/Vampire");
-        } else // Maybe if we wanna have factionless cards
+        }
+        else if (cardIdentity.faction == "Dragon")
+        {
+            faction = 3;
+            factionIcon.sprite = Resources.Load<Sprite>("Sprites/Dragon");
+        }
+        else // Maybe if we wanna have factionless cards
         {
             faction = -1;
             factionIcon.enabled = false;

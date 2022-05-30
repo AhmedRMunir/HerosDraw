@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Vampire
   m_EditorClassIdentifier: 
   cardName: Vampire
-  art: {fileID: 0}
+  art: {fileID: 21300000, guid: 3afcaf43529ee2049abecc1e4a6c6083, type: 3}
   description: 'On attack: Restore damage equal to attack.'
   cost: 2
   attack: 1

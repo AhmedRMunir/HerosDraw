@@ -25,4 +25,4 @@ MonoBehaviour:
   hasActiveAbility: 1
   hasPassiveAbility: 0
   hasBattleAbility: 0
-  activeAbilityCost: 00000000
+  activeAbilityCost: 0000000001000000

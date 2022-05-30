@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Arthur, King of Legend
   art: {fileID: 21300000, guid: 10c6420d34d04bd428e0767422beb496, type: 3}
-  description: 'On summon: Solidarity(+1/+1) for each other ally knight.'
+  description: 'On summon: (+1/+1) for each other ally Knight.'
   cost: 5
   attack: 4
   health: 4
@@ -24,4 +24,5 @@ MonoBehaviour:
   abilityParams: 00000000010000000000000000000000
   hasActiveAbility: 0
   hasPassiveAbility: 1
+  hasBattleAbility: 0
   activeAbilityCost: 

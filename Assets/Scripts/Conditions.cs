@@ -49,7 +49,6 @@ public static class Conditions
         {
             string cardName = cardInfo.Key;
             int quantity = cardInfo.Value.num;
-            // card_type cannot be properly saved and loaded, will need to be replaced.
             int type = cardInfo.Value.type;
             // Each card entry will be its name and how many are in the deck.
             deckString += (cardName + ":" + type + ":" + quantity + "\n");
@@ -85,7 +84,6 @@ public static class Conditions
                 int type = int.Parse(cardValues[1]);
                 int cardQuantity = int.Parse(cardValues[2]);
                 CardObject card = Resources.Load<CardObject>("Cards/" + cardName);
-                // Replace card type with a string probably.
                 deck_collection.Add(cardName, new info(card, type, cardQuantity));
             }
         }

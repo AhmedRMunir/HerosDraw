@@ -41,6 +41,8 @@ public class Tutorial_2_Controller : GameController
         player.health = 2;
         enemy.health = 2;
 
+        ability = GameObject.FindGameObjectWithTag("Ability").GetComponent<CardAbility>();
+
         yield return new WaitForSeconds(0.5f);
 
 
@@ -122,27 +124,20 @@ public class Tutorial_2_Controller : GameController
                     player.hand[1].GetComponent<CardBehavior>().summoned = false;
                     player.hand[1].GetComponent<CardBehavior>().cardIdentity.hasActiveAbility = true;
                     passTurn.enabled = false;
-                    promptList.Add("Aha. The enemy is scared of taking more damage so we got blocked.");
+                    //promptList.Add("Aha. The enemy is scared of taking more damage so we got blocked.");
                     promptList.Add("Let's carry on with our strategy and play in an open lane.");
 
                     // Active Card
                     promptList.Add("The Pawn we drew this turn has an Active Ability.");
-                    promptList.Add("Unlike Passives, Actives must be activated by the player once the Pawn has been summoned.");
-                    promptList.Add("Additionally, you can keep using Actives as long as you can pay the cost.");
-                    promptList.Add("Play the Shaman card in an open lane, then use it's Active Ability.");
+                    promptList.Add("Unlike Passives, Actives can be activated by the player once the Pawn has been summoned.");
+                    promptList.Add("Additionally, Actives have a cost and can only be used once before a Battle.");
+                    promptList.Add("Play the Shaman card in an open lane, then use its Active Ability.");
                     dialogPrompt.Setup(promptList);
                     // TODO: Highlight Shaman Card
                     yield return new WaitUntil(() => dialogPrompt.pressed);
                     dialogPrompt.pressed = false;
 
                     yield return new WaitUntil(() => player_has_summoned);
-
-                    // TODO: Wait on the Shaman card to be played.
-                    promptList.Add("Click on it to use it's active to increase your HP at the cost of 1 Mana.");
-                    dialogPrompt.Setup(promptList);
-                    // TODO: Highlight Shaman Card
-                    yield return new WaitUntil(() => dialogPrompt.pressed);
-                    dialogPrompt.pressed = false;
 
                     yield return new WaitUntil(() => player.mana == 0);
 

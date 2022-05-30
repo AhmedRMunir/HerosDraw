@@ -123,7 +123,11 @@ public class ObtainableCard : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             Conditions.card_collection[cardIdentity.cardName].num++;
         } else
         {
-            Conditions.card_collection.Add(cardIdentity.cardName, new Conditions.info(cardIdentity, Conditions.REGULAR, 1));
+            int cardType = Conditions.REGULAR;
+            if (cardIdentity.cardType == "Hero") {
+                cardType = Conditions.CHAMPION;
+            }
+            Conditions.card_collection.Add(cardIdentity.cardName, new Conditions.info(cardIdentity, cardType, 1));
         }
         Transform parent = transform.parent;
         for (int i = 3; i < parent.childCount; i++)

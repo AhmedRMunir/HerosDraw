@@ -56,6 +56,8 @@ public class GameController : MonoBehaviour
     public GameObject obtainableCard;
     public GameObject obtainCardText;
 
+    public CardAbility ability;
+
     public enum turn {
         PLAYER, ENEMY
     }
@@ -77,6 +79,7 @@ public class GameController : MonoBehaviour
 
         // Get levelID from level manager
         field = new GameObject[2, Conditions.maxLanes];
+        ability = GameObject.FindGameObjectWithTag("Ability").GetComponent<CardAbility>();
         // Levels past tutorial
         if (levelID > 3) {
             // Randomize player who goes first
@@ -181,7 +184,7 @@ public class GameController : MonoBehaviour
             player_can_pass = false;
         }
 
-        List<GameObject> playableCards = get_playable_cards(1);
+        //List<GameObject> playableCards = get_playable_cards(1);
         if (!playerHasPlayable())
         {
             player_can_pass = false;
@@ -274,7 +277,7 @@ public class GameController : MonoBehaviour
             {
                 attackPawns(player_card, enemy_card, battleAnim);
             }
-            battleAnimTime += 1.3f;
+            battleAnimTime += 1f;
 
         }
 
@@ -311,13 +314,20 @@ public class GameController : MonoBehaviour
 
     public void attackAvatar(GameObject pawn, PlayerController target, GameObject targetAvatar, int animationParam, Sequence battleAnim) {
         Transform pawnTran = pawn.transform.GetChild(0).GetChild(7).gameObject.transform;
+        CardBehavior card = pawn.GetComponent<CardBehavior>();
         battleAnim.Append(pawnTran.DOMove(new Vector2(pawnTran.position.x, pawnTran.position.y + animationParam), 0.1f))
               .Join(pawnTran.DOScale(1.5f, 0.1f))
               .Append(pawnTran.DOMove(targetAvatar.transform.position, 0.25f))
-              .AppendCallback(() => { updateHealth(target, -pawn.GetComponent<CardBehavior>().getAttack()); })
-              .Append(pawnTran.DOMove(new Vector2(pawnTran.position.x, pawnTran.position.y), 0.4f))
-              .Join(targetAvatar.transform.DOPunchScale(new Vector3(1.5f, 1.5f, 1.5f), 0.5f, 10, 1))
-              .Join(pawnTran.DOScale(1f, 0.4f))
+              .AppendCallback(() => { 
+                  updateHealth(target, -pawn.GetComponent<CardBehavior>().getAttack()); 
+                  if (card.cardIdentity.hasBattleAbility)
+                  {
+                      ability.passiveAbility(card.cardAbility, card.abilityParams.ToArray());
+                  }
+              })
+              .Append(pawnTran.DOMove(new Vector2(pawnTran.position.x, pawnTran.position.y), 0.3f))
+              .Join(targetAvatar.transform.DOPunchScale(new Vector3(1.5f, 1.5f, 1.5f), 0.3f, 10, 1))
+              .Join(pawnTran.DOScale(1f, 0.3f))
               .Append(targetAvatar.transform.DOScale(1f, 0.2f));
     }
 
@@ -326,6 +336,8 @@ public class GameController : MonoBehaviour
         Transform enemyHP = enemy_card.transform.GetChild(0).GetChild(6).gameObject.transform;
         Transform playerTran = player_card.transform.GetChild(0).GetChild(7).gameObject.transform;
         Transform playerHP = player_card.transform.GetChild(0).GetChild(6).gameObject.transform;
+        CardBehavior playerCardInfo = player_card.GetComponent<CardBehavior>();
+        CardBehavior enemyCardInfo = enemy_card.GetComponent<CardBehavior>();
         battleAnim.Append(enemyTran.DOMove(new Vector2(enemyTran.position.x, enemyTran.position.y + 100), 0.1f))
             .Join(playerTran.DOMove(new Vector2(playerTran.position.x, playerTran.position.y - 100), 0.1f))
             .Join(enemyTran.DOScale(1.5f, 0.1f))
@@ -336,15 +348,26 @@ public class GameController : MonoBehaviour
             .Join(playerTran.DOMove(enemyHP.transform.position, 0.25f))
             .AppendCallback(() =>
             {
+                if (playerCardInfo.cardIdentity.hasBattleAbility)
+                {
+                    ability.passiveAbility(playerCardInfo.cardAbility, playerCardInfo.abilityParams.ToArray());
+                }
+                if (enemyCardInfo.cardIdentity.hasBattleAbility)
+                {
+                    ability.passiveAbility(enemyCardInfo.cardAbility, enemyCardInfo.abilityParams.ToArray());
+                }
+            })
+            .AppendCallback(() =>
+            {
                 player_card.GetComponent<CardBehavior>().updateStats(0, -enemy_card.GetComponent<CardBehavior>().getAttack());
                 enemy_card.GetComponent<CardBehavior>().updateStats(0, -player_card.GetComponent<CardBehavior>().getAttack());
             })
-            .Join(enemyHP.DOPunchScale(new Vector3(1.5f, 1.5f, 1.5f), 0.5f, 10, 1))
-            .Join(playerHP.DOPunchScale(new Vector3(1.5f, 1.5f, 1.5f), 0.5f, 10, 1))
-            .Join(enemyTran.DOMove(new Vector2(enemyTran.position.x, enemyTran.position.y), 0.4f))
-            .Join(playerTran.DOMove(new Vector2(playerTran.position.x, playerTran.position.y), 0.4f))
-            .Join(enemyTran.DOScale(1f, 0.4f))
-            .Join(playerTran.DOScale(1f, 0.4f))
+            .Join(enemyHP.DOPunchScale(new Vector3(1.5f, 1.5f, 1.5f), 0.3f, 10, 1))
+            .Join(playerHP.DOPunchScale(new Vector3(1.5f, 1.5f, 1.5f), 0.3f, 10, 1))
+            .Join(enemyTran.DOMove(new Vector2(enemyTran.position.x, enemyTran.position.y), 0.3f))
+            .Join(playerTran.DOMove(new Vector2(playerTran.position.x, playerTran.position.y), 0.3f))
+            .Join(enemyTran.DOScale(1f, 0.3f))
+            .Join(playerTran.DOScale(1f, 0.3f))
             .Append(enemyHP.DOScale(1f, 0.2f))
             .Join(playerHP.DOScale(1f, 0.2f));
     }
@@ -432,6 +455,20 @@ public class GameController : MonoBehaviour
         player_free_pass = true;
         player_can_pass = true;
 
+        // Reset actives
+        foreach (Transform lane in player_lanes.transform)
+        {
+            if (!lane.gameObject.activeInHierarchy)
+            {
+                continue;
+            }
+            if (lane.childCount > 0)
+            {
+                GameObject card = lane.GetChild(0).gameObject;
+                card.GetComponent<CardBehavior>().abilityUsed = false;
+            }
+
+        }
 
         yield return new WaitForSeconds(0.5f);
 
@@ -475,26 +512,42 @@ public class GameController : MonoBehaviour
                 dialogPromptList.Add("Congratulations! You are now ready for Hero's Draw.");
                 dialogPromptList.Add("As promised, here is your first Hero card!");
                 dialogPromptList.Add("You may only have 1 of each Hero card in your deck, so build wisely.");
+                dialogPromptList.Add("You can obtain a new Hero card every 5 wins, so do your best!");
                 dialogPrompt.Setup(dialogPromptList);
                 cards.Add(Resources.Load<CardObject>("Cards/Arthur, King of Legend"));
-                StartCoroutine(obtainCard(cards));
+                obtainCard(cards);
+                Conditions.wins = 0; // We only care about wins after the tutorial levels.
             } else if (levelID > 3)
             {
-                dialogPromptList.Add("YOU WIN :)");
-                dialogPrompt.Setup(dialogPromptList);
-                for (int i = 0; i < 3; i++)
+                string cardType = "BASIC";
+                if (Conditions.wins % 5 == 0)
                 {
-                    int cardDBIndex = Random.Range(0, CardDatabase.cardList.Count);
-                    Debug.Log("Random card: " + CardDatabase.cardList[cardDBIndex]);
-                    CardObject chosenCard = Resources.Load<CardObject>("Cards/" + CardDatabase.cardList[cardDBIndex]);
+                    cardType = "HERO";
+                }
+                List<CardObject> obtainableCards = findObtainableCards(cardType);
+                if (obtainableCards.Count == 0)
+                {
+                    dialogPromptList.Add("All "+ cardType + " cards have been obtained.");
+                } else
+                {
+                    dialogPromptList.Add("YOU WIN :)");
+                }
+                dialogPrompt.Setup(dialogPromptList);
+                int numCardsToShow = Mathf.Min(3, obtainableCards.Count);
+                Debug.Log(numCardsToShow);
+                for (int i = 0; i < numCardsToShow; i++)
+                {
+                    int cardDBIndex = Random.Range(0, obtainableCards.Count);
+                    Debug.Log("Random card: " + obtainableCards[cardDBIndex]);
+                    CardObject chosenCard = obtainableCards[cardDBIndex];
                     while(cards.Contains(chosenCard))
                     {
-                        cardDBIndex = Random.Range(0, CardDatabase.cardList.Count);
-                        chosenCard = Resources.Load<CardObject>("Cards/" + CardDatabase.cardList[cardDBIndex]);
+                        cardDBIndex = Random.Range(0, obtainableCards.Count);
+                        chosenCard = obtainableCards[cardDBIndex];
                     }
                     cards.Add(chosenCard);
                 }
-                StartCoroutine(obtainCard(cards));
+                obtainCard(cards);
             }
             
             promptList.Add("YOU WIN :)");
@@ -508,8 +561,50 @@ public class GameController : MonoBehaviour
         yield return new WaitForSeconds(1f);
     }
 
-    public IEnumerator obtainCard(List<CardObject> cards)
+    public List<CardObject> findObtainableCards(string cardType)
     {
+        List<CardObject> obtainableCards = new List<CardObject>();
+        List<string> cardList;
+        if (cardType == "HERO")
+        {
+            cardList = new List<string>(CardDatabase.heroList);
+        } else
+        {
+            cardList = new List<string>(CardDatabase.cardList);
+        }
+        for (int i = 0; i < cardList.Count; i++)
+        {
+            CardObject currCard = Resources.Load<CardObject>("Cards/" + cardList[i]);
+            int numOwned = 0;
+            Conditions.info collectionInfo;
+            if (Conditions.card_collection.TryGetValue(currCard.cardName, out collectionInfo))
+            {
+                int maxCardsAllowed = collectionInfo.type;
+                numOwned += collectionInfo.num;
+                Conditions.info deckInfo;
+                if (Conditions.deck_collection.TryGetValue(currCard.cardName, out deckInfo))
+                {
+                    numOwned += deckInfo.num;
+                }
+                if (numOwned < maxCardsAllowed)
+                {
+                    obtainableCards.Add(currCard);
+                }
+            } else
+            {
+                obtainableCards.Add(currCard);
+            }
+
+        }
+        return obtainableCards;
+    }
+
+    public void obtainCard(List<CardObject> cards)
+    {
+        if (cards.Count == 0)
+        {
+            return;
+        }
         Instantiate(obtainCardText, EndPrompt.transform);
         int i = 0;
         if (cards.Count == 1)
@@ -526,7 +621,6 @@ public class GameController : MonoBehaviour
             newCard.GetComponent<RectTransform>().DORotate(new Vector3(0, 0, 0), 2f);
             i++;
         }
-        yield return new WaitForEndOfFrame();
     }
 
     // Return a list of the indices of open lanes
@@ -605,7 +699,7 @@ public class GameController : MonoBehaviour
     protected void summon_card(int player_num, int lane, GameObject card) {
         if (player_num == 0) {
             enemy.hand.Remove(card);
-            num_enemy_summoned_card++;
+            //num_enemy_summoned_card++;
             card.GetComponent<CardBehavior>()
                 .summonCard(enemy_lanes.transform.GetChild(lane).GetComponent<RectTransform>(), lane);
 

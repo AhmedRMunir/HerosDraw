@@ -25,7 +25,8 @@ public static class CardDatabase
         "Recruiting Officer",
         "Rampaging Behemoth",
         "Barracks",
-        "Seer",
+        "Ice Wizard",
+        "Teacher",
         "Twin Mage"
     };
 
@@ -46,9 +47,6 @@ public static class CardDatabase
         "Vampire",
         "Vampire Lord",
         "Rampaging Behemoth",
-        // "Fire Wizard",
-        "Ice Wizard",
-        "Seer",
         "Twin Mage"
     };
 

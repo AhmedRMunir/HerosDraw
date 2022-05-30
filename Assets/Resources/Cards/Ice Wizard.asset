@@ -21,7 +21,7 @@ MonoBehaviour:
   faction: Mage
   cardType: 
   cardAbility: increaseMana
-  abilityParams: 01000000010000000100000000000000
+  abilityParams: 02000000010000000100000000000000
   hasActiveAbility: 1
   hasPassiveAbility: 0
   hasBattleAbility: 0

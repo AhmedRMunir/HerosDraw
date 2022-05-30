@@ -377,6 +377,11 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public int getCost() {
         return cost;
     }
+
+    public void setCost(int newCost)
+    {
+        cost = newCost;
+    }
     public int getFaction()
     {
         return faction;

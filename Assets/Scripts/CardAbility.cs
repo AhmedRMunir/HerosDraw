@@ -228,20 +228,26 @@ public class CardAbility : MonoBehaviour
                 idx 2 - field row; 0 if enemy, 1 if player
                 idx 3 - lane index
                 idx 4 - faction id (0 = knight, 1 = mage, 2 = vampire)
+                idx 5 - mana cost
     */
     public IEnumerator recruit(int[] values)
     {
         if (gm.num_player_summoned_card != gm.field.GetLength(1))
         {
+            gm.player.mana -= values[5];
             GameObject card = gm.field[values[2], values[3]];
             GameObject cardCopy = Instantiate(card, GameObject.FindGameObjectWithTag("PlayerHand").transform);
             CardBehavior newCard = cardCopy.GetComponent<CardBehavior>();
             if (values[4] == 0)
             {
                 newCard.cardIdentity = Resources.Load<CardObject>("Cards/Recruit");
+            } else if (values[4] == 5) // Seer
+            {
+                newCard.cardIdentity = Resources.Load<CardObject>("Cards/Apprentice");
             }
             yield return new WaitForEndOfFrame();
             Debug.Log(values[0]);
+            newCard.setCost(0);
             newCard.updateStats(values[0], values[1]);
             newCard.enterSelection(false);
         }
@@ -391,13 +397,13 @@ public class CardAbility : MonoBehaviour
             {
                 if (currCard.GetComponent<CardBehavior>().getName() == card.GetComponent<CardBehavior>().getName()) {
                     found = true;
-                    currCard.GetComponent<CardBehavior>().updateStats(currCard.GetComponent<CardBehavior>().getAttack() + 1, currCard.GetComponent<CardBehavior>().getHealth() + 1);
+                    currCard.GetComponent<CardBehavior>().updateStats(1, 1);
                 }
             }
         }
-        if (found) {
-            card.GetComponent<CardBehavior>().updateStats(card.GetComponent<CardBehavior>().getAttack() + 1, card.GetComponent<CardBehavior>().getHealth() + 1);
-        }
+        /*if (found) {
+            card.GetComponent<CardBehavior>().updateStats(1, 1);
+        }*/
         yield return new WaitForEndOfFrame();
 
     }

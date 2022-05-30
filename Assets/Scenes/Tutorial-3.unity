@@ -1108,11 +1108,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 80d9d75ea2e554ceb870425af85e1ec2, type: 2}
   - {fileID: 11400000, guid: 80d9d75ea2e554ceb870425af85e1ec2, type: 2}
   - {fileID: 11400000, guid: 80d9d75ea2e554ceb870425af85e1ec2, type: 2}
-  - {fileID: 11400000, guid: 80d9d75ea2e554ceb870425af85e1ec2, type: 2}
   - {fileID: 11400000, guid: e54f0d3c690a14ffc8d2f9947128a7c2, type: 2}
   - {fileID: 11400000, guid: e54f0d3c690a14ffc8d2f9947128a7c2, type: 2}
   - {fileID: 11400000, guid: e54f0d3c690a14ffc8d2f9947128a7c2, type: 2}
   - {fileID: 11400000, guid: e54f0d3c690a14ffc8d2f9947128a7c2, type: 2}
+  - {fileID: 11400000, guid: ada580bbf43cc244eb714cd3665cf203, type: 2}
+  - {fileID: 11400000, guid: ada580bbf43cc244eb714cd3665cf203, type: 2}
+  - {fileID: 11400000, guid: ada580bbf43cc244eb714cd3665cf203, type: 2}
+  - {fileID: 11400000, guid: ada580bbf43cc244eb714cd3665cf203, type: 2}
   hand: []
   discardPile: []
   completeCard: {fileID: 8725599466063141245, guid: c17454e7db0b04d678f044b4bc4dfc54, type: 3}

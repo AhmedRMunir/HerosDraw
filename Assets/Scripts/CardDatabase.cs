@@ -17,7 +17,11 @@ public static class CardDatabase
         "Dragon Whelp",
         "Dragon",
         "Enchanted Library",
-        "Barricade"
+        "Barricade",
+        // "Fire Wizard",
+        "Seer",
+        "Twin Mage",
+        "Twin Mage 1"
     };
 
     public static List<string> heroList = new List<string>

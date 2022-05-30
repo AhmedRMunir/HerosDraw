@@ -167,12 +167,13 @@ public class CardAbility : MonoBehaviour
             if (currCard != null)
             {
                 if (currCard.GetComponent<CardBehavior>().getName() == card.GetComponent<CardBehavior>().getName()) {
-                    currCard.GetComponent<CardBehavior>().updateStats(currCard.GetComponent<CardBehavior>().getAttack() + 2, currCard.GetComponent<CardBehavior>().getHealth() + 2);
+                    found = true;
+                    currCard.GetComponent<CardBehavior>().updateStats(currCard.GetComponent<CardBehavior>().getAttack() + 1, currCard.GetComponent<CardBehavior>().getHealth() + 1);
                 }
             }
         }
         if (found) {
-            card.GetComponent<CardBehavior>().updateStats(card.GetComponent<CardBehavior>().getAttack() + 2, card.GetComponent<CardBehavior>().getHealth() + 2);
+            card.GetComponent<CardBehavior>().updateStats(card.GetComponent<CardBehavior>().getAttack() + 1, card.GetComponent<CardBehavior>().getHealth() + 1);
         }
         yield return new WaitForEndOfFrame();
 

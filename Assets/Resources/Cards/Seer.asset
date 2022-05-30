@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Seer
   art: {fileID: 0}
-  description: 
+  description: 'Passive: (Draw 1 Card)'
   cost: 2
   attack: 0
   health: 1
   faction: Mage
   cardType: 
   cardAbility: drawActive
-  abilityParams: 
+  abilityParams: 01000000000000000000000000000000
   hasActiveAbility: 0
   hasPassiveAbility: 1
   hasBattleAbility: 0

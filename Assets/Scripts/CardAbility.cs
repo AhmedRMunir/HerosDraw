@@ -178,4 +178,24 @@ public class CardAbility : MonoBehaviour
         yield return new WaitForEndOfFrame();
 
     }
+
+    /* values:  idx 0 - health updates
+                idx 1 - mana cost
+                idx 2 - field row; 0 if enemy, 1 if player
+                idx 3 - lane index
+    */
+    public IEnumerator increaseMana(int[] values) {
+        yield return new WaitForEndOfFrame();
+        //GameObject card = gm.field[values[2], values[3]];
+        gm.player.mana -= values[1];
+        if (values[2] == 1) // Player
+        {
+            gm.updateMana(gm.player, values[0]);
+        } else // Enemy
+        {
+            gm.updateMana(gm.enemy, values[0]);
+        }
+        
+        yield return new WaitForEndOfFrame();
+    }
 }

@@ -367,7 +367,58 @@ public class CardAbility : MonoBehaviour
             }
             
         }
+    }
 
+    /* values:  idx 0 - faction id (0 = knight, 1 = mage, 2 = vampire)
+                idx 1 - attack/health updates
+                idx 2 - field row; 0 if enemy, 1 if player
+                idx 3 - lane index
+    */
+    public IEnumerator twinBoost(int[] values) {
+
+        yield return new WaitForEndOfFrame();
+        Debug.Log(values[2]);
+        bool found = false;
+        GameObject card = gm.field[values[2], values[3]];
+        for (int i = 0; i < gm.field.GetLength(1); i++)
+        {
+            if (i == values[3])
+            {
+                continue;
+            }
+            GameObject currCard = gm.field[values[2], i];
+            if (currCard != null)
+            {
+                if (currCard.GetComponent<CardBehavior>().getName() == card.GetComponent<CardBehavior>().getName()) {
+                    found = true;
+                    currCard.GetComponent<CardBehavior>().updateStats(currCard.GetComponent<CardBehavior>().getAttack() + 1, currCard.GetComponent<CardBehavior>().getHealth() + 1);
+                }
+            }
+        }
+        if (found) {
+            card.GetComponent<CardBehavior>().updateStats(card.GetComponent<CardBehavior>().getAttack() + 1, card.GetComponent<CardBehavior>().getHealth() + 1);
+        }
+        yield return new WaitForEndOfFrame();
+
+    }
+
+    /* values:  idx 0 - health updates
+                idx 1 - mana cost
+                idx 2 - field row; 0 if enemy, 1 if player
+                idx 3 - lane index
+    */
+    public IEnumerator increaseMana(int[] values) {
+        yield return new WaitForEndOfFrame();
+        //GameObject card = gm.field[values[2], values[3]];
+        gm.player.mana -= values[1];
+        if (values[2] == 1) // Player
+        {
+            gm.updateMana(gm.player, values[0]);
+        } else // Enemy
+        {
+            gm.updateMana(gm.enemy, values[0]);
+        }
+        
         yield return new WaitForEndOfFrame();
     }
 }

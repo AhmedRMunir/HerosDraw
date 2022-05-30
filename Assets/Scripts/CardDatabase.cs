@@ -24,7 +24,9 @@ public static class CardDatabase
         "Vampire Lord",
         "Recruiting Officer",
         "Rampaging Behemoth",
-        "Barracks"
+        "Barracks",
+        "Seer",
+        "Twin Mage"
     };
 
     public static List<string> enemyPool = new List<string>
@@ -44,6 +46,9 @@ public static class CardDatabase
         "Vampire",
         "Vampire Lord",
         "Rampaging Behemoth",
+        // "Fire Wizard",
+        "Seer",
+        "Twin Mage"
     };
 
     public static List<string> heroList = new List<string>

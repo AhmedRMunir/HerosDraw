@@ -24,4 +24,5 @@ MonoBehaviour:
   abilityParams: 02000000030000000000000000000000
   hasActiveAbility: 1
   hasPassiveAbility: 0
+  hasBattleAbility: 0
   activeAbilityCost: 0000000003000000

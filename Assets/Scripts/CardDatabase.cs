@@ -19,6 +19,7 @@ public static class CardDatabase
         "Enchanted Library",
         "Barricade",
         // "Fire Wizard",
+        "Ice Wizard",
         "Seer",
         "Twin Mage",
         "Twin Mage 1"

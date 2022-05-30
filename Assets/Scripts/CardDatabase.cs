@@ -47,6 +47,7 @@ public static class CardDatabase
         "Vampire Lord",
         "Rampaging Behemoth",
         // "Fire Wizard",
+        "Ice Wizard",
         "Seer",
         "Twin Mage"
     };

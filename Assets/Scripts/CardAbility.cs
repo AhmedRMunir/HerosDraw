@@ -467,6 +467,26 @@ public class CardAbility : MonoBehaviour
                 idx 2 - field row; 0 if enemy, 1 if player
                 idx 3 - lane index
     */
+    public IEnumerator mutate(int[] values) {
+        GameObject card = gm.field[1 - values[2], values[3]];
+        GameObject cardCopy = Instantiate(card, GameObject.FindGameObjectWithTag("PlayerHand").transform);
+        CardBehavior newCard = cardCopy.GetComponent<CardBehavior>();
+        newCard.cardIdentity = Resources.Load<CardObject>("Cards/Golem");
+        newCard.isEnemy = false;
+
+        GameObject playerlanes; 
+            if (values[2] == 0) // enemy card
+            {
+                playerlanes = gm.enemy_lanes;
+            } else // player card
+            {
+                playerlanes = gm.player_lanes;
+            }
+        
+        newCard.summonCard(playerlanes.transform.GetChild(values[3]).GetComponent<RectTransform>(), values[3]);
+        yield return new WaitForEndOfFrame();
+    }
+    
     public IEnumerator scorch(int[] values)
     {
         GameObject player_card = gm.field[1, values[3]];

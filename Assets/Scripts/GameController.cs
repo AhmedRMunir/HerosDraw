@@ -725,7 +725,7 @@ public class GameController : MonoBehaviour
                 enemy_play_card_first_block_lane();
                 break;
             case 1:
-                enemy_play_card_first_block_lane();
+                enemy_play_card_first_open_lane();
                 break;
             case 2:
                 enemy_play_card_block_strongest_on_field();

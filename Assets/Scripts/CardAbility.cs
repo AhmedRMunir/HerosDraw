@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class CardAbility : MonoBehaviour
 {
@@ -408,7 +409,7 @@ public class CardAbility : MonoBehaviour
 
     }
 
-    /* values:  idx 0 - health updates
+    /* values:  idx 0 - mana updates
                 idx 1 - mana cost
                 idx 2 - field row; 0 if enemy, 1 if player
                 idx 3 - lane index
@@ -432,4 +433,71 @@ public class CardAbility : MonoBehaviour
 
         yield return new WaitForEndOfFrame();
     }
+
+    /* values:  idx 0 - cards to draw
+                idx 1 - 
+                idx 2 - field row; 0 if enemy, 1 if player
+                idx 3 - lane index // unused
+    */
+    public IEnumerator drawTwins(int[] values)
+    {
+        
+        CardObject twinMage = Resources.Load<CardObject>("Cards/Twin Mage");
+        gm.player.deck.Insert(0, twinMage);
+        gm.player.deck.Insert(0, twinMage);
+        for (int i = 0; i < values[0]; i++)
+        {
+            if (values[2] == 0) // Enemy draw
+            {
+                gm.enemy.drawCard();
+            } else // Player draw
+            {
+                gm.player.drawCard();
+            }
+        }
+        if (values[2] == 1)
+        {
+            gm.player_can_pass = gm.playerHasPlayable(); 
+        }
+        yield return new WaitForEndOfFrame();
+    }
+
+    /* values:  idx 0 - Damage
+                idx 1 
+                idx 2 - field row; 0 if enemy, 1 if player
+                idx 3 - lane index
+    */
+    public IEnumerator scorch(int[] values)
+    {
+        GameObject player_card = gm.field[1, values[3]];
+        GameObject enemy_card = gm.field[0, values[3]];
+
+        Sequence battleAnim = DOTween.Sequence();
+        float battleAnimTime = 1f;
+
+        if (enemy_card == null) {
+            gm.attackAvatar(player_card, gm.enemy, gm.enemy_Avatar, -100, battleAnim);
+        } else {
+
+            gm.attackPawns(player_card, enemy_card, battleAnim);
+
+            Debug.Log(enemy_card.GetComponent<CardBehavior>().getHealth());
+        }
+
+        yield return new WaitForSeconds(battleAnimTime);
+
+        if (gm.enemy.health <= 0) {
+            StartCoroutine(gm.endGame());
+        }
+
+        if (enemy_card != null && enemy_card.GetComponent<CardBehavior>().getHealth() <= 0)
+        {
+            gm.num_enemy_summoned_card--;
+            Debug.Log("card is destoryed!");
+            Destroy(gm.field[0, values[3]]);
+            player_card.GetComponent<CardBehavior>().updateStats(0, enemy_card.GetComponent<CardBehavior>().getHealth());
+        }
+    }
+
+
 }

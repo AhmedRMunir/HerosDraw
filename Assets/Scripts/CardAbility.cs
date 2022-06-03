@@ -567,4 +567,30 @@ public class CardAbility : MonoBehaviour
             player_card.GetComponent<CardBehavior>().updateStats(0, enemy_card.GetComponent<CardBehavior>().getHealth());
         }
     }
+
+    /* values:  idx 0 - health curse value
+                idx 1 
+                idx 2 - field row; 0 if enemy, 1 if player
+                idx 3 - lane index
+    */
+    public IEnumerator healthcurse(int[] values){
+        yield return new WaitForSeconds(1f);
+        Sequence battleAnim = DOTween.Sequence();
+        GameObject pawn = gm.field[values[2], values[3]];
+        Transform pawnTran = pawn.transform.GetChild(0).GetChild(7).gameObject.transform;
+        CardBehavior card = pawn.GetComponent<CardBehavior>();
+        battleAnim
+              .AppendCallback(() => { 
+                  gm.updateHealth(gm.player, -values[0]); 
+              })
+              .Join(gm.player_Avatar.transform.DOPunchScale(new Vector3(1.5f, 1.5f, 1.5f), 0.3f, 10, 1))
+              .Append(gm.player_Avatar.transform.DOScale(1f, 0.2f))
+
+              .AppendCallback(() => { 
+                  gm.updateHealth(gm.enemy, -values[0]); 
+              })
+              .Join(gm.enemy_Avatar.transform.DOPunchScale(new Vector3(1.5f, 1.5f, 1.5f), 0.3f, 10, 1))
+              .Append(gm.enemy_Avatar.transform.DOScale(1f, 0.2f));
+        yield return new WaitForSeconds(1f);
+    }
 }

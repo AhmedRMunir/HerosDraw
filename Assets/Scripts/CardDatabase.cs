@@ -50,7 +50,10 @@ public static class CardDatabase
         "Vampire",
         "Vampire Lord",
         "Rampaging Behemoth",
-        "Twin Mage"
+        "Twin Mage",
+        "Blood Raven",
+        "Twin Master",
+        "Fire Wizard"
     };
 
     public static List<string> heroList = new List<string>

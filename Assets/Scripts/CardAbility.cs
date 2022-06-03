@@ -498,6 +498,4 @@ public class CardAbility : MonoBehaviour
             player_card.GetComponent<CardBehavior>().updateStats(0, enemy_card.GetComponent<CardBehavior>().getHealth());
         }
     }
-
-
 }

@@ -263,7 +263,7 @@ public class CardAbility : MonoBehaviour
     */
     public IEnumerator army(int[] values)
     {
-        if (gm.num_player_summoned_card != gm.field.GetLength(1))
+        if (gm.num_player_summoned_card != gm.field.GetLength(1) || values[4] == 10)
         {
             GameObject card = gm.field[values[2], values[3]];
 
@@ -424,7 +424,12 @@ public class CardAbility : MonoBehaviour
         {
             gm.updateMana(gm.enemy, values[0]);
         }
-        
+
+        if (values[2] == 1)
+        {
+            gm.player_can_pass = gm.playerHasPlayable();
+        }
+
         yield return new WaitForEndOfFrame();
     }
 }

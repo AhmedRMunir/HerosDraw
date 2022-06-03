@@ -492,7 +492,10 @@ public class GameController : MonoBehaviour
         
         bool playerWin = enemy.health <= 0;
         if (Conditions.collectingData)
-            LoadingController.LOGGER.LogLevelEnd("{ Player Won: " + playerWin + ", Number of battles: " + battleNum  + ", Actions taken: " + Conditions.actionsPerLevel + " }");
+        {
+            LoadingController.LOGGER.LogLevelEnd("{ Player Won: " + playerWin + ", Number of battles: " + battleNum + ", Actions taken: " + Conditions.actionsPerLevel + " }");
+            LoadingController.LOGGER.LogActionWithNoLevel(55, "{ Player stats: levels completed: " + Conditions.levelsCompleted + ", wins: " + Conditions.wins + ", losses: " + Conditions.losses + " }");
+        }
 
         Conditions.levelsCompleted++;
         //Conditions.actionsPerLevel = 0;
@@ -503,10 +506,6 @@ public class GameController : MonoBehaviour
             LevelManager.clearedLevels.Add(levelID);
             Conditions.wins++;
             List<CardObject> cards = new List<CardObject>();
-            if (Conditions.collectingData)
-            {
-                LoadingController.LOGGER.LogActionWithNoLevel(55, "{ Player stats: levels completed: " + Conditions.levelsCompleted + ", wins: " + Conditions.wins + ", losses: " + Conditions.losses + " }");
-            }
             if (levelID == 3)
             {
                 dialogPromptList.Add("Congratulations! You are now ready for Hero's Draw.");

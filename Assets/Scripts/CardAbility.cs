@@ -462,7 +462,7 @@ public class CardAbility : MonoBehaviour
         yield return new WaitForEndOfFrame();
     }
 
-    /* values:  idx 0 - Damage
+    /* values:  idx 0
                 idx 1 
                 idx 2 - field row; 0 if enemy, 1 if player
                 idx 3 - lane index
@@ -486,7 +486,56 @@ public class CardAbility : MonoBehaviour
         newCard.summonCard(playerlanes.transform.GetChild(values[3]).GetComponent<RectTransform>(), values[3]);
         yield return new WaitForEndOfFrame();
     }
+
+    /* values:  idx 0 - max reflection
+                idx 1 
+                idx 2 - field row; 0 if enemy, 1 if player
+                idx 3 - lane index
+    */
+    public IEnumerator reflection(int[] values) {
+        GameObject player_card = gm.field[values[2], values[3]];
+        GameObject enemy_card = gm.field[1 - values[2], values[3]];
+        if (enemy_card != null) {
+            int enemyAttack = enemy_card.GetComponent<CardBehavior>().getHealth();
+            int attack = Mathf.Min(enemyAttack, values[0]);
+            
+            Transform enemyTran = enemy_card.transform.GetChild(0).GetChild(7).gameObject.transform;
+            Transform enemyHP = enemy_card.transform.GetChild(0).GetChild(6).gameObject.transform;
+            Transform playerTran = player_card.transform.GetChild(0).GetChild(7).gameObject.transform;
+            Transform playerHP = player_card.transform.GetChild(0).GetChild(6).gameObject.transform;
+            CardBehavior playerCardInfo = player_card.GetComponent<CardBehavior>();
+            CardBehavior enemyCardInfo = enemy_card.GetComponent<CardBehavior>();
+            Sequence battleAnim = DOTween.Sequence();
+            battleAnim.Append(enemyTran.DOMove(new Vector2(enemyTran.position.x, enemyTran.position.y + 100), 0.1f))
+            .Join(playerTran.DOMove(new Vector2(playerTran.position.x, playerTran.position.y - 100), 0.1f))
+            .Join(enemyTran.DOScale(1.5f, 0.1f))
+            .Join(enemyHP.DOScale(1.5f, 0.1f))
+            .Join(playerTran.DOScale(1.5f, 0.1f))
+            .Join(playerHP.DOScale(1.5f, 0.1f))
+            .Append(enemyTran.DOMove(playerHP.transform.position, 0.25f))
+            .Join(playerTran.DOMove(enemyHP.transform.position, 0.25f))
+            .AppendCallback(() =>
+            {
+                //player_card.GetComponent<CardBehavior>().updateStats(0, -enemy_card.GetComponent<CardBehavior>().getAttack());
+                enemy_card.GetComponent<CardBehavior>().updateStats(0, -attack);
+            })
+            .Join(enemyHP.DOPunchScale(new Vector3(1.5f, 1.5f, 1.5f), 0.3f, 10, 1))
+            .Join(playerHP.DOPunchScale(new Vector3(1.5f, 1.5f, 1.5f), 0.3f, 10, 1))
+            .Join(enemyTran.DOMove(new Vector2(enemyTran.position.x, enemyTran.position.y), 0.3f))
+            .Join(playerTran.DOMove(new Vector2(playerTran.position.x, playerTran.position.y), 0.3f))
+            .Join(enemyTran.DOScale(1f, 0.3f))
+            .Join(playerTran.DOScale(1f, 0.3f))
+            .Append(enemyHP.DOScale(1f, 0.2f))
+            .Join(playerHP.DOScale(1f, 0.2f));
+        }
+        yield return new WaitForEndOfFrame();
+    }
     
+    /* values:  idx 0 - Damage
+                idx 1 
+                idx 2 - field row; 0 if enemy, 1 if player
+                idx 3 - lane index
+    */
     public IEnumerator scorch(int[] values)
     {
         int enemyRow = Mathf.Abs(values[2] - 1);
@@ -519,5 +568,31 @@ public class CardAbility : MonoBehaviour
         }*/
         gm.oneWayAttackPawn(player_card, enemyRow, values[3]);
         yield return new WaitForSeconds(battleAnimTime);
+    }
+
+    /* values:  idx 0 - health curse value
+                idx 1 
+                idx 2 - field row; 0 if enemy, 1 if player
+                idx 3 - lane index
+    */
+    public IEnumerator healthcurse(int[] values){
+        yield return new WaitForSeconds(1f);
+        Sequence battleAnim = DOTween.Sequence();
+        GameObject pawn = gm.field[values[2], values[3]];
+        Transform pawnTran = pawn.transform.GetChild(0).GetChild(7).gameObject.transform;
+        CardBehavior card = pawn.GetComponent<CardBehavior>();
+        battleAnim
+              .AppendCallback(() => { 
+                  gm.updateHealth(gm.player, -values[0]); 
+              })
+              .Join(gm.player_Avatar.transform.DOPunchScale(new Vector3(1.5f, 1.5f, 1.5f), 0.3f, 10, 1))
+              .Append(gm.player_Avatar.transform.DOScale(1f, 0.2f))
+
+              .AppendCallback(() => { 
+                  gm.updateHealth(gm.enemy, -values[0]); 
+              })
+              .Join(gm.enemy_Avatar.transform.DOPunchScale(new Vector3(1.5f, 1.5f, 1.5f), 0.3f, 10, 1))
+              .Append(gm.enemy_Avatar.transform.DOScale(1f, 0.2f));
+        yield return new WaitForSeconds(1f);
     }
 }

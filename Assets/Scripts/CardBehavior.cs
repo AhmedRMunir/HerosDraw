@@ -402,4 +402,10 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public string getName() {
         return nameText.text;
     }
+
+    public void updateStatsWithoutText(int attack, int health)
+    {
+        attackPoints += attack;
+        healthPoints += health;
+    }
 }

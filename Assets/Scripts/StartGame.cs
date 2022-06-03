@@ -33,9 +33,17 @@ public class StartGame : MonoBehaviour, IPointerClickHandler
                 Conditions.levelsCompleted = 0;
                 Conditions.wins = 0;
                 Conditions.losses = 0;
-                LevelManager.loadNewLevel();
+                if (LoadingController.cid == 5)
+                {
+                    LevelManager.loadNewLevel();
+                } else if (LoadingController.cid == 6)
+                {
+                    LevelManager.loadNewLevel("OptionalPrompt");
+                }
+                
             });
         //SceneManager.LoadScene("Tutorial-1");
         //SceneManager.LoadScene("Battle");
     }
+
 }

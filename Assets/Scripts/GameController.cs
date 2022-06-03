@@ -527,9 +527,11 @@ public class GameController : MonoBehaviour
                 if (obtainableCards.Count == 0)
                 {
                     dialogPromptList.Add("All "+ cardType + " cards have been obtained.");
+                    dialogPrompt.promptText.fontSize = 25;
                 } else
                 {
-                    dialogPromptList.Add("YOU WIN :)");
+                    dialogPromptList.Add("VICTORY");
+                    dialogPrompt.promptText.fontSize = 70;
                 }
                 dialogPrompt.Setup(dialogPromptList);
                 int numCardsToShow = Mathf.Min(3, obtainableCards.Count);
@@ -549,10 +551,10 @@ public class GameController : MonoBehaviour
                 obtainCard(cards);
             }
             
-            promptList.Add("YOU WIN :)");
+            promptList.Add("VICTORY");
         } else {
             Conditions.losses++;
-            promptList.Add("YOU LOSE :)");
+            promptList.Add("DEFEAT");
         }
         EndPrompt.Setup(promptList);
         

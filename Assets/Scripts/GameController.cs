@@ -718,7 +718,7 @@ public class GameController : MonoBehaviour
 
     public virtual void enemy_play_card() {
         
-        int nextMove = UnityEngine.Random.Range(0,3);
+        int nextMove = UnityEngine.Random.Range(0,4);
 
         switch (nextMove) {
             case 0:
@@ -731,7 +731,7 @@ public class GameController : MonoBehaviour
                 enemy_play_card_block_strongest_on_field();
                 break;
             default:
-                enemy_play_card_first_open_lane();
+                enemy_play_strongest_card_open_lane();
                 break;
         }
     }
@@ -754,6 +754,43 @@ public class GameController : MonoBehaviour
         int lane_num = enemy_open_lanes[0];
         summon_card(0, lane_num, enemy_playable_cards[0]);
         enemy.hand.Remove(enemy_playable_cards[0]);      
+    }
+
+    // Plays card into the first open lane
+    public void enemy_play_strongest_card_open_lane() {
+
+        // Enemy has a playable card
+        // Enemy has an open lane 
+
+        List<int> enemy_open_lanes = get_open_lanes(0);
+        List<GameObject> enemy_playable_cards = get_playable_cards(0);
+
+        if (enemy_open_lanes.Count == 0 || enemy_playable_cards.Count == 0) {
+            return;
+        }
+
+        GameObject strongest_enemy_card = getStrongestCard(0);
+
+        List<int> player_open_lanes = get_open_lanes(1);
+
+        List<int> shared_open_lanes = new List<int>();
+
+        for (int i = 0; i < enemy_open_lanes.Count; i++) {
+            if (player_open_lanes.Contains(enemy_open_lanes[i])) {
+                shared_open_lanes.Add(enemy_open_lanes[i]);
+            }
+        }
+
+        int lane_num = enemy_open_lanes[0];
+
+        if (shared_open_lanes.Count != 0) {
+            lane_num = shared_open_lanes[0];
+        }
+
+        // play the first playable card into the first open space
+        
+        summon_card(0, lane_num, strongest_enemy_card);
+        enemy.hand.Remove(strongest_enemy_card);              
     }
 
     public void enemy_play_card_first_block_lane() {

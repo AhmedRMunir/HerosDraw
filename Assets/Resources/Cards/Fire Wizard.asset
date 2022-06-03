@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Fire Wizard
   art: {fileID: 0}
-  description: 'Passive: Deal 2 Damage to opposing lane'
+  description: 'On Summon: Deal 2 Damage to opposing lane.'
   cost: 3
   attack: 2
   health: 2

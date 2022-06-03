@@ -489,10 +489,10 @@ public class CardAbility : MonoBehaviour
     
     public IEnumerator scorch(int[] values)
     {
-        GameObject player_card = gm.field[1, values[3]];
-        GameObject enemy_card = gm.field[0, values[3]];
-
-        Sequence battleAnim = DOTween.Sequence();
+        int enemyRow = Mathf.Abs(values[2] - 1);
+        GameObject player_card = gm.field[values[2], values[3]];
+        float battleAnimTime = 1f;
+        /*Sequence battleAnim = DOTween.Sequence();
         float battleAnimTime = 1f;
 
         if (enemy_card == null) {
@@ -516,6 +516,8 @@ public class CardAbility : MonoBehaviour
             Debug.Log("card is destoryed!");
             Destroy(gm.field[0, values[3]]);
             player_card.GetComponent<CardBehavior>().updateStats(0, enemy_card.GetComponent<CardBehavior>().getHealth());
-        }
+        }*/
+        gm.oneWayAttackPawn(player_card, enemyRow, values[3]);
+        yield return new WaitForSeconds(battleAnimTime);
     }
 }

@@ -371,7 +371,78 @@ public class GameController : MonoBehaviour
             .Append(enemyHP.DOScale(1f, 0.2f))
             .Join(playerHP.DOScale(1f, 0.2f));
     }
-    
+
+    // rowIndex and laneIndex are the location of the lane being attacked.
+    public void oneWayAttackPawn(GameObject attacking_card, int rowIndex, int laneIndex)
+    {
+        Sequence battleAnim = DOTween.Sequence();
+        Transform enemyHP;
+        Transform attackTran = attacking_card.transform.GetChild(0).GetChild(7).gameObject.transform;
+        GameObject defending_card = field[rowIndex, laneIndex];
+        int attackType; // 0 = attack pawn, 1 = direct attack player, 2 = direct attack enemy
+        if (defending_card == null) // Direct attack
+        {
+            if (rowIndex == 0) // Player card attacking
+            {
+                enemyHP = enemy_Avatar.transform;
+                attackType = 1;
+            }
+            else // Enemy card attacking
+            {
+                enemyHP = player_Avatar.transform;
+                attackType = 2;
+            }
+        } else // Attack opposing Pawn.
+        {
+            enemyHP = defending_card.transform.GetChild(0).GetChild(6).gameObject.transform;
+            attackType = 0;
+        }
+
+        battleAnim.Append(attackTran.DOMove(new Vector2(enemyHP.position.x, enemyHP.position.y + 100), 0.1f))
+            .Join(enemyHP.DOScale(1.5f, 0.1f))
+            .Join(attackTran.DOScale(1.5f, 0.1f))
+            .Append(attackTran.DOMove(enemyHP.transform.position, 0.25f))
+            .AppendCallback(() =>
+            {
+                if (attackType == 0)
+                {
+                    defending_card.GetComponent<CardBehavior>().updateStats(0, -attacking_card.GetComponent<CardBehavior>().getAttack());
+                }
+                else if (attackType == 1)
+                {
+                    updateHealth(enemy, -attacking_card.GetComponent<CardBehavior>().getAttack());
+                }
+                else if (attackType == 2)
+                {
+                    updateHealth(player, -attacking_card.GetComponent<CardBehavior>().getAttack());
+                }
+
+            })
+            .Join(enemyHP.DOPunchScale(new Vector3(1.5f, 1.5f, 1.5f), 0.3f, 10, 1))
+            .Join(attackTran.DOMove(new Vector2(attackTran.position.x, attackTran.position.y), 0.3f))
+            .Join(attackTran.DOScale(1f, 0.3f))
+            .Append(enemyHP.DOScale(1f, 0.2f))
+            .AppendCallback(() =>
+            {
+                if (defending_card != null && defending_card.GetComponent<CardBehavior>().getHealth() <= 0)
+                {
+                    if (rowIndex == 0) // Enemy card destroyed
+                    {
+                        num_enemy_summoned_card--;
+                    }
+                    else // Player card destroyed
+                    {
+                        num_player_summoned_card--;
+                    }
+                    Destroy(field[rowIndex, laneIndex]);
+                }
+
+                if (player.health <= 0 || enemy.health <= 0)
+                {
+                    StartCoroutine("endGame");
+                }
+            });
+    }
 
     private bool spinPassTurn(float angle) {
         // if (passTurnSpinner.transform.eulerAngles.z != 180f) {

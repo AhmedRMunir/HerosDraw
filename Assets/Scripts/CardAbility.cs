@@ -443,8 +443,16 @@ public class CardAbility : MonoBehaviour
     {
         
         CardObject twinMage = Resources.Load<CardObject>("Cards/Twin Mage");
-        gm.player.deck.Insert(0, twinMage);
-        gm.player.deck.Insert(0, twinMage);
+        if (values[2] == 0)
+        {
+            gm.enemy.deck.Insert(0, twinMage);
+            gm.enemy.deck.Insert(0, twinMage);
+        } else
+        {
+            gm.player.deck.Insert(0, twinMage);
+            gm.player.deck.Insert(0, twinMage);
+        }
+        
         for (int i = 0; i < values[0]; i++)
         {
             if (values[2] == 0) // Enemy draw

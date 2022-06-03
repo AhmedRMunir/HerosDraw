@@ -22,6 +22,7 @@ public class CardObject : ScriptableObject
     public bool hasActiveAbility;
     public bool hasPassiveAbility;
     public bool hasBattleAbility;
+    public bool hasDestoryAbility;
     public List<int> activeAbilityCost;
     
 }

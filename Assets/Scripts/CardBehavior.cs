@@ -165,6 +165,12 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         }
     }
 
+    void OnDestroy() {
+        if (cardIdentity.hasDestoryAbility) {
+            ability.passiveAbility(cardAbility, abilityParams.ToArray());
+        }
+    }
+
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (!summoned && !isEnemy)

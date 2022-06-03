@@ -2609,13 +2609,13 @@ MonoBehaviour:
   mana: 10
   maxMana: 10
   deck:
-  - {fileID: 11400000, guid: 5544904aa00a44195b5403361f1c68d8, type: 2}
-  - {fileID: 11400000, guid: 5544904aa00a44195b5403361f1c68d8, type: 2}
-  - {fileID: 11400000, guid: 5544904aa00a44195b5403361f1c68d8, type: 2}
-  - {fileID: 11400000, guid: 5544904aa00a44195b5403361f1c68d8, type: 2}
-  - {fileID: 11400000, guid: 5544904aa00a44195b5403361f1c68d8, type: 2}
-  - {fileID: 11400000, guid: e2ab8a7e63b0e2c459340b5676a6282f, type: 2}
-  - {fileID: 11400000, guid: e2ab8a7e63b0e2c459340b5676a6282f, type: 2}
+  - {fileID: 11400000, guid: e26ef343ed421d443a31fff1394b5390, type: 2}
+  - {fileID: 11400000, guid: e26ef343ed421d443a31fff1394b5390, type: 2}
+  - {fileID: 11400000, guid: e26ef343ed421d443a31fff1394b5390, type: 2}
+  - {fileID: 11400000, guid: e26ef343ed421d443a31fff1394b5390, type: 2}
+  - {fileID: 11400000, guid: e26ef343ed421d443a31fff1394b5390, type: 2}
+  - {fileID: 11400000, guid: e26ef343ed421d443a31fff1394b5390, type: 2}
+  - {fileID: 11400000, guid: e26ef343ed421d443a31fff1394b5390, type: 2}
   hand: []
   discardPile: []
   completeCard: {fileID: 8725599466063141245, guid: c17454e7db0b04d678f044b4bc4dfc54, type: 3}

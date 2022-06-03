@@ -27,7 +27,7 @@ public class Tutorial_3_Controller : GameController
         Conditions.saveCards();
 
         List<string> promptList = new List<string>();
-        promptList.Add("You've come so far. I'm proud of you :')\nTime for a proper Battle!");
+        promptList.Add("Time for a proper Battle!");
         promptList.Add("Win this battle to win your very first Hero card!");
         dialogPrompt.Setup(promptList);
 

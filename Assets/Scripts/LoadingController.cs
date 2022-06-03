@@ -7,6 +7,7 @@ using cse481.logging;
 public class LoadingController : MonoBehaviour
 {
     public static CapstoneLogger LOGGER;
+    public static int cid;
 
     private void Awake()
     {
@@ -19,7 +20,9 @@ public class LoadingController : MonoBehaviour
         string skey = "1af01d188ea7d9060535afa83c2c1647";
         int gameId = 202205;
         string gameName = "herosdraw";
-        int cid = 4; // Increment this by 1 for each new official release, (2 = v1.0, 3 = v2.0, 4 = v2.1)
+        // Increment this by 1 for each new official release, (2 = v1.0, 3 = v2.0, 4 = v2.1, 5 = final release mandatory tutorial, 6 = final release optional tutorial)
+        cid = Random.Range(5, 7);
+        Debug.Log("cid: " + cid);
         CapstoneLogger logger = new CapstoneLogger(gameId, gameName, skey, cid);
 
         string userId = logger.GenerateUuid();

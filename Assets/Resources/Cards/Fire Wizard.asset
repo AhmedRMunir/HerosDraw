@@ -14,15 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Fire Wizard
   art: {fileID: 0}
-  description: 
-  cost: 2
+  description: 'Passive: Deal 2 Damage to opposing lane'
+  cost: 0
   attack: 2
   health: 2
   faction: Mage
   cardType: 
-  cardAbility: 
-  abilityParams: 
+  cardAbility: scorch
+  abilityParams: 02000000000000000000000000000000
   hasActiveAbility: 0
-  hasPassiveAbility: 0
+  hasPassiveAbility: 1
   hasBattleAbility: 0
   activeAbilityCost: 

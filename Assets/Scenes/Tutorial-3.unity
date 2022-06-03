@@ -1097,7 +1097,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2e4dd95071ee4f4db7290f5c6271a13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 15
+  health: 2
   mana: 10
   maxMana: 10
   deck:
@@ -1922,7 +1922,7 @@ MonoBehaviour:
   ability: {fileID: 0}
   current_turn: 1
   next_player: 0
-  deckObject: {fileID: 3765499820009271856, guid: c72ef0ba5ae33d04cb72ecde9459120b, type: 3}
+  deckObject: {fileID: 3765499820009271856, guid: e06ed7d96a6fb844eaa3dfc2aeed407b, type: 3}
 --- !u!1 &1079203499
 GameObject:
   m_ObjectHideFlags: 0

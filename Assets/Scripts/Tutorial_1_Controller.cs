@@ -93,15 +93,15 @@ public class Tutorial_1_Controller : GameController
         List<string> promptList = new List<string>();
         switch(battleNum) {
             case 1:
-                // HEALTH DIALOG
+               /*// HEALTH DIALOG
                 promptList.Add("This is your health.");
                 dialogPrompt.Setup(promptList);
                 // Highlight Health
-                GameObject arrow = Instantiate(indicatorArrow, player_Avatar.transform.position, Quaternion.identity, dialogPrompt.transform);
                 yield return new WaitUntil(() => dialogPrompt.pressed);
-                dialogPrompt.pressed = false;
+                dialogPrompt.pressed = false;*/
                 promptList.Add("The goal of the game is to reduce your opponent's health to 0.");
                 dialogPrompt.Setup(promptList);
+                GameObject arrow = Instantiate(indicatorArrow, player_Avatar.transform.position, Quaternion.identity, dialogPrompt.transform);
                 yield return new WaitUntil(() => dialogPrompt.pressed);
                 dialogPrompt.pressed = false;
 
@@ -129,7 +129,7 @@ public class Tutorial_1_Controller : GameController
                 yield return new WaitUntil(() => dialogPrompt.pressed);
                 dialogPrompt.pressed = false;
 
-                // CARD MANA
+                /*// CARD MANA
                 promptList.Add("Each card possesses a Mana cost.\nIt is the cost a player must pay to play the card.");
                 // Highlight Card mana
                 arrow.transform.position = exampleCard.GetComponent<CardBehavior>().costValue.transform.position;
@@ -143,7 +143,7 @@ public class Tutorial_1_Controller : GameController
                 // Highlight Card Attack
                 arrow.transform.position = exampleCard.GetComponent<CardBehavior>().attackValue.transform.position;
                 yield return new WaitUntil(() => dialogPrompt.pressed);
-                dialogPrompt.pressed = false;
+                dialogPrompt.pressed = false;*/
 
                 // CARD Faction
                 promptList.Add("This is the Pawn's Faction.\nIt indicates what group of Pawns it belongs to.\nThis Pawn belongs to the \"Knight\" faction");
@@ -167,7 +167,7 @@ public class Tutorial_1_Controller : GameController
                 arrow.transform.position = player_lanes.transform.GetChild(0).transform.position;
                 arrow.transform.eulerAngles = new Vector3(0, 0, 0);
                 arrow.transform.localScale = new Vector2(-1, 1);
-                promptList.Add("There are 5 summoning Lanes where you can summon your pawns.");
+                promptList.Add("There are 5 lanes where you can summon your pawns.");
                 dialogPrompt.Setup(promptList);
                 yield return new WaitUntil(() => dialogPrompt.pressed);
                 dialogPrompt.pressed = false;
@@ -193,12 +193,13 @@ public class Tutorial_1_Controller : GameController
 
                 // READY FOR BATTLE EXPLANATION
                 ready_Button.GetComponent<ReadyForBattle>().enabled = true;
+                /*
                 promptList.Add("Congratulations! You have summoned your first Pawn!");
                 dialogPrompt.Setup(promptList);
                 yield return new WaitUntil(() => dialogPrompt.pressed);
-                dialogPrompt.pressed = false;
+                dialogPrompt.pressed = false;*/
 
-                promptList.Add("However, you are now out of Mana and can no longer play additional cards.");
+                promptList.Add("Now, you are out of Mana and can no longer play additional cards.");
                 dialogPrompt.Setup(promptList);
                 yield return new WaitUntil(() => dialogPrompt.pressed);
                 dialogPrompt.pressed = false;
@@ -213,17 +214,18 @@ public class Tutorial_1_Controller : GameController
 
                 promptList.Add("When a player readies for Battle, they can no longer play any more cards.");
                 dialogPrompt.Setup(promptList);
-                yield return new WaitUntil(() => dialogPrompt.pressed);
-                dialogPrompt.pressed = false;
+                /*yield return new WaitUntil(() => dialogPrompt.pressed);
+                dialogPrompt.pressed = false;*/
                 Destroy(arrow);
+
 
                 // BATTLE EXPLANATION
                 promptList.Add("Once both players are ready for Battle, the Battle will commence and all Pawns will fight the opposing lane.");
-                promptList.Add("However, if a card is unopposed, it will attack the player directly, depleting their health.");
+                /*promptList.Add("However, if a card is unopposed, it will attack the player directly, depleting their health.");
                 dialogPrompt.Setup(promptList);
                 // Enable the Ready for Battle Button
                 yield return new WaitUntil(() => dialogPrompt.pressed);
-                dialogPrompt.pressed = false;
+                dialogPrompt.pressed = false;*/
                 player.hand[0].GetComponent<CardBehavior>().summoned = false;
                 break;
             case 2:
@@ -287,7 +289,7 @@ public class Tutorial_1_Controller : GameController
             case 3:
                 // DRAW CARD WITH PASSIVE
                 promptList.Add("You drew a Pawn with a Passive Ability. Passives typically apply when the Pawn is summoned.");
-                promptList.Add("Passive abilities can quickly turn the tide of battle. With it, defeat your opponent!");
+                promptList.Add("With it, defeat your opponent!");
                 dialogPrompt.Setup(promptList);
                 yield return new WaitUntil(() => dialogPrompt.pressed);
                 dialogPrompt.pressed = false;

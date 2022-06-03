@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7998887088157201212}
   - component: {fileID: 8761900075223276035}
   m_Layer: 0
-  m_Name: TestingDeck
+  m_Name: mageDeck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,10 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deck:
-  - {fileID: 11400000, guid: ada580bbf43cc244eb714cd3665cf203, type: 2}
-  - {fileID: 11400000, guid: ada580bbf43cc244eb714cd3665cf203, type: 2}
-  - {fileID: 11400000, guid: ada580bbf43cc244eb714cd3665cf203, type: 2}
-  - {fileID: 11400000, guid: 8b2adf741525eae4097cf67079e15fef, type: 2}
-  - {fileID: 11400000, guid: 8b2adf741525eae4097cf67079e15fef, type: 2}
-  - {fileID: 11400000, guid: f99fb6db9ae399242a427706bedb6925, type: 2}
-  - {fileID: 11400000, guid: f99fb6db9ae399242a427706bedb6925, type: 2}
+  - {fileID: 11400000, guid: cb45531ca2b527043b9a12868a21edcd, type: 2}
+  - {fileID: 11400000, guid: cb45531ca2b527043b9a12868a21edcd, type: 2}
+  - {fileID: 11400000, guid: cb45531ca2b527043b9a12868a21edcd, type: 2}

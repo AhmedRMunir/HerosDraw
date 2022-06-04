@@ -15,7 +15,7 @@ MonoBehaviour:
   cardName: Magic Shield
   art: {fileID: 0}
   description: 
-  cost: 0
+  cost: 3
   attack: 0
   health: 3
   faction: Mage

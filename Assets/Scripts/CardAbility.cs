@@ -506,35 +506,7 @@ public class CardAbility : MonoBehaviour
         if (enemy_card != null) {
             int enemyAttack = enemy_card.GetComponent<CardBehavior>().getHealth();
             int attack = Mathf.Min(enemyAttack, values[0]);
-            
-            Transform enemyTran = enemy_card.transform.GetChild(0).GetChild(7).gameObject.transform;
-            Transform enemyHP = enemy_card.transform.GetChild(0).GetChild(6).gameObject.transform;
-            Transform playerTran = player_card.transform.GetChild(0).GetChild(7).gameObject.transform;
-            Transform playerHP = player_card.transform.GetChild(0).GetChild(6).gameObject.transform;
-            CardBehavior playerCardInfo = player_card.GetComponent<CardBehavior>();
-            CardBehavior enemyCardInfo = enemy_card.GetComponent<CardBehavior>();
-            Sequence battleAnim = DOTween.Sequence();
-            battleAnim.Append(enemyTran.DOMove(new Vector2(enemyTran.position.x, enemyTran.position.y + 100), 0.1f))
-            .Join(playerTran.DOMove(new Vector2(playerTran.position.x, playerTran.position.y - 100), 0.1f))
-            .Join(enemyTran.DOScale(1.5f, 0.1f))
-            .Join(enemyHP.DOScale(1.5f, 0.1f))
-            .Join(playerTran.DOScale(1.5f, 0.1f))
-            .Join(playerHP.DOScale(1.5f, 0.1f))
-            .Append(enemyTran.DOMove(playerHP.transform.position, 0.25f))
-            .Join(playerTran.DOMove(enemyHP.transform.position, 0.25f))
-            .AppendCallback(() =>
-            {
-                //player_card.GetComponent<CardBehavior>().updateStats(0, -enemy_card.GetComponent<CardBehavior>().getAttack());
-                enemy_card.GetComponent<CardBehavior>().updateStats(0, -attack);
-            })
-            .Join(enemyHP.DOPunchScale(new Vector3(1.5f, 1.5f, 1.5f), 0.3f, 10, 1))
-            .Join(playerHP.DOPunchScale(new Vector3(1.5f, 1.5f, 1.5f), 0.3f, 10, 1))
-            .Join(enemyTran.DOMove(new Vector2(enemyTran.position.x, enemyTran.position.y), 0.3f))
-            .Join(playerTran.DOMove(new Vector2(playerTran.position.x, playerTran.position.y), 0.3f))
-            .Join(enemyTran.DOScale(1f, 0.3f))
-            .Join(playerTran.DOScale(1f, 0.3f))
-            .Append(enemyHP.DOScale(1f, 0.2f))
-            .Join(playerHP.DOScale(1f, 0.2f));
+            enemy_card.GetComponent<CardBehavior>().updateStats(0, -attack);
         }
         yield return new WaitForEndOfFrame();
     }

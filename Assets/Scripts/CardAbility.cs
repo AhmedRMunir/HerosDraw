@@ -443,8 +443,16 @@ public class CardAbility : MonoBehaviour
     {
         
         CardObject twinMage = Resources.Load<CardObject>("Cards/Twin Mage");
-        gm.player.deck.Insert(0, twinMage);
-        gm.player.deck.Insert(0, twinMage);
+        if (values[2] == 0)
+        {
+            gm.enemy.deck.Insert(0, twinMage);
+            gm.enemy.deck.Insert(0, twinMage);
+        } else
+        {
+            gm.player.deck.Insert(0, twinMage);
+            gm.player.deck.Insert(0, twinMage);
+        }
+        
         for (int i = 0; i < values[0]; i++)
         {
             if (values[2] == 0) // Enemy draw
@@ -538,10 +546,10 @@ public class CardAbility : MonoBehaviour
     */
     public IEnumerator scorch(int[] values)
     {
-        GameObject player_card = gm.field[1, values[3]];
-        GameObject enemy_card = gm.field[0, values[3]];
-
-        Sequence battleAnim = DOTween.Sequence();
+        int enemyRow = Mathf.Abs(values[2] - 1);
+        GameObject player_card = gm.field[values[2], values[3]];
+        float battleAnimTime = 1f;
+        /*Sequence battleAnim = DOTween.Sequence();
         float battleAnimTime = 1f;
 
         if (enemy_card == null) {
@@ -565,7 +573,9 @@ public class CardAbility : MonoBehaviour
             Debug.Log("card is destoryed!");
             Destroy(gm.field[0, values[3]]);
             player_card.GetComponent<CardBehavior>().updateStats(0, enemy_card.GetComponent<CardBehavior>().getHealth());
-        }
+        }*/
+        gm.oneWayAttackPawn(player_card, enemyRow, values[3]);
+        yield return new WaitForSeconds(battleAnimTime);
     }
 
     /* values:  idx 0 - health curse value

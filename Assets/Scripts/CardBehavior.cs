@@ -49,6 +49,8 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     private CardAbility ability;
     public bool abilityUsed;
 
+    public bool hasOnDestroy;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -86,6 +88,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         ability = GameObject.FindGameObjectWithTag("Ability").GetComponent<CardAbility>();
         hasUseableAbility = false;
         abilityUsed = false;
+        hasOnDestroy = cardIdentity.hasDestoryAbility;
 
         // Update faction icon based on value of faction string, faction ids: 0 = knight, 1 = mage, 2 = vampire
         if (cardIdentity.faction == "Knight")
@@ -166,7 +169,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     }
 
     void OnDestroy() {
-        if (cardIdentity.hasDestoryAbility) {
+        if (hasOnDestroy) {
             ability.passiveAbility(cardAbility, abilityParams.ToArray());
         }
     }

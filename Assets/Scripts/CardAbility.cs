@@ -476,11 +476,11 @@ public class CardAbility : MonoBehaviour
                 idx 3 - lane index
     */
     public IEnumerator mutate(int[] values) {
-        GameObject card = gm.field[1 - values[2], values[3]];
-        GameObject cardCopy = Instantiate(card, GameObject.FindGameObjectWithTag("PlayerHand").transform);
+        GameObject card = gm.field[values[2], values[3]];
+        GameObject cardCopy = Instantiate(card, gm.player.transform);
         CardBehavior newCard = cardCopy.GetComponent<CardBehavior>();
+        newCard.isEnemy = !newCard.isEnemy;
         newCard.cardIdentity = Resources.Load<CardObject>("Cards/Golem");
-        newCard.isEnemy = false;
 
         GameObject playerlanes; 
             if (values[2] == 0) // enemy card
@@ -574,7 +574,7 @@ public class CardAbility : MonoBehaviour
             Destroy(gm.field[0, values[3]]);
             player_card.GetComponent<CardBehavior>().updateStats(0, enemy_card.GetComponent<CardBehavior>().getHealth());
         }*/
-        gm.oneWayAttackPawn(player_card, enemyRow, values[3]);
+        gm.oneWayAttackPawn(player_card, enemyRow, values[3], values[0]);
         yield return new WaitForSeconds(battleAnimTime);
     }
 
@@ -590,17 +590,16 @@ public class CardAbility : MonoBehaviour
         Transform pawnTran = pawn.transform.GetChild(0).GetChild(7).gameObject.transform;
         CardBehavior card = pawn.GetComponent<CardBehavior>();
         battleAnim
-              .AppendCallback(() => { 
-                  gm.updateHealth(gm.player, -values[0]); 
-              })
-              .Join(gm.player_Avatar.transform.DOPunchScale(new Vector3(1.5f, 1.5f, 1.5f), 0.3f, 10, 1))
-              .Append(gm.player_Avatar.transform.DOScale(1f, 0.2f))
-
-              .AppendCallback(() => { 
-                  gm.updateHealth(gm.enemy, -values[0]); 
-              })
+              .Append(gm.player_Avatar.transform.DOPunchScale(new Vector3(1.5f, 1.5f, 1.5f), 0.3f, 10, 1))
               .Join(gm.enemy_Avatar.transform.DOPunchScale(new Vector3(1.5f, 1.5f, 1.5f), 0.3f, 10, 1))
-              .Append(gm.enemy_Avatar.transform.DOScale(1f, 0.2f));
+              .AppendCallback(() => {
+                  gm.updateHealth(gm.player, -values[0]);
+                  gm.updateHealth(gm.enemy, -values[0]);
+              })
+              .Append(gm.player_Avatar.transform.DOScale(1f, 0.2f))
+              .Join(gm.enemy_Avatar.transform.DOScale(1f, 0.2f));
+              
+              
         yield return new WaitForSeconds(1f);
     }
 
@@ -622,6 +621,111 @@ public class CardAbility : MonoBehaviour
         {
             gm.player.deck.Insert(0, cardCopy);
             gm.player.drawCard();
+        }
+        yield return new WaitForEndOfFrame();
+    }
+
+    /* values:  idx 0 - number of copies
+                idx 1 
+                idx 2 - field row; 0 if enemy, 1 if player
+                idx 3 - lane index
+    */
+    public IEnumerator divide(int[] values)
+    {
+        CardObject cardCopy = Resources.Load<CardObject>("Cards/Slime");
+        if (values[2] == 0) // enemy card
+        {
+            for (int i = 0; i < values[0]; i++)
+            {
+                gm.enemy.deck.Insert(0, cardCopy);
+                gm.enemy.drawCard();
+            }
+
+        }
+        else // player card
+        {
+            for (int i = 0; i < values[0]; i++)
+            {
+                gm.player.deck.Insert(0, cardCopy);
+                gm.player.drawCard();
+            }
+        }
+        yield return new WaitForEndOfFrame();
+    }
+
+    /* values:  idx 0 
+                idx 1 
+                idx 2 - field row; 0 if enemy, 1 if player
+                idx 3 - lane index
+    */
+    public IEnumerator mulligan(int[] values)
+    {
+        int cardsToDraw = 0;
+        if (values[2] == 0) // enemy card
+        {
+            while (gm.enemy.hand.Count > 0)
+            {
+                GameObject card = gm.enemy.hand[0];
+                gm.enemy.deck.Insert(0, card.GetComponent<CardBehavior>().cardIdentity);
+                cardsToDraw++;
+                gm.enemy.hand.Remove(card);
+            }
+            foreach (Transform child in gm.enemy.handHolder.transform)
+            {
+                child.gameObject.GetComponent<CardBehavior>().hasOnDestroy = false;
+                Destroy(child.gameObject);
+            }
+            gm.enemy.shuffle();
+            for (int i = 0; i < cardsToDraw; i++)
+            {
+                gm.enemy.drawCard();
+            }
+            gm.enemy.shiftHand(gm.enemy.cardSpeed);
+
+        }
+        else // player card
+        {
+            while (gm.player.hand.Count > 0)
+            {
+                GameObject card = gm.player.hand[0];
+                gm.player.deck.Insert(0, card.GetComponent<CardBehavior>().cardIdentity);
+                cardsToDraw++;
+                gm.player.hand.Remove(card);
+            }
+            foreach (Transform child in gm.player.handHolder.transform)
+            {
+                child.gameObject.GetComponent<CardBehavior>().hasOnDestroy = false;
+                Destroy(child.gameObject);
+            }
+            gm.player.shuffle();
+            for (int i = 0; i < cardsToDraw; i++)
+            {
+                gm.player.drawCard();
+            }
+            gm.player.shiftHand(gm.player.cardSpeed);
+            gm.player_can_pass = gm.playerHasPlayable();
+        }
+        yield return new WaitForEndOfFrame();
+    }
+
+    /* values:  idx 0 
+                idx 1 
+                idx 2 - field row; 0 if enemy, 1 if player
+                idx 3 - lane index
+    */
+    public IEnumerator deathTouch(int[] values)
+    {
+        GameObject enemyCard = gm.field[1 - values[2], values[3]];
+        if (enemyCard != null)
+        {
+            if (values[2] == 0) // Enemy attacking
+            {
+                gm.num_player_summoned_card--;
+            } else // Player attacking
+            {
+                gm.num_enemy_summoned_card--;
+            }
+            Destroy(enemyCard);
         }
         yield return new WaitForEndOfFrame();
     }

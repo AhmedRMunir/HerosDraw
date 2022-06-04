@@ -25,4 +25,5 @@ MonoBehaviour:
   hasActiveAbility: 0
   hasPassiveAbility: 1
   hasBattleAbility: 0
+  hasDestoryAbility: 0
   activeAbilityCost: 

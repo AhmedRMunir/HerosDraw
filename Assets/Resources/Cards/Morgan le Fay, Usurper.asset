@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dae911b8a3f77fc48acac94448328ce0, type: 3}
-  m_Name: Grim Reaper
+  m_Name: Morgan le Fay, Usurper
   m_EditorClassIdentifier: 
-  cardName: Grim Reaper
-  art: {fileID: 0}
-  description: 
-  cost: 0
-  attack: 2
-  health: 6
+  cardName: Morgan le Fay, Usurper
+  art: {fileID: 21300000, guid: 10c6420d34d04bd428e0767422beb496, type: 3}
+  description: On Summon, Shuffle your hand into the deck and redraw.
+  cost: 1
+  attack: 1
+  health: 1
   faction: Mage
   cardType: Hero
-  cardAbility: 
-  abilityParams: 
+  cardAbility: mulligan
+  abilityParams: 00000000000000000000000000000000
   hasActiveAbility: 0
-  hasPassiveAbility: 0
+  hasPassiveAbility: 1
   hasBattleAbility: 0
   hasDestoryAbility: 0
   activeAbilityCost: 

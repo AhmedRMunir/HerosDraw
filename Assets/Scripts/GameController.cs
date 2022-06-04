@@ -95,7 +95,7 @@ public class GameController : MonoBehaviour
                 next_player = turn.PLAYER;
             }
             // Load player deck
-            player.deck = new List<CardObject>(Conditions.deck);
+            //player.deck = new List<CardObject>(Conditions.deck);
         }
         StartCoroutine("gameStart");
     }
@@ -373,7 +373,7 @@ public class GameController : MonoBehaviour
     }
 
     // rowIndex and laneIndex are the location of the lane being attacked.
-    public void oneWayAttackPawn(GameObject attacking_card, int rowIndex, int laneIndex)
+    public void oneWayAttackPawn(GameObject attacking_card, int rowIndex, int laneIndex, int damage)
     {
         Sequence battleAnim = DOTween.Sequence();
         Transform enemyHP;
@@ -406,15 +406,15 @@ public class GameController : MonoBehaviour
             {
                 if (attackType == 0)
                 {
-                    defending_card.GetComponent<CardBehavior>().updateStats(0, -attacking_card.GetComponent<CardBehavior>().getAttack());
+                    defending_card.GetComponent<CardBehavior>().updateStats(0, -damage);
                 }
                 else if (attackType == 1)
                 {
-                    updateHealth(enemy, -attacking_card.GetComponent<CardBehavior>().getAttack());
+                    updateHealth(enemy, -damage);
                 }
                 else if (attackType == 2)
                 {
-                    updateHealth(player, -attacking_card.GetComponent<CardBehavior>().getAttack());
+                    updateHealth(player, -damage);
                 }
 
             })

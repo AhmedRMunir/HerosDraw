@@ -30,7 +30,9 @@ public static class CardDatabase
         "Twin Mage",
         "Blood Raven",
         "Twin Master",
-        "Fire Wizard"
+        "Fire Wizard",
+        "Mother Slime",
+        "Ghoul"
     };
 
     public static List<string> enemyPool = new List<string>
@@ -62,7 +64,9 @@ public static class CardDatabase
         "Joan of Arc, Maiden of Victory",
         "Merlin, One of Endless Knowledge",
         "Noah, the Chosen Survivor",
-        "Tiamat, Queen of Dragons"
+        "Tiamat, Queen of Dragons",
+        "Morgan le Fay, Usurper",
+        "The Grim Reaper"
 
     };
 

@@ -575,4 +575,25 @@ public class CardAbility : MonoBehaviour
               .Append(gm.enemy_Avatar.transform.DOScale(1f, 0.2f));
         yield return new WaitForSeconds(1f);
     }
+
+    /* values:  idx 0
+                idx 1 
+                idx 2 - field row; 0 if enemy, 1 if player
+                idx 3 - lane index
+    */
+    public IEnumerator trick(int[] values){
+        GameObject player_card = gm.field[values[2], values[3]];
+        GameObject enemy_card = gm.field[1 - values[2], values[3]];
+        if (enemy_card != null) {
+            CardBehavior player_cardbehavior = player_card.GetComponent<CardBehavior>();
+            CardBehavior enemy_cardbehavior = enemy_card.GetComponent<CardBehavior>();
+            int playerAttack = player_cardbehavior.getAttack();
+            int playerHealth = player_cardbehavior.getHealth();
+            int enemyAttack = enemy_cardbehavior.getAttack();
+            int enemyHealth = enemy_cardbehavior.getHealth();
+            player_cardbehavior.updateStats(enemyAttack - playerAttack, enemyHealth - playerHealth);
+            enemy_cardbehavior.updateStats(playerAttack - enemyAttack, playerHealth - enemyHealth);
+        }
+        yield return new WaitForEndOfFrame();
+    }
 }

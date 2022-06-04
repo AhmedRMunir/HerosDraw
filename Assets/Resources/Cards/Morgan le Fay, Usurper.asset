@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Morgan le Fay, Usurper
   m_EditorClassIdentifier: 
   cardName: Morgan le Fay, Usurper
-  art: {fileID: 21300000, guid: 10c6420d34d04bd428e0767422beb496, type: 3}
+  art: {fileID: 21300000, guid: 4c3ed8388ad1e4940ad7ea8c65410afe, type: 3}
   description: On Summon, Shuffle your hand into the deck and redraw.
   cost: 1
   attack: 1

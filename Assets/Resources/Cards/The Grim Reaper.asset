@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: The Grim Reaper
   m_EditorClassIdentifier: 
   cardName: The Grim Reaper
-  art: {fileID: 0}
+  art: {fileID: 21300000, guid: ce12f8f5de8c8494d96887faba5d38f5, type: 3}
   description: 'On attack: Reduce opposing Pawn''s HP to 0.'
   cost: 6
   attack: 1

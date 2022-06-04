@@ -74,7 +74,8 @@ public static class CardDatabase
         "Tiamat, Queen of Dragons",
         "Morgan le Fay, Usurper",
         "The Grim Reaper",
-        "Dracula, King of Vampires"
+        "Dracula, King of Vampires",
+        "Lucifer, the Fallen One"
 
     };
 

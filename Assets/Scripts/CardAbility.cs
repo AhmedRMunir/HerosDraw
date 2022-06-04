@@ -471,8 +471,8 @@ public class CardAbility : MonoBehaviour
         GameObject card = gm.field[1 - values[2], values[3]];
         GameObject cardCopy = Instantiate(card, GameObject.FindGameObjectWithTag("PlayerHand").transform);
         CardBehavior newCard = cardCopy.GetComponent<CardBehavior>();
+        newCard.isEnemy = !newCard.isEnemy;
         newCard.cardIdentity = Resources.Load<CardObject>("Cards/Golem");
-        newCard.isEnemy = false;
 
         GameObject playerlanes; 
             if (values[2] == 0) // enemy card

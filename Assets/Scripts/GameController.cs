@@ -95,7 +95,7 @@ public class GameController : MonoBehaviour
                 next_player = turn.PLAYER;
             }
             // Load player deck
-            player.deck = new List<CardObject>(Conditions.deck);
+            //player.deck = new List<CardObject>(Conditions.deck);
         }
         StartCoroutine("gameStart");
     }

@@ -15,15 +15,15 @@ MonoBehaviour:
   cardName: Grim Reaper
   art: {fileID: 0}
   description: 
-  cost: 0
+  cost: 7
   attack: 2
   health: 6
   faction: Mage
   cardType: Hero
-  cardAbility: 
-  abilityParams: 
+  cardAbility: healthcurse
+  abilityParams: 01000000000000000000000000000000
   hasActiveAbility: 0
   hasPassiveAbility: 0
-  hasBattleAbility: 0
+  hasBattleAbility: 1
   hasDestoryAbility: 0
   activeAbilityCost: 

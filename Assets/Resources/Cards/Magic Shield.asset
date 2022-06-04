@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Magic Shield
   art: {fileID: 0}
-  description: 
+  description: 'On Attack: Reflect up to 3 damage taken to opposing Pawn.'
   cost: 3
   attack: 0
   health: 3

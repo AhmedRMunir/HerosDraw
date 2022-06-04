@@ -15,7 +15,7 @@ MonoBehaviour:
   cardName: Lucifer, the Fallen One
   art: {fileID: 0}
   description: 'On Attack: Reduce both players'' HP by 1.'
-  cost: 6
+  cost: 0
   attack: 6
   health: 6
   faction: 

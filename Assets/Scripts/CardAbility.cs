@@ -504,7 +504,7 @@ public class CardAbility : MonoBehaviour
         GameObject player_card = gm.field[values[2], values[3]];
         GameObject enemy_card = gm.field[1 - values[2], values[3]];
         if (enemy_card != null) {
-            int enemyAttack = enemy_card.GetComponent<CardBehavior>().getHealth();
+            int enemyAttack = enemy_card.GetComponent<CardBehavior>().getAttack();
             int attack = Mathf.Min(enemyAttack, values[0]);
             enemy_card.GetComponent<CardBehavior>().updateStats(0, -attack);
         }
@@ -690,14 +690,9 @@ public class CardAbility : MonoBehaviour
         GameObject enemyCard = gm.field[1 - values[2], values[3]];
         if (enemyCard != null)
         {
-            if (values[2] == 0) // Enemy attacking
-            {
-                gm.num_player_summoned_card--;
-            } else // Player attacking
-            {
-                gm.num_enemy_summoned_card--;
-            }
-            Destroy(enemyCard);
+            yield return new WaitForEndOfFrame();
+            CardBehavior cardInfo = enemyCard.GetComponent<CardBehavior>();
+            cardInfo.updateStats(0, -cardInfo.getHealth());
         }
         yield return new WaitForEndOfFrame();
     }

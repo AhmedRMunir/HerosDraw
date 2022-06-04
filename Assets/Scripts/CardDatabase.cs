@@ -34,7 +34,8 @@ public static class CardDatabase
         "Ghoul",
         "Magic Shield",
         "Mother Slime",
-        "Trickster Magician"
+        "Trickster Magician",
+        "Bloated Corpse"
     };
 
     public static List<string> enemyPool = new List<string>
@@ -61,8 +62,8 @@ public static class CardDatabase
         "Ghoul",
         "Magic Shield",
         "Mother Slime",
-        "Trickster Magician"
-
+        "Trickster Magician",
+        "Bloated Corpse"
     };
 
     public static List<string> heroList = new List<string>

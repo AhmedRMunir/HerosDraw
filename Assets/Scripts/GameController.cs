@@ -492,10 +492,15 @@ public class GameController : MonoBehaviour
             // enemy_play_card_first_open_lane();
             // enemy_play_card_first_block_lane();
             // enemy_play_card_block_strongest_on_field();
+            List<GameObject> enemy_playable_cards = get_playable_cards(0);
             enemy_play_card();
 
             enemy_has_summoned = true;
-            yield return new WaitForSeconds(0.5f);
+            if (enemy_playable_cards.Count > 0)
+            {
+                yield return new WaitForSeconds(0.5f);
+            }
+            
 
             turnNum++;
             if (!player_ready_for_battle)

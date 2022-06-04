@@ -27,7 +27,7 @@ public class PlayerController : MonoBehaviour
     private float cardWidth;
 
     private int lowestCardMana;
-    private float oldCardGap;
+    public float oldCardGap;
 
     // Start is called before the first frame update
     void Start()

@@ -698,7 +698,7 @@ public class CardAbility : MonoBehaviour
         yield return new WaitForEndOfFrame();
     }
 
-    /* Destroy all other cards on the board
+    /* 
      * values:  idx 0 - Siphon value
                 idx 1 
                 idx 2 - field row; 0 if enemy, 1 if player
@@ -714,13 +714,13 @@ public class CardAbility : MonoBehaviour
             GameObject enemy_card = gm.field[0, i];
             if (player_card != null && (values[2] != 1 || i != values[3]))
             {
-                player_card.GetComponent<CardBehavior>().updateStats(-values[0], -values[0]);
+                player_card.GetComponent<CardBehavior>().updateStats(0, -values[0]);
                 boost += values[0];
             }
 
             if (enemy_card != null && (values[2] != 0 || i != values[3]))
             {
-                enemy_card.GetComponent<CardBehavior>().updateStats(-values[0], -values[0]);
+                enemy_card.GetComponent<CardBehavior>().updateStats(0, -values[0]);
                 boost += values[0];
             }
 
@@ -774,6 +774,53 @@ public class CardAbility : MonoBehaviour
             enemy_cardbehavior.abilityParams = new List<int>(enemy_abilityParams);
 
         }
+        yield return new WaitForEndOfFrame();
+    }
+
+    /* Deal damage to all pawns
+     * values:  idx 0 - damage
+                idx 1 
+                idx 2 - field row; 0 if enemy, 1 if player
+                idx 3 - lane index
+    */
+    public IEnumerator explode(int[] values)
+    {
+        for (int i = 0; i < gm.field.GetLength(1); i++)
+        {
+            GameObject player_card = gm.field[1, i];
+            GameObject enemy_card = gm.field[0, i];
+            if (player_card != null)
+            {
+                player_card.GetComponent<CardBehavior>().updateStats(0, -values[0]);
+            }
+
+            if (enemy_card != null)
+            {
+                enemy_card.GetComponent<CardBehavior>().updateStats(0, -values[0]);
+            }
+
+        }
+
+        yield return new WaitForSeconds(0.4f);
+
+        for (int i = 0; i < gm.field.GetLength(1); i++)
+        {
+            GameObject player_card = gm.field[1, i];
+            GameObject enemy_card = gm.field[0, i];
+
+            if (player_card != null && player_card.GetComponent<CardBehavior>().getHealth() <= 0)
+            {
+                gm.num_player_summoned_card--;
+                Destroy(gm.field[1, i]);
+            }
+
+            if (enemy_card != null && enemy_card.GetComponent<CardBehavior>().getHealth() <= 0)
+            {
+                gm.num_enemy_summoned_card--;
+                Destroy(gm.field[0, i]);
+            }
+        }
+
         yield return new WaitForEndOfFrame();
     }
 }

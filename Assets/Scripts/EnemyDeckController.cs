@@ -15,6 +15,7 @@ public class EnemyDeckController : PlayerController
     void Start()
     {
         cardWidth = completeCard.GetComponent<RectTransform>().sizeDelta.x * completeCard.GetComponent<RectTransform>().localScale.x;
+        oldCardGap = cardGap;
         if (Conditions.levelsCompleted >= 3) {
             initEnemyDeck();
         }
@@ -31,11 +32,24 @@ public class EnemyDeckController : PlayerController
             int newCardNum = UnityEngine.Random.Range(0, allCardsCount);
             deck.Add(Resources.Load<CardObject>("Cards/" + CardDatabase.enemyPool[newCardNum]));
         }
+        if ((Conditions.wins + 1) % 5 == 0)
+        {
+            int newCardNum = UnityEngine.Random.Range(0, CardDatabase.heroList.Count);
+            deck.Add(Resources.Load<CardObject>("Cards/" + CardDatabase.heroList[newCardNum]));
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (hand.Count > 7)
+        {
+            cardGap = oldCardGap * 2;
+        }
+        else
+        {
+            cardGap = oldCardGap;
+        }
         if (handSize != hand.Count)
         {
             handSize = hand.Count;

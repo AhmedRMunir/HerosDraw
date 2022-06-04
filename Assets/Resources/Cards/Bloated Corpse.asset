@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dae911b8a3f77fc48acac94448328ce0, type: 3}
-  m_Name: Dracula, King of Vampires
+  m_Name: Bloated Corpse
   m_EditorClassIdentifier: 
-  cardName: Dracula, King of Vampires
-  art: {fileID: 21300000, guid: e56189ec0db976d42a04c5163b2173e3, type: 3}
-  description: 'On summon: -1 HP all other Pawns and (+1/+1) to this Pawn for each.'
-  cost: 7
-  attack: 3
-  health: 3
+  cardName: Bloated Corpse
+  art: {fileID: 21300000, guid: ba3789ca479989c40a74d5d1887969a5, type: 3}
+  description: 'On Death: Deal 1 damage to all Pawns.'
+  cost: 2
+  attack: 0
+  health: 1
   faction: Vampire
-  cardType: Hero
-  cardAbility: siphon
+  cardType: 
+  cardAbility: explode
   abilityParams: 01000000000000000000000000000000
   hasActiveAbility: 0
-  hasPassiveAbility: 1
+  hasPassiveAbility: 0
   hasBattleAbility: 0
-  hasDestoryAbility: 0
+  hasDestoryAbility: 1
   activeAbilityCost: 

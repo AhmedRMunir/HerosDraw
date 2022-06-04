@@ -14,13 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Golem Trainer
   art: {fileID: 0}
-<<<<<<< HEAD
-  description: 'On Death: transform into a 6/3 Golem'
-  cost: 0
-=======
   description: 'On Death: transform into a 6/3 Golem.'
   cost: 5
->>>>>>> f334c6b90d038f6b477e349e3c22c9a655449f2a
   attack: 0
   health: 1
   faction: Mage

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Blood Raven
   m_EditorClassIdentifier: 
   cardName: Blood Raven
-  art: {fileID: 0}
+  art: {fileID: 21300000, guid: c554e4d2b62dd75408b0d6857d24bb26, type: 3}
   description: 
   cost: 1
   attack: 1

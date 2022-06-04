@@ -789,7 +789,7 @@ public class GameController : MonoBehaviour
 
     public virtual void enemy_play_card() {
         
-        int nextMove = UnityEngine.Random.Range(0,4);
+        int nextMove = Random.Range(0,4);
 
         switch (nextMove) {
             case 0:

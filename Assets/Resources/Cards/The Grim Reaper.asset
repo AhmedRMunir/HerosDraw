@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: The Grim Reaper
   art: {fileID: 0}
-  description: 'On attack: Reduce opposing Pawn''s health to 0.'
-  cost: 0
+  description: 'On attack: Reduce opposing Pawn''s HP to 0.'
+  cost: 6
   attack: 1
   health: 7
   faction: Vampire

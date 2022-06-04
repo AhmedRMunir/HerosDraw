@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Trickster Magician
   m_EditorClassIdentifier: 
   cardName: Trickster Magician
-  art: {fileID: 0}
+  art: {fileID: 21300000, guid: 3bf8c2eb24260d74b82ca43560ee20c7, type: 3}
   description: 'On Summon: Swap places with the opposing Pawn.'
   cost: 4
   attack: 0

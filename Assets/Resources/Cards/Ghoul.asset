@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Ghoul
   m_EditorClassIdentifier: 
   cardName: Ghoul
-  art: {fileID: 0}
-  description: 'On Death: Return this card to your hand .'
+  art: {fileID: 21300000, guid: 12433a07d6a1acb478bf8cca3cd1e82a, type: 3}
+  description: 'On Death: Return this card to your hand.'
   cost: 3
   attack: 1
   health: 1

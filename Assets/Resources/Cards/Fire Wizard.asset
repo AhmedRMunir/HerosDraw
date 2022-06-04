@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Fire Wizard
   m_EditorClassIdentifier: 
   cardName: Fire Wizard
-  art: {fileID: 0}
+  art: {fileID: 21300000, guid: baa32c0e1090c9c4899d84c4ce02ba6e, type: 3}
   description: 'On Summon: Deal 2 Damage to opposing lane.'
   cost: 3
   attack: 2

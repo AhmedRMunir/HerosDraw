@@ -1112,11 +1112,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e54f0d3c690a14ffc8d2f9947128a7c2, type: 2}
   - {fileID: 11400000, guid: e54f0d3c690a14ffc8d2f9947128a7c2, type: 2}
   - {fileID: 11400000, guid: e54f0d3c690a14ffc8d2f9947128a7c2, type: 2}
-  - {fileID: 11400000, guid: 9f3c8d2c911547c49b392db11cec5464, type: 2}
-  - {fileID: 11400000, guid: 9f3c8d2c911547c49b392db11cec5464, type: 2}
-  - {fileID: 11400000, guid: 9f3c8d2c911547c49b392db11cec5464, type: 2}
-  - {fileID: 11400000, guid: 9f3c8d2c911547c49b392db11cec5464, type: 2}
-  - {fileID: 11400000, guid: 9f3c8d2c911547c49b392db11cec5464, type: 2}
+  - {fileID: 11400000, guid: e26ef343ed421d443a31fff1394b5390, type: 2}
+  - {fileID: 11400000, guid: e26ef343ed421d443a31fff1394b5390, type: 2}
+  - {fileID: 11400000, guid: e26ef343ed421d443a31fff1394b5390, type: 2}
+  - {fileID: 11400000, guid: e26ef343ed421d443a31fff1394b5390, type: 2}
+  - {fileID: 11400000, guid: e26ef343ed421d443a31fff1394b5390, type: 2}
   hand: []
   discardPile: []
   completeCard: {fileID: 8725599466063141245, guid: c17454e7db0b04d678f044b4bc4dfc54, type: 3}
@@ -1923,7 +1923,7 @@ MonoBehaviour:
   ability: {fileID: 0}
   current_turn: 1
   next_player: 0
-  deckObject: {fileID: 3765499820009271856, guid: c72ef0ba5ae33d04cb72ecde9459120b, type: 3}
+  deckObject: {fileID: 476917068242788904, guid: 6c67629b7bc0f0d488e2677230da0648, type: 3}
 --- !u!1 &1079203499
 GameObject:
   m_ObjectHideFlags: 0

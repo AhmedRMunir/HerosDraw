@@ -31,8 +31,10 @@ public static class CardDatabase
         "Blood Raven",
         "Twin Master",
         "Fire Wizard",
+        "Ghoul",
+        "Magic Shield",
         "Mother Slime",
-        "Ghoul"
+        "Trickster Magician"
     };
 
     public static List<string> enemyPool = new List<string>
@@ -55,7 +57,12 @@ public static class CardDatabase
         "Twin Mage",
         "Blood Raven",
         "Twin Master",
-        "Fire Wizard"
+        "Fire Wizard",
+        "Ghoul",
+        "Magic Shield",
+        "Mother Slime",
+        "Trickster Magician"
+
     };
 
     public static List<string> heroList = new List<string>
@@ -66,7 +73,8 @@ public static class CardDatabase
         "Noah, the Chosen Survivor",
         "Tiamat, Queen of Dragons",
         "Morgan le Fay, Usurper",
-        "The Grim Reaper"
+        "The Grim Reaper",
+        "Dracula, King of Vampires"
 
     };
 

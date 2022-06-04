@@ -15,7 +15,7 @@ MonoBehaviour:
   cardName: Twin Master
   art: {fileID: 0}
   description: 'On Summon: Draw 2 Twin Mages from outside the Deck.'
-  cost: 7
+  cost: 6
   attack: 5
   health: 5
   faction: Mage

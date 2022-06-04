@@ -1924,7 +1924,7 @@ MonoBehaviour:
   ability: {fileID: 0}
   current_turn: 1
   next_player: 0
-  deckObject: {fileID: 476917068242788904, guid: 6c67629b7bc0f0d488e2677230da0648, type: 3}
+  deckObject: {fileID: 3765499820009271856, guid: c72ef0ba5ae33d04cb72ecde9459120b, type: 3}
 --- !u!1 &1079203499
 GameObject:
   m_ObjectHideFlags: 0

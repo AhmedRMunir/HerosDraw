@@ -18,11 +18,12 @@ MonoBehaviour:
   cost: 1
   attack: 1
   health: 1
-  faction: Mage
+  faction: 
   cardType: 
   cardAbility: 
   abilityParams: 
   hasActiveAbility: 0
   hasPassiveAbility: 0
   hasBattleAbility: 0
+  hasDestoryAbility: 0
   activeAbilityCost: 

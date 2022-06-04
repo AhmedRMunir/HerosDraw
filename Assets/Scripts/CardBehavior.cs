@@ -61,7 +61,7 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         upAmount = container.sizeDelta.y / 2;
 
         playerHandholder = GameObject.FindGameObjectWithTag("PlayerHand").GetComponent<RectTransform>();
-        nameText.text = cardIdentity.cardName;
+        
         if (isEnemy)
         {
             cardback.SetActive(true);
@@ -74,6 +74,13 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             spawnLocation = GameObject.FindGameObjectWithTag("PlayerLanes");
         }
 
+        updateCard();
+
+    }
+
+    public void updateCard()
+    {
+        nameText.text = cardIdentity.cardName;
         art.sprite = cardIdentity.art;
         descriptionText.text = cardIdentity.description;
         cost = cardIdentity.cost;
@@ -95,11 +102,14 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         {
             faction = 0;
             factionIcon.sprite = Resources.Load<Sprite>("Sprites/Knight");
-        } else if (cardIdentity.faction == "Mage")
+        }
+        else if (cardIdentity.faction == "Mage")
         {
             faction = 1;
             factionIcon.sprite = Resources.Load<Sprite>("Sprites/Mage");
-        } else if (cardIdentity.faction == "Vampire") {
+        }
+        else if (cardIdentity.faction == "Vampire")
+        {
             faction = 2;
             factionIcon.sprite = Resources.Load<Sprite>("Sprites/Vampire");
         }
@@ -118,17 +128,20 @@ public class CardBehavior : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         if (cardType == "Hero")
         {
             cardBG.sprite = Resources.Load<Sprite>("Sprites/HeroCard");
-        } else if (cardType == "Spell")
+        }
+        else if (cardType == "Spell")
         {
 
-        } 
+        }
 
         if (nameText.text.Length > 10
             )
         {
             nameText.fontSize = 13;
+        } else
+        {
+            nameText.fontSize = 25;
         }
-
     }
 
     // Update is called once per frame

@@ -248,6 +248,7 @@ public class CardAbility : MonoBehaviour
             }
             yield return new WaitForEndOfFrame();
             Debug.Log(values[0]);
+            newCard.updateCard();
             newCard.setCost(0);
             newCard.updateStats(values[0], values[1]);
             newCard.enterSelection(false);
@@ -575,7 +576,7 @@ public class CardAbility : MonoBehaviour
         yield return new WaitForSeconds(1f);
     }
 
-    /* values:  idx 0 
+    /* values:  idx 0
                 idx 1 
                 idx 2 - field row; 0 if enemy, 1 if player
                 idx 3 - lane index
@@ -747,6 +748,32 @@ public class CardAbility : MonoBehaviour
             }
         }
 
+        yield return new WaitForEndOfFrame();
+    }
+    public IEnumerator trick(int[] values){
+        GameObject player_card = gm.field[values[2], values[3]];
+        GameObject enemy_card = gm.field[1 - values[2], values[3]];
+        if (enemy_card != null) {
+            CardBehavior player_cardbehavior = player_card.GetComponent<CardBehavior>();
+            CardBehavior enemy_cardbehavior = enemy_card.GetComponent<CardBehavior>();
+            CardObject player_cardIdentity = player_cardbehavior.cardIdentity;
+            CardObject enemy_cardIdentity = enemy_cardbehavior.cardIdentity;
+            List<int> player_abilityParams = new List<int>(player_cardbehavior.abilityParams);
+            List<int> enemy_abilityParams = new List<int>(enemy_cardbehavior.abilityParams);
+            /*int playerAttack = player_cardbehavior.getAttack();
+            int playerHealth = player_cardbehavior.getHealth();
+            int enemyAttack = enemy_cardbehavior.getAttack();
+            int enemyHealth = enemy_cardbehavior.getHealth();
+            player_cardbehavior.updateStats(enemyAttack - playerAttack, enemyHealth - playerHealth);
+            enemy_cardbehavior.updateStats(playerAttack - enemyAttack, playerHealth - enemyHealth);*/
+            player_cardbehavior.cardIdentity = enemy_cardIdentity;
+            enemy_cardbehavior.cardIdentity = player_cardIdentity;
+            player_cardbehavior.updateCard();
+            enemy_cardbehavior.updateCard();
+            player_cardbehavior.abilityParams = new List<int>(player_abilityParams);
+            enemy_cardbehavior.abilityParams = new List<int>(enemy_abilityParams);
+
+        }
         yield return new WaitForEndOfFrame();
     }
 }

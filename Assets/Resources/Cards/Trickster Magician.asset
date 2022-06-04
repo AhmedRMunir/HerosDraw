@@ -14,15 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardName: Trickster Magician
   art: {fileID: 0}
-  description: 
+  description: 'On Summon: Swap places with the opposing Pawn.'
   cost: 4
   attack: 0
   health: 5
   faction: Mage
   cardType: 
-  cardAbility: 
-  abilityParams: 
+  cardAbility: trick
+  abilityParams: 00000000000000000000000000000000
   hasActiveAbility: 0
   hasPassiveAbility: 1
   hasBattleAbility: 0
+  hasDestoryAbility: 0
   activeAbilityCost: 
